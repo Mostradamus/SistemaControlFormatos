@@ -37,6 +37,30 @@ export class FormastsServices implements IformastsService {
       return res.status(500).json({ msj: "Error al obtener la lista por id" });
     }
   }
+   async insertFormats(req: Request, res: Response){
+      const {status,starting_order,total,turn,description}: formats = req.body;
+      if (ValidarFuncionReq({ status, starting_order, total, turn, description}, res)) {
+        return;
+      }
+      try {
+        const datosF = await this.format.getByField("starting_order", starting_order);
+        if (Array.isArray(datosF) || datosF == null) {
+          return res.status(500).json({ msj: "El formato ya existe" });
+        }
+        //Validacion sobre el estado del order inicial
+        if (datosF.starting_order==starting_order) {
+          let changeN=Number(starting_order);
+          for (let index = 0; index < datosF?.total; index++) {
+            const element = array[index];
+            
+          }
+        }
+      } catch (error) {
+        
+      }
+  }
+
+
   async deleteFormatsById(req: Request, res: Response) {
     const { id_formats }: formats = req.params;
     if (ValidarFuncionParams(req, res, "id_formats")) {
