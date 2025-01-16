@@ -4,7 +4,7 @@ import { Request, Response } from "express";
  * Interfaz que define los métodos para el servicio de formatos
  * Define las operaciones CRUD y sus parámetros requeridos
  */
-export interface IformastsService {
+export interface IformatsService {
   /**
    * Obtiene todos los formatos disponibles
    * @param res - Objeto Response para enviar la respuesta

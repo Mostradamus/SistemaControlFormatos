@@ -1,0 +1,73 @@
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.UsersControllers = void 0;
+const routes_dc_1 = require("../../Global/Decorators/routes.dc");
+const users_s_1 = require("../Contents/Services/users.s");
+class UsersControllers {
+    constructor() {
+        this.UsersServices = new users_s_1.UsersService();
+    }
+    getU(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.UsersServices.getAllUsers(res);
+        });
+    }
+    insertU(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.UsersServices.insertUsers(req, res);
+        });
+    }
+    updateU(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.UsersServices.updateUsers(req, res);
+        });
+    }
+    deleteU(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.UsersServices.deleteUsersById(req, res);
+        });
+    }
+}
+exports.UsersControllers = UsersControllers;
+__decorate([
+    (0, routes_dc_1.Get)("/usuarios"),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], UsersControllers.prototype, "getU", null);
+__decorate([
+    (0, routes_dc_1.Post)("/usuarios/crear"),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], UsersControllers.prototype, "insertU", null);
+__decorate([
+    (0, routes_dc_1.Put)("/usuarios/actulizar"),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], UsersControllers.prototype, "updateU", null);
+__decorate([
+    (0, routes_dc_1.Delete)("/usuarios/eliminar"),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], UsersControllers.prototype, "deleteU", null);
