@@ -24,6 +24,7 @@ const env_1 = require("../../Global/Environment/env"); // Importa las variables 
  *                                        si no hay conexiones disponibles en el pool.
  */
 const pool = promise_1.default.createPool({
+    database: env_1.env.DB,
     host: env_1.env.HOST_DB, // Host de la base de datos, definido en las variables de entorno.
     user: env_1.env.USER_DB, // Usuario de la base de datos, definido en las variables de entorno.
     password: env_1.env.PS_DB, // Contraseña del usuario, definido en las variables de entorno.

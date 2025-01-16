@@ -21,6 +21,7 @@ import { env } from "../../Global/Environment/env"; // Importa las variables de 
  *                                        si no hay conexiones disponibles en el pool.
  */
 const pool = mysql.createPool({
+  database: env.DB,
   host: env.HOST_DB, // Host de la base de datos, definido en las variables de entorno.
   user: env.USER_DB, // Usuario de la base de datos, definido en las variables de entorno.
   password: env.PS_DB, // Contraseña del usuario, definido en las variables de entorno.
