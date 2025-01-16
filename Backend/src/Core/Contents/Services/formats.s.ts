@@ -49,9 +49,9 @@ export class FormastsServices implements IformastsService {
         }
         //Validacion sobre el estado del order inicial
         if (datosF.starting_order==starting_order) {
-          let changeN=Number(starting_order);
-          for (let index = 0; index < datosF?.total; index++) {
-            const element = array[index];
+          let changeN= Number(starting_order);
+          const total = datosF.total || 0; 
+          for (let index = 0; index < total; index++) {
             
           }
         }
