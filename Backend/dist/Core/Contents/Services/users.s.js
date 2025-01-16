@@ -64,13 +64,14 @@ class UsersService {
      */
     insertUsers(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
+            console.log(req.body);
             const { status, username, userpassword } = req.body;
             if ((0, ValidationParams_1.ValidarFuncionReq)({ status, username, userpassword }, res)) {
                 return;
             }
             try {
                 const datos = yield this.user.getByField("username", username);
-                if (Array.isArray(datos) || datos == null) {
+                if (Array.isArray(datos) || datos != null) {
                     return res.status(500).json({ msj: "El usuario ya existe" });
                 }
                 const oUsers = new users_1.users();

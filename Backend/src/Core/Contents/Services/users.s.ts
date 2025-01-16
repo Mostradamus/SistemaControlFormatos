@@ -60,13 +60,14 @@ export class UsersService implements IusersService {
    */
 
   async insertUsers(req: Request, res: Response) {
+    console.log(req.body)
     const { status, username, userpassword }: users = req.body;
     if (ValidarFuncionReq({ status, username, userpassword }, res)) {
       return;
     }
     try {
       const datos = await this.user.getByField("username", username);
-      if (Array.isArray(datos) || datos == null) {
+      if (Array.isArray(datos) || datos != null) {
         return res.status(500).json({ msj: "El usuario ya existe" });
       }
       const oUsers = new users();

@@ -1,3 +1,4 @@
+import "reflect-metadata";
 /**
  * Decorador para definir el nombre de la tabla en la base de datos
  * @param name - Nombre de la tabla
@@ -6,7 +7,8 @@
 export function Table(name: string) {
   return function (constructor: Function) {
     // Asigna el nombre de la tabla al prototipo de la clase
-    constructor.prototype.tableName = name;
+    // constructor.prototype.tableName = name;
+    Reflect.defineMetadata("tableName", name, constructor);
   };
 }
 
@@ -17,9 +19,10 @@ export function Table(name: string) {
 export function PrimaryKey() {
   return function (target: any, propertykey: string) {
     // Verifica si ya existe una llave primaria definida
-    if (!target.constructor.prototype.primarykey) {
-      // Registra la propiedad como llave primaria
-      target.constructor.prototype.primarykey = propertykey;
-    }
+    // if (!target.constructor.prototype.primarykey) {
+    //   // Registra la propiedad como llave primaria
+    //   target.constructor.prototype.primarykey = propertykey;
+    // }
+    Reflect.defineMetadata("primaryKey", propertykey, target.constructor);
   };
 }

@@ -13,6 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.QueryGlobal = void 0;
+require("reflect-metadata");
 const db_cn_1 = __importDefault(require("../../Core/Connection/db.cn"));
 /**
  * Clase genérica para operaciones CRUD en la base de datos
@@ -24,9 +25,11 @@ class QueryGlobal {
      * @param entity - Constructor de la entidad
      */
     constructor(entity) {
-        const entityPrototype = entity.prototype;
-        this.tableName = entityPrototype.tableName;
-        this.primaryKey = entityPrototype.primaryKey;
+        // const entityPrototype = entity.prototype;
+        // this.tableName = entityPrototype.tableName;
+        // this.primaryKey = entityPrototype.primaryKey;
+        this.tableName = Reflect.getMetadata("tableName", entity);
+        this.primaryKey = Reflect.getMetadata("primaryKey", entity);
     }
     /**
      * Obtiene todos los registros de la tabla
@@ -63,16 +66,20 @@ class QueryGlobal {
                     .map((key) => entity[key]);
                 // Ejecuta la inserción
                 const insertQuery = `INSERT INTO ${this.tableName} (${fields}) VALUES (${placeholders})`;
+                console.log(insertQuery);
+                console.log(values);
                 const insertResult = transaction
                     ? yield transaction.query(insertQuery, values)
-                    : yield this.executeQuery(insertQuery, values);
+                    : yield this.executeQuery(insertQuery, 1, values);
                 // Obtiene el ID del registro insertado
-                const insertId = insertResult[0].insertId;
+                const insertId = insertResult.insertId;
                 // Recupera el registro completo
                 const selectQuery = `SELECT * FROM ${this.tableName} WHERE ${this.primaryKey} = ?`;
                 const [rows] = transaction
-                    ? yield transaction.query(selectQuery, [insertId])
-                    : yield this.executeQuery(selectQuery, [insertId]);
+                    ? yield transaction.query(selectQuery, 1, insertId)
+                    : yield this.executeQuery(selectQuery, 1, insertId);
+                console.log("go");
+                console.log("rows");
                 return rows[0];
             }
             catch (error) {
@@ -116,9 +123,10 @@ class QueryGlobal {
     getByField(field, value, transaction) {
         return __awaiter(this, void 0, void 0, function* () {
             const getByfiel = `SELECT * FROM ${this.tableName} WHERE ?? = ?`;
+            console.log(getByfiel);
             const [rows] = (yield transaction)
                 ? transaction === null || transaction === void 0 ? void 0 : transaction.query(getByfiel, field, value)
-                : this.executeQuery(getByfiel, field, value);
+                : yield this.executeQuery(getByfiel, 0, field, value);
             console.log(rows);
             if (!rows || rows.length === 0) {
                 return null;
@@ -135,11 +143,13 @@ class QueryGlobal {
      * @param params - Parámetros para la consulta
      * @returns Promise con el resultado de la consulta
      */
-    executeQuery(query, ...params) {
-        return __awaiter(this, void 0, void 0, function* () {
+    executeQuery(query_1) {
+        return __awaiter(this, arguments, void 0, function* (query, tipo = 0, ...params) {
             const conn = yield db_cn_1.default.getConnection();
+            let insert = tipo == 1 ? params[0] : params;
+            console.log(insert);
             try {
-                const [result, fields] = yield conn.query(query, params);
+                const [result, fields] = yield conn.query(query, insert);
                 return result;
             }
             finally {

@@ -17,11 +17,11 @@ export class UsersControllers{
     async insertU(req:Request, res:Response){
         return this.UsersServices.insertUsers(req, res);
     }
-    @Put("/usuarios/actulizar")
+    @Put("/usuarios/actualizar/:id_users")
     async updateU(req: Request, res: Response){
         return this.UsersServices.updateUsers(req, res);
     }
-    @Delete("/usuarios/eliminar")
+    @Delete("/usuarios/eliminar/:id_users")
     async deleteU(req:Request, res:Response){
         return this.UsersServices.deleteUsersById(req, res);
     }

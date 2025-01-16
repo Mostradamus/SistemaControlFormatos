@@ -1,3 +1,4 @@
+import "reflect-metadata";
 import pool from "../../Core/Connection/db.cn";
 import { RowDataPacket, PoolConnection } from "mysql2";
 
@@ -14,9 +15,11 @@ export class QueryGlobal<T extends object> {
    * @param entity - Constructor de la entidad
    */
   constructor(entity: new () => T) {
-    const entityPrototype = entity.prototype;
-    this.tableName = entityPrototype.tableName;
-    this.primaryKey = entityPrototype.primaryKey;
+    // const entityPrototype = entity.prototype;
+    // this.tableName = entityPrototype.tableName;
+    // this.primaryKey = entityPrototype.primaryKey;
+    this.tableName = Reflect.getMetadata("tableName", entity);
+    this.primaryKey = Reflect.getMetadata("primaryKey", entity);
   }
 
   /**
@@ -50,21 +53,25 @@ export class QueryGlobal<T extends object> {
       const values = Object.keys(entity)
         .filter((key) => key !== this.primaryKey)
         .map((key) => (entity as any)[key]);
-
       // Ejecuta la inserción
       const insertQuery = `INSERT INTO ${this.tableName} (${fields}) VALUES (${placeholders})`;
+      console.log(insertQuery)
+      console.log(values)
+
       const insertResult = transaction
         ? await transaction.query(insertQuery, values)
-        : await this.executeQuery(insertQuery, values);
-
+        : await this.executeQuery(insertQuery,1, values);
       // Obtiene el ID del registro insertado
-      const insertId = (insertResult as any)[0].insertId;
+      const insertId = (insertResult as any).insertId;
+      
 
       // Recupera el registro completo
       const selectQuery = `SELECT * FROM ${this.tableName} WHERE ${this.primaryKey} = ?`;
       const [rows]: any = transaction
-        ? await transaction.query(selectQuery, [insertId])
-        : await this.executeQuery(selectQuery, [insertId]);
+        ? await transaction.query(selectQuery,1, insertId)
+        : await this.executeQuery(selectQuery,1, insertId);
+        console.log("go")
+        console.log("rows")
 
       return rows[0] as T;
     } catch (error) {
@@ -112,9 +119,10 @@ export class QueryGlobal<T extends object> {
     transaction?: PoolConnection
   ): Promise<T[] | T | null> {
     const getByfiel = `SELECT * FROM ${this.tableName} WHERE ?? = ?`;
-    const [rows]: any = (await transaction)
+    console.log(getByfiel)
+    const [rows]: any =  (await transaction)
       ? transaction?.query(getByfiel, field, value)
-      : this.executeQuery(getByfiel, field, value);
+      :await  this.executeQuery(getByfiel,0, field, value);
     console.log(rows);
     if (!rows || rows.length === 0) {
       return null;
@@ -134,13 +142,15 @@ export class QueryGlobal<T extends object> {
    * @returns Promise con el resultado de la consulta
    */
   protected async executeQuery(
-    query: string,
+    query: string ,tipo: number = 0,
     ...params: any[]
   ): Promise<RowDataPacket[]> {
     const conn = await pool.getConnection();
-
+    
+      let insert = tipo == 1 ? params[0] : params;
+      console.log(insert)
     try {
-      const [result, fields] = await conn.query(query, params);
+      const [result, fields] = await conn.query(query, insert);
       return result as RowDataPacket[];
     } finally {
       conn.release();

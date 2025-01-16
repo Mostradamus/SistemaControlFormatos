@@ -60,13 +60,13 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UsersControllers.prototype, "insertU", null);
 __decorate([
-    (0, routes_dc_1.Put)("/usuarios/actulizar"),
+    (0, routes_dc_1.Put)("/usuarios/actualizar/:id_users"),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], UsersControllers.prototype, "updateU", null);
 __decorate([
-    (0, routes_dc_1.Delete)("/usuarios/eliminar"),
+    (0, routes_dc_1.Delete)("/usuarios/eliminar/:id_users"),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
