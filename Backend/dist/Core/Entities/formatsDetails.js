@@ -9,15 +9,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.formats = void 0;
+exports.formatsDetails = void 0;
 const models_dc_1 = require("../../Global/Decorators/models.dc");
-let formats = class formats {
+let formatsDetails = class formatsDetails {
 };
-exports.formats = formats;
+exports.formatsDetails = formatsDetails;
 __decorate([
     (0, models_dc_1.PrimaryKey)(),
     __metadata("design:type", Number)
-], formats.prototype, "id_formats", void 0);
-exports.formats = formats = __decorate([
-    (0, models_dc_1.Table)("formats")
-], formats);
+], formatsDetails.prototype, "id_formats_details", void 0);
+exports.formatsDetails = formatsDetails = __decorate([
+    (0, models_dc_1.Table)("formats_details")
+], formatsDetails);

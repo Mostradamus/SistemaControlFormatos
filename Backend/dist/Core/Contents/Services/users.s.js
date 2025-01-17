@@ -64,7 +64,6 @@ class UsersService {
      */
     insertUsers(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log(req.body);
             const { status, username, userpassword } = req.body;
             if ((0, ValidationParams_1.ValidarFuncionReq)({ status, username, userpassword }, res)) {
                 return;
@@ -110,7 +109,7 @@ class UsersService {
                         msj: "No se pudo encontrar al usuario",
                     });
                 }
-                if (oUsers.username == username) {
+                if (oUsers.username == username && oUsers.id_users != id_users) {
                     return res.status(200).json({
                         msj: "El nombre del usuario ya existe",
                     });

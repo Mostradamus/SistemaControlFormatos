@@ -101,7 +101,7 @@ class QueryGlobal {
             const update = `UPDATE ${this.tableName} SET ${setClause} WHERE ${this.primaryKey} = ?`;
             (yield transaction)
                 ? transaction === null || transaction === void 0 ? void 0 : transaction.query(update, primaryKeyValue)
-                : this.executeQuery(update, ...values, primaryKeyValue);
+                : yield this.executeQuery(update, 0, ...values, primaryKeyValue);
         });
     }
     /**
@@ -123,11 +123,9 @@ class QueryGlobal {
     getByField(field, value, transaction) {
         return __awaiter(this, void 0, void 0, function* () {
             const getByfiel = `SELECT * FROM ${this.tableName} WHERE ?? = ?`;
-            console.log(getByfiel);
             const [rows] = (yield transaction)
                 ? transaction === null || transaction === void 0 ? void 0 : transaction.query(getByfiel, field, value)
                 : yield this.executeQuery(getByfiel, 0, field, value);
-            console.log(rows);
             if (!rows || rows.length === 0) {
                 return null;
             }
@@ -147,7 +145,6 @@ class QueryGlobal {
         return __awaiter(this, arguments, void 0, function* (query, tipo = 0, ...params) {
             const conn = yield db_cn_1.default.getConnection();
             let insert = tipo == 1 ? params[0] : params;
-            console.log(insert);
             try {
                 const [result, fields] = yield conn.query(query, insert);
                 return result;

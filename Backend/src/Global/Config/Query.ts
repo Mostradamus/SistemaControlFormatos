@@ -92,7 +92,7 @@ export class QueryGlobal<T extends object> {
     const update = `UPDATE ${this.tableName} SET ${setClause} WHERE ${this.primaryKey} = ?`;
     (await transaction)
       ? transaction?.query(update, primaryKeyValue)
-      : this.executeQuery(update, ...values, primaryKeyValue);
+      : await this.executeQuery(update,0, ...values, primaryKeyValue);
   }
 
   /**
@@ -119,11 +119,9 @@ export class QueryGlobal<T extends object> {
     transaction?: PoolConnection
   ): Promise<T[] | T | null> {
     const getByfiel = `SELECT * FROM ${this.tableName} WHERE ?? = ?`;
-    console.log(getByfiel)
     const [rows]: any =  (await transaction)
       ? transaction?.query(getByfiel, field, value)
       :await  this.executeQuery(getByfiel,0, field, value);
-    console.log(rows);
     if (!rows || rows.length === 0) {
       return null;
     }
@@ -148,7 +146,6 @@ export class QueryGlobal<T extends object> {
     const conn = await pool.getConnection();
     
       let insert = tipo == 1 ? params[0] : params;
-      console.log(insert)
     try {
       const [result, fields] = await conn.query(query, insert);
       return result as RowDataPacket[];

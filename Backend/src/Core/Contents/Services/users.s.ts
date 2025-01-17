@@ -60,7 +60,6 @@ export class UsersService implements IusersService {
    */
 
   async insertUsers(req: Request, res: Response) {
-    console.log(req.body)
     const { status, username, userpassword }: users = req.body;
     if (ValidarFuncionReq({ status, username, userpassword }, res)) {
       return;
@@ -106,7 +105,7 @@ export class UsersService implements IusersService {
         });
       }
 
-      if (oUsers.username == username) {
+      if (oUsers.username == username && oUsers.id_users!= id_users) {
         return res.status(200).json({
           msj: "El nombre del usuario ya existe",
         });
