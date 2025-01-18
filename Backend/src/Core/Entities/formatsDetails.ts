@@ -6,6 +6,4 @@ export class formatsDetails{
     id_formats?: number;
     status?: number;
     formats_models?: string;
-
-
 }
