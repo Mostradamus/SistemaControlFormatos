@@ -57,13 +57,16 @@ class FormatsServices {
                 return;
             }
             try {
+                console.log("mucho antes de la tragedia");
                 const datosF = yield this.format.getByField("starting_order", starting_order);
                 // Validar si datosF es un objeto no vacío
+                console.log(datosF, 3);
                 if (datosF && typeof datosF === "object" && Object.keys(datosF).length > 0 || datosF != null) {
                     return res.status(500).json({ msj: "El formato ya ha sido registrado" });
                 }
+                console.log("antes de la tragedia");
                 const validOrd = yield this.formatDetails.getByField("formats_models", starting_order);
-                if (validOrd !== null) {
+                if (validOrd !== null && typeof validOrd === "object") {
                     return res.status(500).json({ msj: "El formato ya existe en los detalles" });
                 }
                 else {
@@ -75,20 +78,17 @@ class FormatsServices {
                     oFormats.turn = turn;
                     oFormats.description = description;
                     const registF = yield this.format.create(oFormats);
-                    console.log(registF);
                     let pInit = 7;
                     let pInitSOrder = Number(starting_order);
                     let totalCero = Number(total) + pInitSOrder;
                     for (let index = pInitSOrder; index < Number(total) + pInitSOrder; index++) {
-                        let vlInit = pInit - totalCero.toString().length;
-                        console.log(vlInit, 1);
+                        let currentLength = index.toString().length; // Longitud actual del número
+                        let vlInit = pInit - currentLength; // Número de ceros a agregar
                         let conString = "";
                         for (let i = 0; i < vlInit; i++) {
                             conString = "0" + conString;
                         }
                         let newString = conString + index;
-                        console.log(newString);
-                        console.log(registF.id_formats);
                         const OformatsD = new formatsDetails_1.formatsDetails();
                         OformatsD.id_formats = registF.id_formats;
                         OformatsD.status = 1;

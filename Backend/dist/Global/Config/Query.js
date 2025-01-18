@@ -123,6 +123,7 @@ class QueryGlobal {
                 ? transaction === null || transaction === void 0 ? void 0 : transaction.query(getByfiel, field, value)
                 : yield this.executeQuery(getByfiel, 0, field, value);
             if (!rows || rows.length === 0) {
+                // console.log("salio")
                 return null;
             }
             if (rows.length === 1) {
@@ -140,9 +141,13 @@ class QueryGlobal {
     executeQuery(query_1) {
         return __awaiter(this, arguments, void 0, function* (query, tipo = 0, ...params) {
             const conn = yield db_cn_1.default.getConnection();
+            console.log(query);
             let insert = tipo == 1 ? params[0] : params;
+            console.log(insert);
+            console.log(4);
             try {
                 const [result, fields] = yield conn.query(query, insert);
+                console.log(result);
                 return result;
             }
             finally {

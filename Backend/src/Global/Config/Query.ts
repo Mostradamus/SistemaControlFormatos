@@ -109,7 +109,7 @@ export class QueryGlobal<T extends object> {
    * @returns Registro(s) encontrado(s) o null si no hay coincidencias
    */
   async getByField(
-    field: keyof T,
+    field: keyof T, 
     value: any,
     transaction?: PoolConnection
   ): Promise<T[] | T | null> {
@@ -118,9 +118,9 @@ export class QueryGlobal<T extends object> {
       ? transaction?.query(getByfiel, field, value)
       :await  this.executeQuery(getByfiel,0, field, value);
     if (!rows || rows.length === 0) {
+      // console.log("salio")
       return null;
     }
-
     if (rows.length === 1) {
       return rows[0] as T;
     }
@@ -139,10 +139,13 @@ export class QueryGlobal<T extends object> {
     ...params: any[]
   ): Promise<RowDataPacket[]> {
     const conn = await pool.getConnection();
-    
+      console.log(query)
       let insert = tipo == 1 ? params[0] : params;
+      console.log(insert)
+      console.log(4)
     try {
       const [result, fields] = await conn.query(query, insert);
+      console.log(result)
       return result as RowDataPacket[];
     } finally {
       conn.release();
