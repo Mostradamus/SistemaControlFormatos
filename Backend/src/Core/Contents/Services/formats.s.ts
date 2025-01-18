@@ -41,68 +41,53 @@ export class FormatsServices implements IformatsService {
     }
   }
    async insertFormats(req: Request, res: Response){
-    console.log(req.body)
-      const {status,starting_order,total,turn,description}: formats = req.body;
-      if (ValidarFuncionReq({ status, starting_order, total, turn, description}, res)) {
+      const {starting_order,total,turn,description}: formats = req.body;
+      if (ValidarFuncionReq({ starting_order, total, turn, description}, res)) {
         return;
       }
       try {
         const datosF = await this.format.getByField("starting_order", starting_order);
-        if (Array.isArray(datosF)) {
-          return res.status(500).json({ msj: "El formato ya existe" });
-        }
-        let pInit = 7;
-        let pInitSOrder = Number(starting_order);
-        let result = "";
-        console.log(pInitSOrder, "orden")
-        console.log(total, "orden")
-        for (let index = pInitSOrder; index < Number(total); index++) {
-          let vlInit = pInit - index;
-          console.log(vlInit)
-          let conString = "";
-          for(let i = 0; i < vlInit; i++){
-            conString = "0";
-          }
-          result = `${index}`
-          let newString = conString + index;
-          console.log(newString)
-          const datosFD = await this.formatDetails.getByField("formats_models",newString );
-          if (datosFD) {
-            // Si se encuentra un valor válido, rompe el ciclo
-            console.log("Valor encontrado:", index);
-            result = "se encontro "+index;
-            
-          } else {
-              // Si `datosFD` es null, continúa con la siguiente iteración
-              console.log("Valor no encontrado, continuando...");
-              result = "se encontro "+index;
-          }
 
-        }
-        console.log(result)
-        // if(datosF != null){
-        //   //Validacion sobre el estado del order inicial
-        //   if (datosF.starting_order==starting_order) {
-        //     let changeN= Number(starting_order);
-        //     let changeN2= Number(datosF.starting_order)
-        //     const total = (Number (datosF.total) + changeN2) || 0; 
-        //     for (let index = changeN2; index < total; index++) {
-        //       if (changeN==index) {
-        //         return res.status(500).json({msj: "El valor del formato ya se encuentra registrado"});
-        //       }
-        //     }
-        //   }
-        // }
-          // const oFormats = new formats();
-          //       oFormats.status = status;
-          //       oFormats.starting_order = starting_order;
-          //       oFormats.total = total;
-          //       oFormats.turn = turn;
-          //       oFormats.description = description;
-          //       await this.format.create(oFormats);
-          //       return res.status(200).json({ msj: "Formato Registrado exitosamente" });
+      // Validar si datosF es un objeto no vacío
+      if (datosF && typeof datosF === "object" && Object.keys(datosF).length > 0 || datosF!=null) {
+        return res.status(500).json({ msj: "El formato ya ha sido registrado" });
+      }
 
-        
+      const validOrd = await this.formatDetails.getByField("formats_models",starting_order); 
+        if (validOrd !== null) {
+          return res.status(500).json({ msj: "El formato ya existe en los detalles" });
+        }else{
+          const oFormats = new formats();
+          oFormats.status = 1;
+          oFormats.registration_date=new Date
+          oFormats.starting_order = starting_order;
+          oFormats.total = total;
+          oFormats.turn = turn;
+          oFormats.description = description;
+          const registF = await this.format.create(oFormats);
+          console.log(registF);
+          let pInit = 7;
+          let pInitSOrder = Number(starting_order);
+          let totalCero = Number(total)+pInitSOrder;
+          for (let index = pInitSOrder; index < Number(total)+pInitSOrder; index++) {
+            let vlInit = pInit - totalCero.toString().length;
+            console.log(vlInit,1)
+            let conString = "";
+            for(let i = 0; i < vlInit; i++){
+              conString = "0"+ conString;
+            }
+            let newString = conString + index;
+            console.log(newString);
+            console.log(registF.id_formats);
+            const OformatsD = new formatsDetails();
+            OformatsD.id_formats = registF.id_formats;
+            OformatsD.status = 1;
+            OformatsD.formats_models=newString;
+            await this.formatDetails.create(OformatsD);
+          }
+          return res.status(200).json({ msj: "Formato Registrado exitosamente" });
+        }
+          
       } catch (error) {
         return res.status(500).json({ msj: "Error al obtener la lista por id" });
       }

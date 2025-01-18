@@ -66,8 +66,6 @@ class QueryGlobal {
                     .map((key) => entity[key]);
                 // Ejecuta la inserción
                 const insertQuery = `INSERT INTO ${this.tableName} (${fields}) VALUES (${placeholders})`;
-                console.log(insertQuery);
-                console.log(values);
                 const insertResult = transaction
                     ? yield transaction.query(insertQuery, values)
                     : yield this.executeQuery(insertQuery, 1, values);
@@ -78,9 +76,7 @@ class QueryGlobal {
                 const [rows] = transaction
                     ? yield transaction.query(selectQuery, 1, insertId)
                     : yield this.executeQuery(selectQuery, 1, insertId);
-                console.log("go");
-                console.log("rows");
-                return rows[0];
+                return rows;
             }
             catch (error) {
                 throw error;

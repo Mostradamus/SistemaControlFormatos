@@ -55,9 +55,6 @@ export class QueryGlobal<T extends object> {
         .map((key) => (entity as any)[key]);
       // Ejecuta la inserción
       const insertQuery = `INSERT INTO ${this.tableName} (${fields}) VALUES (${placeholders})`;
-      console.log(insertQuery)
-      console.log(values)
-
       const insertResult = transaction
         ? await transaction.query(insertQuery, values)
         : await this.executeQuery(insertQuery,1, values);
@@ -70,10 +67,8 @@ export class QueryGlobal<T extends object> {
       const [rows]: any = transaction
         ? await transaction.query(selectQuery,1, insertId)
         : await this.executeQuery(selectQuery,1, insertId);
-        console.log("go")
-        console.log("rows")
 
-      return rows[0] as T;
+      return rows as T;
     } catch (error) {
       throw error;
     }
