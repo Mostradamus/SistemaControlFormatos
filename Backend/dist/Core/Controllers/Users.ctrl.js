@@ -45,6 +45,11 @@ class UsersControllers {
             return this.UsersServices.deleteUsersById(req, res);
         });
     }
+    loginV(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.UsersServices.loginValid(req, res);
+        });
+    }
 }
 exports.UsersControllers = UsersControllers;
 __decorate([
@@ -71,3 +76,9 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], UsersControllers.prototype, "deleteU", null);
+__decorate([
+    (0, routes_dc_1.Post)("/usuarios/validar"),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], UsersControllers.prototype, "loginV", null);

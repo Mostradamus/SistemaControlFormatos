@@ -19,6 +19,10 @@ class FormatsServices {
         this.format = new Query_1.QueryGlobal(formats_1.formats);
         this.formatDetails = new Query_1.QueryGlobal(formatsDetails_1.formatsDetails);
     }
+    /**
+     * Obtiene todos los formatos registrados
+     * @param res - Objeto Response para la respuesta HTTP
+     */
     getAllFormats(res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -32,6 +36,12 @@ class FormatsServices {
             }
         });
     }
+    /**
+     * Busca un formato por su ID
+     * @param req - Request con el ID del formato
+     * @param res - Response para la respuesta HTTP
+     * Incluye validación de parámetros
+     */
     findFormatsById(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id_formats } = req.params;
@@ -50,6 +60,19 @@ class FormatsServices {
             }
         });
     }
+    /**
+     * Inserta un nuevo formato y genera sus detalles
+     * @param req - Request con datos del formato (starting_order, total, turn, description)
+     * @param res - Response para la respuesta HTTP
+     * Validaciones:
+     * - Campos requeridos completos
+     * - No duplicidad de starting_order
+     * - No existencia en formatos_details
+     * Proceso:
+     * 1. Valida duplicidad
+     * 2. Crea el formato principal
+     * 3. Genera detalles con formato numérico padded con ceros
+     */
     insertFormats(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { starting_order, total, turn, description } = req.body;
@@ -57,22 +80,25 @@ class FormatsServices {
                 return;
             }
             try {
-                console.log("mucho antes de la tragedia");
                 const datosF = yield this.format.getByField("starting_order", starting_order);
-                // Validar si datosF es un objeto no vacío
-                console.log(datosF, 3);
-                if (datosF && typeof datosF === "object" && Object.keys(datosF).length > 0 || datosF != null) {
-                    return res.status(500).json({ msj: "El formato ya ha sido registrado" });
+                if ((datosF &&
+                    typeof datosF === "object" &&
+                    Object.keys(datosF).length > 0) ||
+                    datosF != null) {
+                    return res
+                        .status(500)
+                        .json({ msj: "El formato ya ha sido registrado" });
                 }
-                console.log("antes de la tragedia");
                 const validOrd = yield this.formatDetails.getByField("formats_models", starting_order);
                 if (validOrd !== null && typeof validOrd === "object") {
-                    return res.status(500).json({ msj: "El formato ya existe en los detalles" });
+                    return res
+                        .status(500)
+                        .json({ msj: "El formato ya existe en los detalles" });
                 }
                 else {
                     const oFormats = new formats_1.formats();
                     oFormats.status = 1;
-                    oFormats.registration_date = new Date;
+                    oFormats.registration_date = new Date();
                     oFormats.starting_order = starting_order;
                     oFormats.total = total;
                     oFormats.turn = turn;
@@ -82,8 +108,8 @@ class FormatsServices {
                     let pInitSOrder = Number(starting_order);
                     let totalCero = Number(total) + pInitSOrder;
                     for (let index = pInitSOrder; index < Number(total) + pInitSOrder; index++) {
-                        let currentLength = index.toString().length; // Longitud actual del número
-                        let vlInit = pInit - currentLength; // Número de ceros a agregar
+                        let currentLength = index.toString().length;
+                        let vlInit = pInit - currentLength;
                         let conString = "";
                         for (let i = 0; i < vlInit; i++) {
                             conString = "0" + conString;
@@ -103,42 +129,14 @@ class FormatsServices {
             }
         });
     }
-    updateFormats(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const { status, starting_order, total, turn, description } = req.body;
-            const { id_formats } = req.params;
-            if ((0, ValidationParams_1.ValidarFuncionReq)({ status, starting_order, total, turn, description }, res)) {
-                return;
-            }
-            try {
-                const datosF = yield this.format.getByField("id_formats", id_formats);
-                if (Array.isArray(datosF) || datosF == null) {
-                    return res.status(500).json({ msj: "El formato ya existe" });
-                }
-                //Validacion sobre el estado del order inicial
-                if (datosF.starting_order == starting_order) {
-                    let changeN = Number(starting_order);
-                    let changeN2 = Number(datosF.starting_order);
-                    const total = (Number(datosF.total) + changeN2) || 0;
-                    for (let index = changeN2; index < total; index++) {
-                        if (changeN == index) {
-                            return res.status(500).json({ msj: "El valor del formato ya se encuentra registrado" });
-                        }
-                    }
-                }
-                datosF.status = status;
-                datosF.starting_order = starting_order;
-                datosF.total = total;
-                datosF.turn = turn;
-                datosF.description = description;
-                yield this.format.create(datosF);
-                return res.status(200).json({ msj: "Formato actualiando exitosamente" });
-            }
-            catch (error) {
-                return res.status(500).json({ msj: "Error al actulizar" });
-            }
-        });
-    }
+    /**
+     * Eliminación lógica de un formato (cambio de status a 2)
+     * @param req - Request con el ID del formato
+     * @param res - Response para la respuesta HTTP
+     * Validaciones:
+     * - ID existente
+     * - Formato activo
+     */
     deleteFormatsById(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id_formats } = req.params;

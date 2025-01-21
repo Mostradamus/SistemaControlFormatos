@@ -19,13 +19,6 @@ export interface IformatsService {
   insertFormats(req: Request, res: Response): void;
 
   /**
-   * Actualiza un formato existente
-   * @param req - Objeto Request con los datos actualizados
-   * @param res - Objeto Response para enviar la respuesta
-   */
-  updateFormats(req: Request, res: Response): void;
-
-  /**
    * Busca un formato por su ID
    * @param req - Objeto Request con el ID del formato
    * @param res - Objeto Response para enviar la respuesta

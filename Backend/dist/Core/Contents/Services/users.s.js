@@ -8,10 +8,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsersService = void 0;
 const Query_1 = require("../../../Global/Config/Query");
 const users_1 = require("../../Entities/users");
+const bcrypt_1 = __importDefault(require("bcrypt"));
 const ValidationParams_1 = require("../../Helpers/ValidationParams");
 class UsersService {
     constructor() {
@@ -56,6 +60,29 @@ class UsersService {
             }
         });
     }
+    loginValid(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { username, userpassword } = req.body;
+            if ((0, ValidationParams_1.ValidarFuncionReq)({ username, userpassword }, res)) {
+                return;
+            }
+            try {
+                const validU = yield this.user.selectQuery("SELECT * FROM users WHERE username = ? and status=1", [username]);
+                if (Array.isArray(validU) || validU == null) {
+                    return res.status(500).json({ msj: "El usuario no fue encontrado" });
+                }
+                else {
+                    const match = yield bcrypt_1.default.compare(String(userpassword), String(validU.userpassword));
+                    const resultMsj = match == true ? "Contraseña valida" : "Contraseña incorrecta";
+                    const resultStatus = match == true ? 200 : 500;
+                    return res.status(resultStatus).json({ msj: resultMsj });
+                }
+            }
+            catch (error) {
+                return res.status(500).json({ msj: "Error al obtener la lista por id" });
+            }
+        });
+    }
     /**
      * Crea un nuevo usuario
      * Incluye validaciones:
@@ -64,8 +91,8 @@ class UsersService {
      */
     insertUsers(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { status, username, userpassword } = req.body;
-            if ((0, ValidationParams_1.ValidarFuncionReq)({ status, username, userpassword }, res)) {
+            const { username, userpassword } = req.body;
+            if ((0, ValidationParams_1.ValidarFuncionReq)({ username, userpassword }, res)) {
                 return;
             }
             try {
@@ -73,10 +100,11 @@ class UsersService {
                 if (Array.isArray(datos) || datos != null) {
                     return res.status(500).json({ msj: "El usuario ya existe" });
                 }
+                const hash = yield bcrypt_1.default.hash(String(userpassword), 10);
                 const oUsers = new users_1.users();
-                oUsers.status = status;
+                oUsers.status = 1;
                 oUsers.username = username;
-                oUsers.userpassword = userpassword;
+                oUsers.userpassword = hash;
                 yield this.user.create(oUsers);
                 return res.status(200).json({ msj: "Usuario Registrado exitosamente" });
             }

@@ -56,4 +56,6 @@ export interface IusersService {
    * @returns {void}
    */
   deleteUsersById(req: Request, res: Response): void;
+
+  loginValid(req: Request, res: Response): void;
 }

@@ -16,6 +16,7 @@ export class UsersControllers{
     @Post("/usuarios/crear")
     async insertU(req:Request, res:Response){
         return this.UsersServices.insertUsers(req, res);
+        
     }
     @Put("/usuarios/actualizar/:id_users")
     async updateU(req: Request, res: Response){
@@ -24,5 +25,10 @@ export class UsersControllers{
     @Delete("/usuarios/eliminar/:id_users")
     async deleteU(req:Request, res:Response){
         return this.UsersServices.deleteUsersById(req, res);
+    }
+    @Post("/usuarios/validar")
+    async loginV(req:Request, res:Response){
+        return this.UsersServices.loginValid(req, res);
+        
     }
 }

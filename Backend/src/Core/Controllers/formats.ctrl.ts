@@ -17,10 +17,6 @@ export class FormatsControllers{
     async insertF(req:Request, res:Response){
         return this.FormatsServices.insertFormats(req, res);
     }
-    @Put("/formatos/actulizar")
-    async updateF(req: Request, res: Response){
-        return this.FormatsServices.updateFormats(req, res);
-    }
     @Delete("/formatos/eliminar")
     async deleteF(req:Request, res:Response){
         return this.FormatsServices.deleteFormatsById(req, res);

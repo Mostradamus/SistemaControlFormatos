@@ -6,6 +6,7 @@ import { Response, Request } from "express";
 import { QueryGlobal } from "../../../Global/Config/Query";
 import { users } from "../../Entities/users";
 import { IusersService } from "../InterfaceServices/users.i";
+import bcrypt from 'bcrypt';
 import {
   ValidarFuncionParams,
   ValidarFuncionReq,
@@ -52,6 +53,31 @@ export class UsersService implements IusersService {
     }
   }
 
+
+  async loginValid(req: Request, res: Response){
+      const {username, userpassword}: users = req.body;
+      if (ValidarFuncionReq({username, userpassword}, res)) {
+        return;
+      }
+      try {
+        const validU = await this.user.selectQuery("SELECT * FROM users WHERE username = ? and status=1",[username]);
+        if(Array.isArray(validU) || validU == null){
+          return res.status(500).json({msj:"El usuario no fue encontrado"})
+        }else{
+          
+          const match = await bcrypt.compare(String(userpassword), String(validU.userpassword));
+          
+          const resultMsj = match == true ? "Contraseña valida" :"Contraseña incorrecta";
+          const resultStatus = match == true ? 200: 500;
+
+          return res.status(resultStatus).json({msj: resultMsj})
+        }
+      } catch (error) {
+        return res.status(500).json({ msj: "Error al obtener la lista por id" });
+      }
+
+  }
+
   /**
    * Crea un nuevo usuario
    * Incluye validaciones:
@@ -60,19 +86,22 @@ export class UsersService implements IusersService {
    */
 
   async insertUsers(req: Request, res: Response) {
-    const { status, username, userpassword }: users = req.body;
-    if (ValidarFuncionReq({ status, username, userpassword }, res)) {
+
+    const { username, userpassword }: users = req.body;
+    if (ValidarFuncionReq({ username, userpassword }, res)) {
       return;
     }
     try {
       const datos = await this.user.getByField("username", username);
+      
       if (Array.isArray(datos) || datos != null) {
         return res.status(500).json({ msj: "El usuario ya existe" });
       }
+      const hash = await bcrypt.hash(String(userpassword), 10);
       const oUsers = new users();
-      oUsers.status = status;
+      oUsers.status = 1;
       oUsers.username = username;
-      oUsers.userpassword = userpassword;
+      oUsers.userpassword = hash;
       await this.user.create(oUsers);
       return res.status(200).json({ msj: "Usuario Registrado exitosamente" });
     } catch (error) {

@@ -118,7 +118,6 @@ export class QueryGlobal<T extends object> {
       ? transaction?.query(getByfiel, field, value)
       :await  this.executeQuery(getByfiel,0, field, value);
     if (!rows || rows.length === 0) {
-      // console.log("salio")
       return null;
     }
     if (rows.length === 1) {
@@ -127,25 +126,33 @@ export class QueryGlobal<T extends object> {
 
     return rows as T[];
   }
+  async selectQuery(query : string , ...params: any[]): Promise<T[] | T | null>{
+    const getByfiel = `${query}`;
+    const conn = await pool.getConnection();
+    const [rows]: any = await  conn.query(getByfiel, params);
+    if (!rows || rows.length === 0) {
+      return null;
+    }
+    if (rows.length === 1) {
+      return rows[0] as T;
+    }
 
+    return rows as T[];
+  }
   /**
    * Ejecuta una consulta SQL con parámetros
    * @param query - Consulta SQL
    * @param params - Parámetros para la consulta
    * @returns Promise con el resultado de la consulta
    */
-  protected async executeQuery(
+  public async executeQuery(
     query: string ,tipo: number = 0,
     ...params: any[]
   ): Promise<RowDataPacket[]> {
     const conn = await pool.getConnection();
-      console.log(query)
       let insert = tipo == 1 ? params[0] : params;
-      console.log(insert)
-      console.log(4)
     try {
-      const [result, fields] = await conn.query(query, insert);
-      console.log(result)
+      const [result] = await conn.query(query, insert);
       return result as RowDataPacket[];
     } finally {
       conn.release();
