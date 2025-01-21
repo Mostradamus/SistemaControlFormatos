@@ -7,6 +7,8 @@ exports.App = void 0;
 const express_1 = __importDefault(require("express"));
 require("reflect-metadata");
 const register_c_1 = require("../Global/Config/register.c");
+const cors_1 = __importDefault(require("cors"));
+const morgan_1 = __importDefault(require("morgan"));
 const base_1 = require("../Global/Config/base");
 class App {
     constructor() {
@@ -16,6 +18,8 @@ class App {
     }
     config() {
         this.app.use(express_1.default.json());
+        this.app.use((0, cors_1.default)());
+        this.app.use((0, morgan_1.default)('dev'));
     }
     routes() {
         const controllersApi = [

@@ -1,6 +1,8 @@
 import express, { Express, Request, Response } from 'express';
 import 'reflect-metadata'; 
 import { RegisterRoutes } from '../Global/Config/register.c';
+import cors from 'cors'
+import morgan from 'morgan'
 import { Controllers } from '../Global/Config/base';
  
     export class App {
@@ -16,6 +18,8 @@ import { Controllers } from '../Global/Config/base';
             
 
             this.app.use(express.json());
+            this.app.use(cors())
+            this.app.use(morgan('dev'))
         } 
        
         private routes() {
