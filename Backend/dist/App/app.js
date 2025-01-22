@@ -7,6 +7,7 @@ exports.App = void 0;
 const express_1 = __importDefault(require("express"));
 require("reflect-metadata");
 const register_c_1 = require("../Global/Config/register.c");
+const env_1 = require("../Global/Environment/env");
 const cors_1 = __importDefault(require("cors"));
 const morgan_1 = __importDefault(require("morgan"));
 const base_1 = require("../Global/Config/base");
@@ -29,8 +30,8 @@ class App {
     }
     start() {
         return new Promise((resolve) => {
-            this.app.listen(3000, () => {
-                console.log("Servidor iniciado en http://localhost:3000");
+            this.app.listen(env_1.env.PORT, () => {
+                console.log(`Servidor iniciado en http://localhost:${env_1.env.PORT}`);
                 resolve();
             });
         });

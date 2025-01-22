@@ -1,6 +1,7 @@
 import express, { Express, Request, Response } from 'express';
 import 'reflect-metadata'; 
 import { RegisterRoutes } from '../Global/Config/register.c';
+import { env } from '../Global/Environment/env';
 import cors from 'cors'
 import morgan from 'morgan'
 import { Controllers } from '../Global/Config/base';
@@ -33,8 +34,8 @@ import { Controllers } from '../Global/Config/base';
       
         public start(): Promise<void> {
             return new Promise((resolve) => {
-                this.app.listen(3000, () => {
-                    console.log("Servidor iniciado en http://localhost:3000"); 
+                this.app.listen(env.PORT, () => {
+                    console.log(`Servidor iniciado en http://localhost:${env.PORT}`); 
                     resolve();
                 });
             });

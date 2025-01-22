@@ -14,4 +14,7 @@ export class UsersService {
   Login(usuario:any):Observable<any>{
     return this.http.post(`${this.myAppUrl}${this.myApiUrl}/validar`, usuario)
   }
+  GetInfoUsuario(id:any): Observable<any>{
+    return this.http.get(`${this.myAppUrl}${this.myApiUrl}/${id}`);
+  }
 }

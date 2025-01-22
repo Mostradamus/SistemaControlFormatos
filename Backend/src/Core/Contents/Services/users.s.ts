@@ -7,10 +7,12 @@ import { QueryGlobal } from "../../../Global/Config/Query";
 import { users } from "../../Entities/users";
 import { IusersService } from "../InterfaceServices/users.i";
 import bcrypt from 'bcrypt';
+import jsw from 'jsonwebtoken'
 import {
   ValidarFuncionParams,
   ValidarFuncionReq,
 } from "../../Helpers/ValidationParams";
+import { json } from "stream/consumers";
 
 export class UsersService implements IusersService {
   public user;
@@ -18,6 +20,7 @@ export class UsersService implements IusersService {
     // Inicializa el query global para usuarios
     this.user = new QueryGlobal(users);
   }
+  
 
   /**
    * Obtiene todos los usuarios del sistema
@@ -60,17 +63,20 @@ export class UsersService implements IusersService {
         return;
       }
       try {
-        const validU = await this.user.selectQuery("SELECT * FROM users WHERE username = ? and status=1",[username]);
-        if(Array.isArray(validU) || validU == null){
+        const getInfo = await this.user.selectQuery("SELECT * FROM users WHERE username = ? and status=1",[username]);
+        if(Array.isArray(getInfo) || getInfo == null){
           return res.status(500).json({msj:"El usuario no fue encontrado"})
         }else{
           
-          const match = await bcrypt.compare(String(userpassword), String(validU.userpassword));
+          const match = await bcrypt.compare(String(userpassword), String(getInfo.userpassword));
+          if(!match) return res.status(404).json({msj: 'Contraseña incorrecta'});
+          let usersW = await this.user.getByField('id_users',getInfo.id_users)
+          if(Array.isArray(usersW) || usersW == null)return
+            let nameW = usersW.username;
+            let id = usersW.id_users;
+            const token = jsw.sign({nameW}, '112oaasvsasasyw', {expiresIn: '1h'})
+            return res.status(200).json({token,id})
           
-          const resultMsj = match == true ? "Contraseña valida" :"Contraseña incorrecta";
-          const resultStatus = match == true ? 200: 500;
-
-          return res.status(resultStatus).json({msj: resultMsj})
         }
       } catch (error) {
         return res.status(500).json({ msj: "Error al obtener la lista por id" });

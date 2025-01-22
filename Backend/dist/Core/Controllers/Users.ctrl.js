@@ -30,6 +30,11 @@ class UsersControllers {
             return this.UsersServices.getAllUsers(res);
         });
     }
+    getUserById(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.UsersServices.findUsersById(req, res);
+        });
+    }
     insertU(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             return this.UsersServices.insertUsers(req, res);
@@ -58,6 +63,12 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], UsersControllers.prototype, "getU", null);
+__decorate([
+    (0, routes_dc_1.Get)("/usuarios/:id_users"),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], UsersControllers.prototype, "getUserById", null);
 __decorate([
     (0, routes_dc_1.Post)("/usuarios/crear"),
     __metadata("design:type", Function),

@@ -43,8 +43,10 @@ export class LoginComponent implements OnInit {
         userpassword: this.form.get("password")?.value
       }
       this._s.Login(login).subscribe({
-        next:()=>{
-          this._r.navigate(['/Home'])
+        next:(token)=>{
+          this._r.navigate(['/Home']);
+          localStorage.setItem("token", token.token)
+          localStorage.setItem("id", token.id)
         },
         error: (e: HttpErrorResponse)=>{
           console.log("error")

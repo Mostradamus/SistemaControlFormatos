@@ -13,6 +13,10 @@ export class UsersControllers{
     async getU(req:Request, res:Response){
         return this.UsersServices.getAllUsers(res);
     }
+    @Get("/usuarios/:id_users")
+    async getUserById(req:Request, res:Response){
+        return this.UsersServices.findUsersById(req,res);
+    }
     @Post("/usuarios/crear")
     async insertU(req:Request, res:Response){
         return this.UsersServices.insertUsers(req, res);

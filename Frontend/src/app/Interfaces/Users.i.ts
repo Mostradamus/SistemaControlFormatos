@@ -1,4 +1,4 @@
-export interface UsersInterfaces {
+export interface Users {
   id_users?: number;
   status?: number;
   username?: string;

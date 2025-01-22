@@ -16,6 +16,7 @@ exports.UsersService = void 0;
 const Query_1 = require("../../../Global/Config/Query");
 const users_1 = require("../../Entities/users");
 const bcrypt_1 = __importDefault(require("bcrypt"));
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const ValidationParams_1 = require("../../Helpers/ValidationParams");
 class UsersService {
     constructor() {
@@ -67,15 +68,21 @@ class UsersService {
                 return;
             }
             try {
-                const validU = yield this.user.selectQuery("SELECT * FROM users WHERE username = ? and status=1", [username]);
-                if (Array.isArray(validU) || validU == null) {
+                const getInfo = yield this.user.selectQuery("SELECT * FROM users WHERE username = ? and status=1", [username]);
+                if (Array.isArray(getInfo) || getInfo == null) {
                     return res.status(500).json({ msj: "El usuario no fue encontrado" });
                 }
                 else {
-                    const match = yield bcrypt_1.default.compare(String(userpassword), String(validU.userpassword));
-                    const resultMsj = match == true ? "Contraseña valida" : "Contraseña incorrecta";
-                    const resultStatus = match == true ? 200 : 500;
-                    return res.status(resultStatus).json({ msj: resultMsj });
+                    const match = yield bcrypt_1.default.compare(String(userpassword), String(getInfo.userpassword));
+                    if (!match)
+                        return res.status(404).json({ msj: 'Contraseña incorrecta' });
+                    let usersW = yield this.user.getByField('id_users', getInfo.id_users);
+                    if (Array.isArray(usersW) || usersW == null)
+                        return;
+                    let nameW = usersW.username;
+                    let id = usersW.id_users;
+                    const token = jsonwebtoken_1.default.sign({ nameW }, '112oaasvsasasyw', { expiresIn: '1h' });
+                    return res.status(200).json({ token, id });
                 }
             }
             catch (error) {
