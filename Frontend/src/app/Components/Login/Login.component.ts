@@ -44,7 +44,7 @@ export class LoginComponent implements OnInit {
       }
       this._s.Login(login).subscribe({
         next:(token)=>{
-          this._r.navigate(['/Home']);
+          this._r.navigate(['/Dashboard/Home']);
           localStorage.setItem("token", token.token)
           localStorage.setItem("id", token.id)
         },
