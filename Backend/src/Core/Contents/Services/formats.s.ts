@@ -85,6 +85,7 @@ export class FormatsServices implements IformatsService {
         "starting_order",
         starting_order
       );
+     
       if (
         (datosF &&
           typeof datosF === "object" &&
@@ -95,16 +96,18 @@ export class FormatsServices implements IformatsService {
           .status(500)
           .json({ msj: "El formato ya ha sido registrado" });
       }
+     
       const validOrd = await this.formatDetails.getByField(
         "formats_models",
         starting_order
-      );
-
+      ); 
+      
       if (validOrd !== null && typeof validOrd === "object") {
         return res
           .status(500)
           .json({ msj: "El formato ya existe en los detalles" });
       } else {
+       
         const oFormats = new formats();
         oFormats.status = 1;
         oFormats.registration_date = new Date();
@@ -112,9 +115,10 @@ export class FormatsServices implements IformatsService {
         oFormats.total = total;
         oFormats.turn = turn;
         oFormats.description = description;
-
+ 
+        console.log(req.body)
         const registF = await this.format.create(oFormats);
-
+        console.log(registF)
         let pInit = 7;
         let pInitSOrder = Number(starting_order);
         let totalCero = Number(total) + pInitSOrder;
@@ -125,9 +129,9 @@ export class FormatsServices implements IformatsService {
         ) {
           let currentLength = index.toString().length;
           let vlInit = pInit - currentLength;
-          let conString = "";
+          let conString = ""; 
           for (let i = 0; i < vlInit; i++) {
-            conString = "0" + conString;
+            conString = "0" + conString; 
           }
           let newString = conString + index;
 

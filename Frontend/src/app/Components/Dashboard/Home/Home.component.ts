@@ -8,20 +8,14 @@ import {ButtonModule} from 'primeng/button'
   selector: 'app-Home',
   templateUrl: './Home.component.html',
   styleUrls: ['./Home.component.css'],
-  imports: [CardModule,RippleModule,ButtonModule],
+  imports: [CardModule,RippleModule],
   providers:[UsersService]
 })
 export default class HomeComponent implements OnInit {
 
-  info: Users= {}
-  private infos = inject(UsersService);
   ngOnInit() {
-    this.infos.GetInfoUsuario(localStorage.getItem('id')).subscribe((data: Users)=>{
-      this.info = data
-    })
+   
   }
-  CerrarSession(){
-    
-  }
+ 
 
 }

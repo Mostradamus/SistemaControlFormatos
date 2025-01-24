@@ -103,7 +103,9 @@ class FormatsServices {
                     oFormats.total = total;
                     oFormats.turn = turn;
                     oFormats.description = description;
+                    console.log(req.body);
                     const registF = yield this.format.create(oFormats);
+                    console.log(registF);
                     let pInit = 7;
                     let pInitSOrder = Number(starting_order);
                     let totalCero = Number(total) + pInitSOrder;

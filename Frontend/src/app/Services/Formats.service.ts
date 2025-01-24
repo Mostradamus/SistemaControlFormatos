@@ -12,18 +12,18 @@ export class FormatsService {
     this.myApiUrl = 'api/v1/formatos';
   }
   getAllFormats(): Observable<any> {
-    return this.http.get(`${this.myAppUrl}/${this.myApiUrl}`);
+    return this.http.get(`${this.myAppUrl}${this.myApiUrl}`);
   }
 
   createFormat(formatData: any): Observable<any> {
     return this.http.post(
-      `${this.myAppUrl}/${this.myApiUrl}/crear`,
+      `${this.myAppUrl}${this.myApiUrl}/crear`,
       formatData
     );
   }
 
   deleteFormat(formatId: string): Observable<any> {
-    return this.http.delete(`${this.myAppUrl}/${this.myApiUrl}/eliminar`, {
+    return this.http.delete(`${this.myAppUrl}${this.myApiUrl}/eliminar`, {
       params: { id: formatId },
     });
   }
