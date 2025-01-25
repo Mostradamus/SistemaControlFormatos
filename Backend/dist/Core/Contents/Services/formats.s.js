@@ -75,8 +75,8 @@ class FormatsServices {
      */
     insertFormats(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { starting_order, total, turn, description } = req.body;
-            if ((0, ValidationParams_1.ValidarFuncionReq)({ starting_order, total, turn, description }, res)) {
+            const { id_area, starting_order, total, id_turn, description } = req.body;
+            if ((0, ValidationParams_1.ValidarFuncionReq)({ id_area, starting_order, total, id_turn, description }, res)) {
                 return;
             }
             try {
@@ -98,10 +98,11 @@ class FormatsServices {
                 else {
                     const oFormats = new formats_1.formats();
                     oFormats.status = 1;
+                    oFormats.id_area = id_area;
                     oFormats.registration_date = new Date();
                     oFormats.starting_order = starting_order;
                     oFormats.total = total;
-                    oFormats.turn = turn;
+                    oFormats.id_turn = id_turn;
                     oFormats.description = description;
                     console.log(req.body);
                     const registF = yield this.format.create(oFormats);

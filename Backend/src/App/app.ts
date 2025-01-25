@@ -26,7 +26,10 @@ import { Controllers } from '../Global/Config/base';
         private routes() {
             
             const controllersApi = [
-                Controllers.UsersControllers,Controllers.FormatsControllers
+                Controllers.UsersControllers,
+                Controllers.FormatsControllers,
+                Controllers.TurnoControllers,
+                Controllers.AreaControllers
             ];
             RegisterRoutes(this.app, controllersApi);
         }
