@@ -1,11 +1,7 @@
 import { Response, Request } from "express";
-
 import { QueryGlobal } from "../../../Global/Config/Query";
-
 import { formats } from "../../Entities/formats";
-
 import { formatsDetails } from "../../Entities/formatsDetails";
-
 import { IformatsService } from "../InterfaceServices/formats.i";
 
 import {
@@ -75,9 +71,9 @@ export class FormatsServices implements IformatsService {
    * 3. Genera detalles con formato numérico padded con ceros
    */
   async insertFormats(req: Request, res: Response) {
-    const { area, starting_order, total, turn, description }: formats = req.body;
+    const { id_area, starting_order, total, id_turn, description }: formats = req.body;
 
-    if (ValidarFuncionReq({ area, starting_order, total, turn, description }, res)) {
+    if (ValidarFuncionReq({ id_area, starting_order, total, id_turn, description }, res)) {
       return;
     }
     try {
@@ -110,11 +106,11 @@ export class FormatsServices implements IformatsService {
        
         const oFormats = new formats();
         oFormats.status = 1;
-        oFormats.area = area;
+        oFormats.id_area = id_area;
         oFormats.registration_date = new Date();
         oFormats.starting_order = starting_order;
         oFormats.total = total;
-        oFormats.turn = turn;
+        oFormats.id_turn = id_turn;
         oFormats.description = description;
  
         console.log(req.body)

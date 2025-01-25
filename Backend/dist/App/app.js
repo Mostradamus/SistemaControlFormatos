@@ -24,7 +24,10 @@ class App {
     }
     routes() {
         const controllersApi = [
-            base_1.Controllers.UsersControllers, base_1.Controllers.FormatsControllers
+            base_1.Controllers.UsersControllers,
+            base_1.Controllers.FormatsControllers,
+            base_1.Controllers.TurnoControllers,
+            base_1.Controllers.AreaControllers
         ];
         (0, register_c_1.RegisterRoutes)(this.app, controllersApi);
     }
