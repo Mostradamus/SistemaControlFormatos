@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import {Get,Post,Put,Delete} from "../../Global/Decorators/routes.dc"
+import {Get,Post,Delete} from "../../Global/Decorators/routes.dc"
 import { IformatsService } from "../Contents/InterfaceServices/formats.i";
 import { FormatsServices } from "../Contents/Services/formats.s";
 
