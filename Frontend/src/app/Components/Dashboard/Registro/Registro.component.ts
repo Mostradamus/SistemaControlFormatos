@@ -11,6 +11,10 @@ import { Formats } from '../../../Interfaces/Formats.i';
 import { HttpErrorResponse } from '@angular/common/http';
 import {ToastModule} from 'primeng/toast'
 import { MessageService } from 'primeng/api';
+import { AreasService } from '../../../Services/Areas.service';
+import { TurnService } from '../../../Services/Turn.service';
+import { Areas } from '../../../Interfaces/Areas.i';
+import { Turn } from '../../../Interfaces/Turn.i';
 
 interface City {
   name: string;
@@ -21,25 +25,31 @@ interface City {
   templateUrl: './Registro.component.html',
   styleUrls: ['./Registro.component.css',],
   imports :[DividerModule,InputTextModule, ReactiveFormsModule, FormsModule, CommonModule,Select,ButtonModule,ToastModule],
-  providers: [FormatsService,MessageService]
+  providers: [FormatsService,MessageService,AreasService,TurnService]
 })
 export default class RegistroComponent implements OnInit {
 
-  cities: City[] | undefined;
+  areas: Areas[] | undefined;
+  turnos: Turn[] | undefined;
   formulario!: FormGroup;
   selectedCity: City | undefined;
   private _fmt = inject(FormatsService)
   private _toast = inject(MessageService)
+  private _area = inject(AreasService)
+  private _turno = inject(TurnService)
   ngOnInit() {
-    this.cities = [
-      { name: 'DIA',id:1 },
-      { name: 'TARDE',id: 2 },
-    ];
+    this._turno.GetInfoTurno().subscribe((data:Turn[])=>{
+      this.turnos = data;
+    })
+    this._area.GetInfoAreas().subscribe((data:Areas[])=>{
+      this.areas = data;
+    })
 
     this.formulario = new FormGroup({
           nroFormato: new FormControl('', Validators.required),
           cantidad: new FormControl('', Validators.required),
           turno: new FormControl('', Validators.required),
+          area: new FormControl('', Validators.required),
           descripcion: new FormControl('', Validators.required)
         })
   }
@@ -48,7 +58,8 @@ export default class RegistroComponent implements OnInit {
       const formats: any = {
         starting_order: this.formulario.get("nroFormato")?.value,
         total: this.formulario.get("cantidad")?.value,
-        turn: this.formulario.get("turno")?.value,
+        id_turn: this.formulario.get("turno")?.value,
+        id_area: this.formulario.get("area")?.value,
         description: this.formulario.get("descripcion")?.value,
       }
       console.log('antes de enviar')
