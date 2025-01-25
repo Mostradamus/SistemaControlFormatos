@@ -4,6 +4,7 @@ export class formats {
   @PrimaryKey()
   id_formats?: number;
   status?: number;
+  area?: number;
   starting_order?: string;
   total?: number;
   registration_date?: Date;

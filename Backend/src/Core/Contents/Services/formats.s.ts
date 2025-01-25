@@ -75,9 +75,9 @@ export class FormatsServices implements IformatsService {
    * 3. Genera detalles con formato numérico padded con ceros
    */
   async insertFormats(req: Request, res: Response) {
-    const { starting_order, total, turn, description }: formats = req.body;
+    const { area, starting_order, total, turn, description }: formats = req.body;
 
-    if (ValidarFuncionReq({ starting_order, total, turn, description }, res)) {
+    if (ValidarFuncionReq({ area, starting_order, total, turn, description }, res)) {
       return;
     }
     try {
@@ -110,6 +110,7 @@ export class FormatsServices implements IformatsService {
        
         const oFormats = new formats();
         oFormats.status = 1;
+        oFormats.area = area;
         oFormats.registration_date = new Date();
         oFormats.starting_order = starting_order;
         oFormats.total = total;
