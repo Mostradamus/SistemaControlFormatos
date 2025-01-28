@@ -25,9 +25,14 @@ class FormatsControllers {
     constructor() {
         this.FormatsServices = new formats_s_1.FormatsServices();
     }
-    getF(req, res) {
+    getF(_req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             return this.FormatsServices.getAllFormats(res);
+        });
+    }
+    getListaF(_req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.FormatsServices.getAllFormatSp(res);
         });
     }
     insertF(req, res) {
@@ -48,6 +53,12 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], FormatsControllers.prototype, "getF", null);
+__decorate([
+    (0, routes_dc_1.Get)("/formatos/Lista"),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], FormatsControllers.prototype, "getListaF", null);
 __decorate([
     (0, routes_dc_1.Post)("/formatos/crear"),
     __metadata("design:type", Function),

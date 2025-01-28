@@ -6,15 +6,15 @@ import { Select } from 'primeng/select';
 import { ButtonModule} from 'primeng/button'
 
 import { CommonModule } from '@angular/common';
-import { FormatsService } from '../../../Services/Formats.service';
-import { Formats } from '../../../Interfaces/Formats.i';
+import { FormatsService } from '../../../../Services/Formats.service';
+import { Formats } from '../../../../Interfaces/Formats.i';
 import { HttpErrorResponse } from '@angular/common/http';
 import {ToastModule} from 'primeng/toast'
 import { MessageService } from 'primeng/api';
-import { AreasService } from '../../../Services/Areas.service';
-import { TurnService } from '../../../Services/Turn.service';
-import { Areas } from '../../../Interfaces/Areas.i';
-import { Turn } from '../../../Interfaces/Turn.i';
+import { AreasService } from '../../../../Services/Areas.service';
+import { TurnService } from '../../../../Services/Turn.service';
+import { Areas } from '../../../../Interfaces/Areas.i';
+import { Turn } from '../../../../Interfaces/Turn.i';
 
 interface City {
   name: string;

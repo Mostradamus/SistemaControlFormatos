@@ -10,8 +10,12 @@ export class FormatsControllers{
     }
 
     @Get("/formatos")
-    async getF(req:Request, res:Response){
+    async getF(_req:Request, res:Response){
         return this.FormatsServices.getAllFormats(res);
+    }
+    @Get("/formatos/Lista")
+    async getListaF(_req:Request, res:Response){
+        return this.FormatsServices.getAllFormatSp(res);
     }
     @Post("/formatos/crear")
     async insertF(req:Request, res:Response){

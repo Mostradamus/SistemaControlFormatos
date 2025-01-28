@@ -11,8 +11,9 @@ export const DASHBOARD_ROUTES: Routes = [
         loadComponent: ()=> import('./Home/Home.component')
     }
     ,{
-        path: 'Registro',
-        loadComponent: ()=> import('./Registro/Registro.component')
+        path: 'Formatos',
+        // loadComponent: ()=> import('./Formatos/Formatos.component'),
+        loadChildren: ()=> import('./Formatos/formatos.routes').then(m => m.FORMATOS_ROUTES)
     }
     ,{
         path: 'Detalle',

@@ -27,4 +27,8 @@ export class FormatsService {
       params: { id: formatId },
     });
   }
+
+  getAllFormatsSp(): Observable<any> {
+    return this.http.get(`${this.myAppUrl}${this.myApiUrl}/Lista`);
+  }
 }

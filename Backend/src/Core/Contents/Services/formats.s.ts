@@ -8,14 +8,20 @@ import {
   ValidarFuncionParams,
   ValidarFuncionReq,
 } from "../../Helpers/ValidationParams";
+import { StoreProcedure } from "../../../Global/Config/StoreProcedure";
+import { sp_mostrar_formats } from "../../Entities/Procedures/sp_mostrar_formats";
+import { json } from "stream/consumers";
 
 export class FormatsServices implements IformatsService {
   public format;
   public formatDetails;
+  
+  private sp;
 
   constructor() {
     this.format = new QueryGlobal(formats);
     this.formatDetails = new QueryGlobal(formatsDetails);
+    this.sp = new StoreProcedure();
   }
 
   /**
@@ -144,7 +150,14 @@ export class FormatsServices implements IformatsService {
       return res.status(500).json({ msj: "Error al obtener la lista por id" });
     }
   }
-
+  async getAllFormatSp(res: Response){
+    try {
+      const result = await this.sp.executeStoredProcedureForList<sp_mostrar_formats>("sp_mostrar_formats");
+      return res.status(200).json(result)
+    } catch (error) {
+      return res.status(500).json({ msj: "Error en el servidor" });
+    }
+  }
   /**
    * Eliminación lógica de un formato (cambio de status a 2)
    * @param req - Request con el ID del formato

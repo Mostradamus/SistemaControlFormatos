@@ -18,6 +18,7 @@ export class UsersService implements IusersService {
   public user;
   constructor() {
     // Inicializa el query global para usuarios
+
     this.user = new QueryGlobal(users);
   }
   
@@ -55,7 +56,7 @@ export class UsersService implements IusersService {
       return res.status(500).json({ msj: "Error al obtener la lista por id" });
     }
   }
-
+ 
 
   async loginValid(req: Request, res: Response){
       const {username, userpassword}: users = req.body;

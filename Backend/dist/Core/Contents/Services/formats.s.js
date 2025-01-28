@@ -14,10 +14,12 @@ const Query_1 = require("../../../Global/Config/Query");
 const formats_1 = require("../../Entities/formats");
 const formatsDetails_1 = require("../../Entities/formatsDetails");
 const ValidationParams_1 = require("../../Helpers/ValidationParams");
+const StoreProcedure_1 = require("../../../Global/Config/StoreProcedure");
 class FormatsServices {
     constructor() {
         this.format = new Query_1.QueryGlobal(formats_1.formats);
         this.formatDetails = new Query_1.QueryGlobal(formatsDetails_1.formatsDetails);
+        this.sp = new StoreProcedure_1.StoreProcedure();
     }
     /**
      * Obtiene todos los formatos registrados
@@ -129,6 +131,17 @@ class FormatsServices {
             }
             catch (error) {
                 return res.status(500).json({ msj: "Error al obtener la lista por id" });
+            }
+        });
+    }
+    getAllFormatSp(res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const result = yield this.sp.executeStoredProcedureForList("sp_mostrar_formats");
+                return res.status(200).json(result);
+            }
+            catch (error) {
+                return res.status(500).json({ msj: "Error en el servidor" });
             }
         });
     }

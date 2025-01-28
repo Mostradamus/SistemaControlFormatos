@@ -31,4 +31,5 @@ export interface IformatsService {
    * @param res - Objeto Response para enviar la respuesta
    */
   deleteFormatsById(req: Request, res: Response): void;
+  getAllFormatSp(res: Response): void;
 }
