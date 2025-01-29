@@ -15,6 +15,7 @@ import { AreasService } from '../../../../Services/Areas.service';
 import { TurnService } from '../../../../Services/Turn.service';
 import { Areas } from '../../../../Interfaces/Areas.i';
 import { Turn } from '../../../../Interfaces/Turn.i';
+import { Router } from '@angular/router';
 
 interface City {
   name: string;
@@ -37,6 +38,7 @@ export default class RegistroComponent implements OnInit {
   private _toast = inject(MessageService)
   private _area = inject(AreasService)
   private _turno = inject(TurnService)
+  public _router = inject(Router);
   ngOnInit() {
     this._turno.GetInfoTurno().subscribe((data:Turn[])=>{
       this.turnos = data;
@@ -72,5 +74,8 @@ export default class RegistroComponent implements OnInit {
         }
       })
     }
+  }
+  Regresar(){
+    this._router.navigate(["/Dashboard/Formatos"])
   }
 }

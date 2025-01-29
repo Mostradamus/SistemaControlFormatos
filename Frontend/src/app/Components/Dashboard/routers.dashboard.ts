@@ -9,6 +9,10 @@ export const DASHBOARD_ROUTES: Routes = [
     {
         path:'Home',
         loadComponent: ()=> import('./Home/Home.component')
+    },{
+        path: 'Formatos',
+        loadComponent: ()=> import("./Formatos/Formatos.component")
+
     }
     
     ,{

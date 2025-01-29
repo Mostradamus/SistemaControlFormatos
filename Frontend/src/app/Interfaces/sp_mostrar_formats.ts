@@ -5,5 +5,7 @@ export interface sp_mostrar_formats{
     area        : string;
     nrformatos  : string;
     turno       : string;
+    nrFinal : string;
+    nroInicio : string;
     fecha_registro: string;
 }
