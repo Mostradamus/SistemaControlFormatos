@@ -8,18 +8,20 @@
   >
       <ng-template #header>
           <tr>
-              <th style="width:25%">FECHA REGISTRO</th>
               <th style="width:25%">AREA</th>
+              <th style="width:25%">RANGO</th>
               <th style="width:25%">CANTIDAD</th>
               <th style="width:25%">TURNO</th>
+              <th style="width:25%">FECHA REGISTRO</th>
           </tr>
       </ng-template>
       <ng-template #body let-customer>
           <tr>
-              <td>{{ customer.fecha_registro }}</td>
               <td>{{ customer.area}}</td>
-              <td>{{ customer.nrformatos }}</td>
+              <td>{{ customer.nroInicio }}- {{customer.nrFinal}}</td>
+              <td>{{ customer.total }}</td>
               <td>{{ customer.turno }}</td>
+              <td>{{ customer.fecha_registro }}</td>
           </tr>
       </ng-template>
   </p-table>
