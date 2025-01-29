@@ -10,10 +10,18 @@ export const DASHBOARD_ROUTES: Routes = [
         path:'Home',
         loadComponent: ()=> import('./Home/Home.component')
     }
+    
     ,{
-        path: 'Formatos',
-        // loadComponent: ()=> import('./Formatos/Formatos.component'),
-        loadChildren: ()=> import('./Formatos/formatos.routes').then(m => m.FORMATOS_ROUTES)
+        path: 'Formatos/Lista',
+        // component: FormatsComponent,
+        loadComponent: ()=> import('./Formatos/lista/lista.component'),
+        // loadChildren: ()=> import('./Formatos/formatos.routes').then(m => m.FORMATOS_ROUTES)
+    }
+    ,{
+        path: 'Formatos/Registro',
+        // component: FormatsComponent,
+        loadComponent: ()=> import('./Formatos/Registro/Registro.component'),
+        // loadChildren: ()=> import('./Formatos/formatos.routes').then(m => m.FORMATOS_ROUTES)
     }
     ,{
         path: 'Detalle',
