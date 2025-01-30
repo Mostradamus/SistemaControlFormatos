@@ -23,7 +23,7 @@ export class StoreProcedure {
       console.log(params)
       // Construcción dinámica de la consulta con placeholders para los parámetros.
       const query = `CALL ${spName}(${params.map(() => "?").join(", ")})`;
-      const result = await this.executeQuery(query, params);
+      const result = await this.executeQuery(query, 1,params);
       const q = result; // Primera parte del resultado.
 
 
@@ -64,14 +64,18 @@ export class StoreProcedure {
   ): Promise<T[]> {
     // Construcción dinámica de la consulta.
     const query = `CALL ${spName}(${params.map(() => "?").join(", ")})`;
-    const result = await this.executeQuery(query, params);
-
+    const result = await this.executeQuery(query,0, params);
+    console.log(query)
+    console.log(1)
+    console.log(result)
     // Si hay resultados, los mapea o los retorna directamente.
     if (Array.isArray(result) && result.length > 0) {
       const rows = result[0];
       return entity
         ? (rows.map((row: any) => this.mapToEntity(row, entity)) as T[])
         : (rows as T[]);
+    }else{
+
     }
     return []; // Retorna una lista vacía si no hay resultados.
   }
@@ -84,16 +88,32 @@ export class StoreProcedure {
    * @returns Resultados de la consulta como un array de RowDataPacket.
    */
   protected async executeQuery(
-    query: string,
+    query: string,tipo: number = 0,
     ...params: any[]
   ): Promise<RowDataPacket[]> {
     // Obtiene una conexión del pool.
     const conn = await pool.getConnection();
     try {
       // Ejecuta la consulta con los parámetros.
-      const [result]: any[] = await conn.query(query, params[0]);
-      const [resT]:any[] = result[0];
-      return resT as RowDataPacket[];
+      if(tipo == 1){
+        params = params[0]
+      }
+      const [result]: any[] = await conn.query(query, params);
+      console.log(result)
+      if(tipo == 1){
+        const [resT]:any[] = result[0];  // Suponiendo que el primer elemento de `result` es el objeto que necesitas.
+      console.log(resT);
+      return resT; 
+      }else{
+
+        const f = result;  // `result` ya es un arreglo
+        console.log(f);
+        return f as RowDataPacket[]; 
+      }
+      // console.log(f)
+
+      // console.log(1)
+      // return resT as RowDataPacket[];
     } finally {
       // Libera la conexión al finalizar.
       conn.release();

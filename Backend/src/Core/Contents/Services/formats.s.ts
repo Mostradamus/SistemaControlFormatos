@@ -14,7 +14,7 @@ import { sp_mostrar_formats, sp_verificar_registro } from "../../Entities/Proced
 export class FormatsServices implements IformatsService {
   public format;
   public formatDetails;
-  
+
   private sp;
 
   constructor() {
@@ -82,13 +82,14 @@ export class FormatsServices implements IformatsService {
     }
     try {
       const datosF = await this.format.getByField("starting_order",starting_order);
+
       if (
         (datosF && typeof datosF === "object" && Object.keys(datosF).length > 0) || datosF != null) {
         return res.status(500).json({ msj: "El formato ya ha sido registrado" });
       }
       const validOrd = await this.formatDetails.getByField("formats_models",starting_order
       ); 
-      
+
       if (validOrd !== null && typeof validOrd === "object") {
         return res.status(500).json({ msj: "El formato ya existe en los detalles" });
       } else {
@@ -105,8 +106,9 @@ export class FormatsServices implements IformatsService {
         oFormats.total = total;
         oFormats.id_turn = id_turn;
         oFormats.description = description;
- 
+
         const registF = await this.format.create(oFormats);
+
         let pInit = 7;
         let pInitSOrder = Number(starting_order);
         for (
@@ -116,9 +118,9 @@ export class FormatsServices implements IformatsService {
         ) {
           let currentLength = index.toString().length;
           let vlInit = pInit - currentLength;
-          let conString = ""; 
+          let conString = "";
           for (let i = 0; i < vlInit; i++) {
-            conString = "0" + conString; 
+            conString = "0" + conString;
           }
           let newString = conString + index;
 
@@ -134,10 +136,14 @@ export class FormatsServices implements IformatsService {
       return res.status(500).json({ msj: "Error al obtener la lista por id" });
     }
   }
-  async getAllFormatSp(res: Response){
+  async getAllFormatSp(res: Response) {
     try {
-      const result = await this.sp.executeStoredProcedureForList<sp_mostrar_formats>("sp_mostrar_formats");
-      return res.status(200).json(result)
+      const result =
+        await this.sp.executeStoredProcedureForList<sp_mostrar_formats>(
+          "sp_mostrar_formats"
+        );
+        console.log(result)
+      return res.status(200).json(result);
     } catch (error) {
       return res.status(500).json({ msj: "Error en el servidor" });
     }
