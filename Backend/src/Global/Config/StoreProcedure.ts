@@ -20,10 +20,12 @@ export class StoreProcedure {
     entity?: new () => T
   ): Promise<T | null> {
     try {
+      console.log(params)
       // Construcción dinámica de la consulta con placeholders para los parámetros.
       const query = `CALL ${spName}(${params.map(() => "?").join(", ")})`;
       const result = await this.executeQuery(query, params);
-      const q = result[0]; // Primera parte del resultado.
+      const q = result; // Primera parte del resultado.
+
 
       // Si el resultado es válido y tiene datos.
       if (Array.isArray(result) && result.length > 0) {
@@ -31,8 +33,9 @@ export class StoreProcedure {
         return entity
           ? (rows.map((row: any) => this.mapToEntity(row, entity)) as T) // Mapea a la entidad si está definida.
           : (rows as T); // Retorna las filas sin mapear.
+      }else{
+        return q as T
       }
-      return null; // Retorna null si no hay resultados.
     } catch (error) {
       // Manejo de errores con registro en consola y lanzamiento de excepción.
       console.error(
@@ -86,11 +89,11 @@ export class StoreProcedure {
   ): Promise<RowDataPacket[]> {
     // Obtiene una conexión del pool.
     const conn = await pool.getConnection();
-
     try {
       // Ejecuta la consulta con los parámetros.
-      const [result] = await conn.query(query, params);
-      return result as RowDataPacket[];
+      const [result]: any[] = await conn.query(query, params[0]);
+      const [resT]:any[] = result[0];
+      return resT as RowDataPacket[];
     } finally {
       // Libera la conexión al finalizar.
       conn.release();

@@ -30,10 +30,11 @@ class StoreProcedure {
     executeStoredProcedureForGet(spName_1) {
         return __awaiter(this, arguments, void 0, function* (spName, params = [], entity) {
             try {
+                console.log(params);
                 // Construcción dinámica de la consulta con placeholders para los parámetros.
                 const query = `CALL ${spName}(${params.map(() => "?").join(", ")})`;
                 const result = yield this.executeQuery(query, params);
-                const q = result[0]; // Primera parte del resultado.
+                const q = result; // Primera parte del resultado.
                 // Si el resultado es válido y tiene datos.
                 if (Array.isArray(result) && result.length > 0) {
                     const rows = result[0]; // Obtiene las filas resultantes.
@@ -41,7 +42,9 @@ class StoreProcedure {
                         ? rows.map((row) => this.mapToEntity(row, entity)) // Mapea a la entidad si está definida.
                         : rows; // Retorna las filas sin mapear.
                 }
-                return null; // Retorna null si no hay resultados.
+                else {
+                    return q;
+                }
             }
             catch (error) {
                 // Manejo de errores con registro en consola y lanzamiento de excepción.
@@ -87,8 +90,9 @@ class StoreProcedure {
             const conn = yield db_cn_1.default.getConnection();
             try {
                 // Ejecuta la consulta con los parámetros.
-                const [result] = yield conn.query(query, params);
-                return result;
+                const [result] = yield conn.query(query, params[0]);
+                const [resT] = result[0];
+                return resT;
             }
             finally {
                 // Libera la conexión al finalizar.

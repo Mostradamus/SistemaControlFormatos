@@ -83,21 +83,18 @@ class FormatsServices {
             }
             try {
                 const datosF = yield this.format.getByField("starting_order", starting_order);
-                if ((datosF &&
-                    typeof datosF === "object" &&
-                    Object.keys(datosF).length > 0) ||
-                    datosF != null) {
-                    return res
-                        .status(500)
-                        .json({ msj: "El formato ya ha sido registrado" });
+                if ((datosF && typeof datosF === "object" && Object.keys(datosF).length > 0) || datosF != null) {
+                    return res.status(500).json({ msj: "El formato ya ha sido registrado" });
                 }
                 const validOrd = yield this.formatDetails.getByField("formats_models", starting_order);
                 if (validOrd !== null && typeof validOrd === "object") {
-                    return res
-                        .status(500)
-                        .json({ msj: "El formato ya existe en los detalles" });
+                    return res.status(500).json({ msj: "El formato ya existe en los detalles" });
                 }
                 else {
+                    const estado = yield this.sp.executeStoredProcedureForGet("sp_verificar_registro", [id_area, new Date, id_turn]);
+                    if ((estado === null || estado === void 0 ? void 0 : estado.estado) == 1) {
+                        return res.status(500).json({ msj: 'No se permite registra los datos por repeticion de algunos datos' });
+                    }
                     const oFormats = new formats_1.formats();
                     oFormats.status = 1;
                     oFormats.id_area = id_area;
@@ -106,12 +103,9 @@ class FormatsServices {
                     oFormats.total = total;
                     oFormats.id_turn = id_turn;
                     oFormats.description = description;
-                    console.log(req.body);
                     const registF = yield this.format.create(oFormats);
-                    console.log(registF);
                     let pInit = 7;
                     let pInitSOrder = Number(starting_order);
-                    let totalCero = Number(total) + pInitSOrder;
                     for (let index = pInitSOrder; index < Number(total) + pInitSOrder; index++) {
                         let currentLength = index.toString().length;
                         let vlInit = pInit - currentLength;

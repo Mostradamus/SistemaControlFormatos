@@ -9,8 +9,7 @@ import {
   ValidarFuncionReq,
 } from "../../Helpers/ValidationParams";
 import { StoreProcedure } from "../../../Global/Config/StoreProcedure";
-import { sp_mostrar_formats } from "../../Entities/Procedures/sp_mostrar_formats";
-import { json } from "stream/consumers";
+import { sp_mostrar_formats, sp_verificar_registro } from "../../Entities/Procedures/sp_mostrar_formats";
 
 export class FormatsServices implements IformatsService {
   public format;
@@ -78,37 +77,25 @@ export class FormatsServices implements IformatsService {
    */
   async insertFormats(req: Request, res: Response) {
     const { id_area, starting_order, total, id_turn, description }: formats = req.body;
-
     if (ValidarFuncionReq({ id_area, starting_order, total, id_turn, description }, res)) {
       return;
     }
     try {
-      const datosF = await this.format.getByField(
-        "starting_order",
-        starting_order
-      );
-     
+      const datosF = await this.format.getByField("starting_order",starting_order);
       if (
-        (datosF &&
-          typeof datosF === "object" &&
-          Object.keys(datosF).length > 0) ||
-        datosF != null
-      ) {
-        return res
-          .status(500)
-          .json({ msj: "El formato ya ha sido registrado" });
+        (datosF && typeof datosF === "object" && Object.keys(datosF).length > 0) || datosF != null) {
+        return res.status(500).json({ msj: "El formato ya ha sido registrado" });
       }
-     
-      const validOrd = await this.formatDetails.getByField(
-        "formats_models",
-        starting_order
+      const validOrd = await this.formatDetails.getByField("formats_models",starting_order
       ); 
       
       if (validOrd !== null && typeof validOrd === "object") {
-        return res
-          .status(500)
-          .json({ msj: "El formato ya existe en los detalles" });
+        return res.status(500).json({ msj: "El formato ya existe en los detalles" });
       } else {
+        const estado = await this.sp.executeStoredProcedureForGet<sp_verificar_registro>("sp_verificar_registro", [id_area, new Date, id_turn]);
+        if (estado?.estado == 1) {
+          return res.status(500).json({msj: 'No se permite registra los datos por repeticion de algunos datos'})
+        }
        
         const oFormats = new formats();
         oFormats.status = 1;
@@ -119,12 +106,9 @@ export class FormatsServices implements IformatsService {
         oFormats.id_turn = id_turn;
         oFormats.description = description;
  
-        console.log(req.body)
         const registF = await this.format.create(oFormats);
-        console.log(registF)
         let pInit = 7;
         let pInitSOrder = Number(starting_order);
-        let totalCero = Number(total) + pInitSOrder;
         for (
           let index = pInitSOrder;
           index < Number(total) + pInitSOrder;

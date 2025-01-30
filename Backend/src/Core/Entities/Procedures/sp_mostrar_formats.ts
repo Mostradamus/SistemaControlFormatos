@@ -9,3 +9,7 @@ export class sp_mostrar_formats{
     turno       : string = '';
     fecha_registro: string = '';
 }
+
+export class sp_verificar_registro{
+    estado: number= 0;
+}
