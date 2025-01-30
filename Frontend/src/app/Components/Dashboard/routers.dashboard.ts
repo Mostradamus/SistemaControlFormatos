@@ -28,6 +28,12 @@ export const DASHBOARD_ROUTES: Routes = [
         // loadChildren: ()=> import('./Formatos/formatos.routes').then(m => m.FORMATOS_ROUTES)
     }
     ,{
+        path: 'Control',
+        // component: FormatsComponent,
+        loadComponent: ()=> import('./Control/Control.component'),
+        // loadChildren: ()=> import('./Formatos/formatos.routes').then(m => m.FORMATOS_ROUTES)
+    }
+    ,{
         path: 'Detalle',
         loadComponent: ()=> import('./Detalle/Detalle.component')
     }

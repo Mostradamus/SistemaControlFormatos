@@ -132,6 +132,7 @@ class FormatsServices {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const result = yield this.sp.executeStoredProcedureForList("sp_mostrar_formats");
+                console.log(result);
                 return res.status(200).json(result);
             }
             catch (error) {
