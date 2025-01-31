@@ -6,6 +6,17 @@ export interface sp_mostrar_formats{
     nrformatos  : string;
     turno       : string;
     nrFinal : string;
+    description: string;
     nroInicio : string;
     fecha_registro: string;
+}
+export interface GetGroupedFormatsByDate{
+    name : string ;
+    id_areas : number;
+}
+export interface GetFormatDetailsByAreaAndDate{
+    formats_models: string;
+    id_area: number;
+    id_formats_details: number;
+    status : number;
 }

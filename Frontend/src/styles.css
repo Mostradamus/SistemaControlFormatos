@@ -14,7 +14,10 @@ html{
 .f-small{
     font-family: "Kanit", serif;
 }
-app-registro, app-home, app-detalle, app-lista, app-formatos, app-control{
+app-registro, app-home,
+app-detalle, app-lista, 
+app-formatos, app-control,
+app-areas, app-revision{
 
     width: -webkit-fill-available;
 }

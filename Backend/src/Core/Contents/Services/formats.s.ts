@@ -140,7 +140,7 @@ export class FormatsServices implements IformatsService {
     try {
       const result =
         await this.sp.executeStoredProcedureForList<sp_mostrar_formats>(
-          "sp_mostrar_formats"
+          "sp_mostrar_formats",0
         );
         console.log(result)
       return res.status(200).json(result);
