@@ -36,25 +36,56 @@ export class LoginComponent implements OnInit {
    private _s = inject(UsersService);
    private _r = inject(Router);
 
-  Login(){
-    if(this.form.valid){
-      const login: any ={
+   Login() {
+    if (this.form.valid) {
+      const login: any = {
         username: this.form.get("username")?.value,
         userpassword: this.form.get("password")?.value
-      }
+      };
+  
       this._s.Login(login).subscribe({
-        next:(token)=>{
+        next: (token) => {
           this._r.navigate(['/Dashboard/Home']);
-          localStorage.setItem("token", token.token)
-          localStorage.setItem("id", token.id)
+  
+          const expirationTime = new Date().getTime() + 60 * 60 * 1000; // 1 hora en milisegundos
+          localStorage.setItem("token", token.token);
+          localStorage.setItem("id", token.id);
+          localStorage.setItem("token_expiration", expirationTime.toString());
+  
+          this.startTokenExpirationTimer(); // Iniciar temporizador
         },
-        error: (e: HttpErrorResponse)=>{
-          console.log("error")
+        error: (e: HttpErrorResponse) => {
+          console.log("error");
         }
-
-        
-      })
+      });
     }
   }
+  
+  /**
+   * Inicia el temporizador para eliminar el token cuando expire
+   */
+  startTokenExpirationTimer() {
+    const expirationTime = parseInt(localStorage.getItem("token_expiration") || "0", 10);
+    const timeLeft = expirationTime - new Date().getTime();
+  
+    if (timeLeft > 0) {
+      setTimeout(() => {
+        this.logout();
+      }, timeLeft);
+    } else {
+      this.logout();
+    }
+  }
+  
+  /**
+   * Cierra la sesión y redirige al login
+   */
+  logout() {
+    localStorage.removeItem("token");
+    localStorage.removeItem("id");
+    localStorage.removeItem("token_expiration");
+    this._r.navigate(["/Login"]); // Redirigir al login
+  }
+  
 
 }
