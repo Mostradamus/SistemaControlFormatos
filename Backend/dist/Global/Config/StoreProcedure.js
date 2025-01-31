@@ -62,17 +62,21 @@ class StoreProcedure {
      * @param entity - (Opcional) Clase para mapear cada resultado a una entidad.
      * @returns Una lista de objetos del tipo T.
      */
-    executeStoredProcedureForList(spName_1) {
-        return __awaiter(this, arguments, void 0, function* (spName, params = [], entity) {
+    executeStoredProcedureForList(spName_1, tipo_1) {
+        return __awaiter(this, arguments, void 0, function* (spName, tipo, params = [], entity) {
             // Construcción dinámica de la consulta.
             const query = `CALL ${spName}(${params.map(() => "?").join(", ")})`;
-            const result = yield this.executeQuery(query, 0, params);
-            console.log(query);
-            console.log(1);
-            console.log(result);
+            const result = yield this.executeQuery(query, tipo, params);
             // Si hay resultados, los mapea o los retorna directamente.
             if (Array.isArray(result) && result.length > 0) {
-                const rows = result[0];
+                let ress;
+                if (tipo == 1) {
+                    ress = result;
+                }
+                else {
+                    ress = result[0];
+                }
+                const rows = ress;
                 return entity
                     ? rows.map((row) => this.mapToEntity(row, entity))
                     : rows;
@@ -98,16 +102,21 @@ class StoreProcedure {
                 if (tipo == 1) {
                     params = params[0];
                 }
+                else {
+                }
+                // console.log(params)
                 const [result] = yield conn.query(query, params);
                 console.log(result);
                 if (tipo == 1) {
-                    const [resT] = result[0]; // Suponiendo que el primer elemento de `result` es el objeto que necesitas.
+                    const [resT] = result; // Suponiendo que el primer elemento de `result` es el objeto que necesitas.
                     console.log(resT);
+                    console.log(22);
                     return resT;
                 }
                 else {
+                    console.log(22);
                     const f = result; // `result` ya es un arreglo
-                    console.log(f);
+                    // console.log(f);
                     return f;
                 }
                 // console.log(f)

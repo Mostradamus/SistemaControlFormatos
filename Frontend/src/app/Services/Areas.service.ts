@@ -14,4 +14,10 @@ export class AreasService {
   GetInfoAreas(): Observable<any> {
     return this.http.get(`${this.myAppUrl}${this.myApiUrl}`);
   }
+  GetInfoAreasRevision(): Observable<any> {
+    return this.http.get(`${this.myAppUrl}${this.myApiUrl}/revision`);
+  }
+  GetInfoAreasRevisionDetalle(id:number, estado: number): Observable<any> {
+    return this.http.get(`${this.myAppUrl}${this.myApiUrl}/detalles/${id}/estado/${estado}`);
+  }
 }

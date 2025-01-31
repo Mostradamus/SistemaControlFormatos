@@ -1,0 +1,64 @@
+<div class="card p-6">
+  <div class="grid justify-content-center  gap-4">
+      <div class="col-12">
+          <p-card>
+              <div class="flex justify-content-between ">
+                  <p class="m-0 font-bold">REVISION DE FORMATOS</p>  <p-button label="Regresar" icon="pi pi-arrow-circle-left" severity="secondary" (onClick)="Regresar()" />
+
+              </div>
+          </p-card>
+      </div>
+      <div class="col-12 gap-2">
+
+        @for (taba of lista; track taba.id_areas) {
+          <p-card class="m-2">
+            <div class="flex justify-content-between ">
+                <p class="m-0 font-bold">{{taba.name}}</p>  
+                <div class="flex gap-2">
+
+                  <p-button icon="pi pi-check-square" severity="secondary" (onClick)="abriDetalle(taba.id_areas, 1)"/>
+                  <p-button icon="pi pi-eye" severity="secondary" (onClick)="abrirDetalle2(taba.id_areas, 2)"/>
+                </div>
+                
+              </div>
+              <div class="grid justify-content-center">
+                @if(visualizacion[taba.id_areas!]){
+                  <p-table *ngIf="data && data.length > 0" [value]="data" class="col-6" [tableStyle]="{ 'min-width': '28rem' }"
+                  [scrollable]="true" 
+                  scrollHeight="400px">>
+                    <ng-template #header>
+                        <tr>
+                            <th>NRO FORMATO</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template #body let-data>
+                        <tr>
+                         
+                            <td [ngClass]="{
+                              'text-orange-500': data.status === 1, 
+                              'text-green-400': data.status === 2
+                            }">{{ data.formats_models }}</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+                <p *ngIf="!data || data.length === 0" class="text-center text-muted">
+                  No hay datos disponibles.
+                </p>
+  
+                }
+
+              </div>
+        </p-card>
+
+        }
+        <!-- <p-accordion [value]="0">
+                <p-accordion-panel [value]="tab.id_areas!">
+                    <p-accordion-header>{{ tab.name }}</p-accordion-header>
+                    <p-accordion-content>
+                        data empleandoz
+                    </p-accordion-content>
+                </p-accordion-panel>
+        </p-accordion> -->
+    </div>
+  </div>
+</div>

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import {CardModule} from 'primeng/card'
 @Component({
   selector: 'app-control',
@@ -9,9 +10,23 @@ import {CardModule} from 'primeng/card'
 })
 export default class ControlComponent implements OnInit {
 
-  constructor() { }
-
+  
+ public _R = inject(Router)
   ngOnInit() {
+  }
+  redireccionar(cmando:number){
+    let ruta = "";
+    switch(cmando){
+        case 1:
+            ruta = "Revision";
+            break;
+        case 2:
+            ruta = "Areas";
+
+            break;
+    }
+    this._R.navigate(["/Dashboard/Control/"+ruta])
+
   }
 
 }

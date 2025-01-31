@@ -1,8 +1,11 @@
 <div class="card p-6">
     <div class="grid justify-content-center  gap-8">
         <div class="col-12">
-            <p-card header="LISTA DE FORMATOS">
-                <!-- <p class="m-0">En esta sección usted seleccionara las opciones disponibles aqui</p> -->
+            <p-card>
+                <div class="flex justify-content-between ">
+                    <p class="m-0 font-bold">LISTA DE FORMATOS</p>  <p-button label="Regresar" icon="pi pi-arrow-circle-left" severity="secondary" (onClick)="Regresar()" />
+
+                </div>
             </p-card>
         </div>
     </div>
@@ -15,11 +18,12 @@
   >
       <ng-template #header>
           <tr>
-              <th style="width:25%">AREA</th>
-              <th style="width:25%">RANGO</th>
-              <th style="width:25%">CANTIDAD</th>
-              <th style="width:25%">TURNO</th>
-              <th style="width:25%">FECHA REGISTRO</th>
+              <th style="width:10%">AREA</th>
+              <th style="width:15%">RANGO</th>
+              <th style="width:10%">CANTIDAD</th>
+              <th style="width:10%">TURNO</th>
+              <th style="width:15%">DESCRIPCION</th>
+              <th style="width:15%">FECHA REGISTRO</th>
           </tr>
       </ng-template>
       <ng-template #body let-customer>
@@ -28,6 +32,7 @@
               <td>{{ customer.nroInicio }}- {{customer.nrFinal}}</td>
               <td>{{ customer.total }}</td>
               <td>{{ customer.turno }}</td>
+              <td>{{ customer.description }}</td>
               <td>{{ customer.fecha_registro }}</td>
           </tr>
       </ng-template>

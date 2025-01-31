@@ -34,6 +34,14 @@ export const DASHBOARD_ROUTES: Routes = [
         // loadChildren: ()=> import('./Formatos/formatos.routes').then(m => m.FORMATOS_ROUTES)
     }
     ,{
+        path: 'Control/Revision',
+        loadComponent: ()=> import('./Control/Revision/Revision.component'),
+    }
+    ,{
+        path: 'Control/Areas',
+        loadComponent: ()=> import('./Control/Areas/Areas.component'),
+    }
+    ,{
         path: 'Detalle',
         loadComponent: ()=> import('./Detalle/Detalle.component')
     }

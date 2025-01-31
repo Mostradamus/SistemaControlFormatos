@@ -7,9 +7,20 @@ export class sp_mostrar_formats{
     nroInicio   : string = '';
     nrFinal     : string = '';
     turno       : string = '';
+    description : string = '';
     fecha_registro: string = '';
 }
 
 export class sp_verificar_registro{
     estado: number= 0;
+}
+export class GetGroupedFormatsByDate{
+    name : string = '';
+    id_areas : number= 0;
+}
+export class GetFormatDetailsByAreaAndDate{
+    formats_models	: string ='';
+    id_area : number = 0;
+    id_formats_details : number= 0;
+    status: number = 0;
 }

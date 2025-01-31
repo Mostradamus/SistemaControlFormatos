@@ -15,4 +15,13 @@ export class AreaControllers{
     async getAllAreas(req:Request, res:Response){
         return this.areaServices.getAllArea(res);
     }
+
+    @Get("/areas/revision")
+    async getAreasRevision(req:Request, res:Response){
+        return this.areaServices.getAreasRevision(res);
+    }
+    @Get("/areas/detalles/:id_area/estado/:status")
+    async getAreasRevisionDetalle(req:Request, res:Response){
+        return this.areaServices.getAreasRevisionDetalle(req,res);
+    }
 }
