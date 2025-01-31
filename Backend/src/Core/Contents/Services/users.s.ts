@@ -65,6 +65,7 @@ export class UsersService implements IusersService {
       }
       try {
         const getInfo = await this.user.selectQuery("SELECT * FROM users WHERE username = ? and status=1",[username]);
+        console.log(getInfo)
         if(Array.isArray(getInfo) || getInfo == null){
           return res.status(500).json({msj:"El usuario no fue encontrado"})
         }else{
