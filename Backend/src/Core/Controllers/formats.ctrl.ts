@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import {Get,Post,Delete} from "../../Global/Decorators/routes.dc"
+import {Get,Post,Delete, Put} from "../../Global/Decorators/routes.dc"
 import { IformatsService } from "../Contents/InterfaceServices/formats.i";
 import { FormatsServices } from "../Contents/Services/formats.s";
 
@@ -24,5 +24,9 @@ export class FormatsControllers{
     @Delete("/formatos/eliminar")
     async deleteF(req:Request, res:Response){
         return this.FormatsServices.deleteFormatsById(req, res);
+    }
+    @Put('/formatos/actualizarEstado/:id_formats_details')
+    async ActualizarRevision(req:Request, res:Response){
+        return this.FormatsServices.updateFormatsDetails(req, res);
     }
 }

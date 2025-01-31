@@ -5,7 +5,6 @@ import { areas } from "../../Entities/areas";
 import { StoreProcedure } from "../../../Global/Config/StoreProcedure";
 import { GetFormatDetailsByAreaAndDate, GetGroupedFormatsByDate } from "../../Entities/Procedures/sp_mostrar_formats";
 import { formats } from "../../Entities/formats";
-import { ValidarFuncionParams } from "../../Helpers/ValidationParams";
 
 export class AreaServices implements IAreaService{
   public area; 

@@ -31,4 +31,8 @@ export class FormatsService {
   getAllFormatsSp(): Observable<any> {
     return this.http.get(`${this.myAppUrl}${this.myApiUrl}/Lista`);
   }
+  updateFormatsDetails(id: any): Observable<any>{
+    return this.http.put(`${this.myAppUrl}${this.myApiUrl}/actualizarEstado/${id}`, {
+    });
+  }
 }

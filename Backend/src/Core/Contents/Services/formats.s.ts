@@ -179,4 +179,25 @@ export class FormatsServices implements IformatsService {
       return res.status(500).json({ msj: "Error en el servidor" });
     }
   }
+  async updateFormatsDetails(req: Request, res: Response){
+    const {id_formats_details}: formatsDetails = req.params;
+    if (ValidarFuncionParams(req, res, "id_formats_details")) {
+      return;
+    }
+
+    try {
+      const updateFD = await this.formatDetails.getByField("id_formats_details",id_formats_details);
+      if (updateFD == null || Array.isArray(updateFD)) {
+        return res.status(404).json({
+          msj: "No se encontró el formato",
+        });
+      }
+      updateFD.status = 2;
+
+      await this.formatDetails.update(updateFD);
+    } catch (error) {
+      return res.status(500).json({ msj: "Error en el servidor" });
+    }
+
+  }
 }

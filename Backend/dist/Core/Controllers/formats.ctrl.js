@@ -45,6 +45,11 @@ class FormatsControllers {
             return this.FormatsServices.deleteFormatsById(req, res);
         });
     }
+    ActualizarRevision(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.FormatsServices.updateFormatsDetails(req, res);
+        });
+    }
 }
 exports.FormatsControllers = FormatsControllers;
 __decorate([
@@ -71,3 +76,9 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], FormatsControllers.prototype, "deleteF", null);
+__decorate([
+    (0, routes_dc_1.Put)('/formatos/actualizarEstado/:id_formats_details'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], FormatsControllers.prototype, "ActualizarRevision", null);

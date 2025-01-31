@@ -32,4 +32,5 @@ export interface IformatsService {
    */
   deleteFormatsById(req: Request, res: Response): void;
   getAllFormatSp(res: Response): void;
+  updateFormatsDetails(req: Request, res: Response):void;
 }

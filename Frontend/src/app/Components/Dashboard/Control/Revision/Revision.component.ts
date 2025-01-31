@@ -8,13 +8,14 @@ import { Areas } from '../../../../Interfaces/Areas.i';
 import { AreasService } from '../../../../Services/Areas.service';
 import { CommonModule } from '@angular/common';
 import { GetFormatDetailsByAreaAndDate, GetGroupedFormatsByDate } from '../../../../Interfaces/sp_mostrar_formats';
+import { FormatsService } from '../../../../Services/Formats.service';
 @Component({
   selector: 'app-revision',
   templateUrl: './Revision.component.html',
   styleUrls: ['./Revision.component.css'],
 
   imports:[CardModule, ButtonModule,AccordionModule,CommonModule, TableModule],
-  providers:[AreasService]
+  providers:[AreasService, FormatsService]
 })
 export default class RevisionComponent implements OnInit {
 
@@ -23,14 +24,19 @@ export default class RevisionComponent implements OnInit {
   public lista!: GetGroupedFormatsByDate[];
   public data!: GetFormatDetailsByAreaAndDate[];
   private area = inject(AreasService)
+  
+public f = inject(FormatsService)
   visualizacion : {[key:string]:boolean} = {}
   activeArea: number | null = null; 
   activeArea2: number | null = null; 
   ngOnInit() {
+   this.getDta();
+    // this.area.GetInfoAreasRevisionDetalle()
+  }
+  getDta(){
     this.area.GetInfoAreasRevision().subscribe((data:GetGroupedFormatsByDate[])=>{
       this.lista = data
     })
-    // this.area.GetInfoAreasRevisionDetalle()
   }
   Regresar(){
     this._router.navigate(["/Dashboard/Control"])
@@ -78,5 +84,10 @@ export default class RevisionComponent implements OnInit {
         this.data = data;
       });
     }
+  }
+  actualizarEstado(id: any){
+    this.f.updateFormatsDetails(id).subscribe(()=>{
+      this.getDta()
+    })
   }
 }

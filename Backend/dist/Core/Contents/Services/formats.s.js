@@ -173,5 +173,26 @@ class FormatsServices {
             }
         });
     }
+    updateFormatsDetails(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { id_formats_details } = req.params;
+            if ((0, ValidationParams_1.ValidarFuncionParams)(req, res, "id_formats_details")) {
+                return;
+            }
+            try {
+                const updateFD = yield this.formatDetails.getByField("id_formats_details", id_formats_details);
+                if (updateFD == null || Array.isArray(updateFD)) {
+                    return res.status(404).json({
+                        msj: "No se encontró el formato",
+                    });
+                }
+                updateFD.status = 2;
+                yield this.formatDetails.update(updateFD);
+            }
+            catch (error) {
+                return res.status(500).json({ msj: "Error en el servidor" });
+            }
+        });
+    }
 }
 exports.FormatsServices = FormatsServices;
