@@ -1,7 +1,7 @@
-import { Component, OnInit,inject } from '@angular/core';
-import { Router, RouterOutlet } from '@angular/router';
+import { Component, OnInit,inject, HostListener } from '@angular/core';
+import { Router} from '@angular/router';
 import { ButtonModule } from 'primeng/button';
-import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ListboxModule } from 'primeng/listbox';
 import { CheckboxModule } from 'primeng/checkbox';
 import { InputTextModule } from 'primeng/inputtext';
@@ -24,14 +24,19 @@ import { CommonModule } from '@angular/common';
     InputTextModule,
   ]
 })
+
 export class LoginComponent implements OnInit {
   form!: FormGroup;
+  private inactivityTimeout: any;
   ngOnInit() {
     this.form = new FormGroup({
       username: new FormControl('', Validators.required),
       password: new FormControl('', Validators.required)
     })
+    this.startActivityListeners(); 
+
   }
+  
  
    private _s = inject(UsersService);
    private _r = inject(Router);
@@ -47,7 +52,7 @@ export class LoginComponent implements OnInit {
         next: (token) => {
           this._r.navigate(['/Dashboard/Home']);
   
-          const expirationTime = new Date().getTime() + 60 * 60 * 1000; // 1 hora en milisegundos
+          const expirationTime = new Date().getTime() + 1 * 60 * 1000; // 1 hora en milisegundos
           localStorage.setItem("token", token.token);
           localStorage.setItem("id", token.id);
           localStorage.setItem("token_expiration", expirationTime.toString());
@@ -58,6 +63,27 @@ export class LoginComponent implements OnInit {
           console.log("error");
         }
       });
+    }
+  }
+  startActivityListeners() {
+    window.addEventListener("mousemove", () => this.resetInactivityTimer());
+    window.addEventListener("keydown", () => this.resetInactivityTimer());
+    window.addEventListener("scroll", () => this.resetInactivityTimer());
+    window.addEventListener("click", () => this.resetInactivityTimer());
+    window.addEventListener("focus", () => this.resetInactivityTimer()); // Detecta si vuelve a la pestaña
+  }
+  resetInactivityTimer() {
+    clearTimeout(this.inactivityTimeout); // Limpiar el temporizador anterior
+
+    const expirationTime = parseInt(localStorage.getItem("token_expiration") || "0", 10);
+    const timeLeft = expirationTime - new Date().getTime();
+
+    if (timeLeft > 0) {
+      this.inactivityTimeout = setTimeout(() => {
+        this.logout(); // Cierra sesión por inactividad
+      }, timeLeft);
+    } else {
+      this.logout();
     }
   }
   
