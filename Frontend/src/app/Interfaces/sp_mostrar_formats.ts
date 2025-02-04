@@ -18,5 +18,5 @@ export interface GetFormatDetailsByAreaAndDate{
     formats_models: string;
     id_area: number;
     id_formats_details: number;
-    status : number;
+    id_status : number;
 }

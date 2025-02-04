@@ -1,5 +1,5 @@
 export interface Turn{
     id_turn?: number;
-    status?: number;
+    id_status?: number;
     name?: string;
 }

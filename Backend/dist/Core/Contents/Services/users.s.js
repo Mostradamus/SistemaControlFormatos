@@ -68,7 +68,7 @@ class UsersService {
                 return;
             }
             try {
-                const getInfo = yield this.user.selectQuery("SELECT * FROM users WHERE username = ? and status=1", [username]);
+                const getInfo = yield this.user.selectQuery("SELECT * FROM users WHERE username = ? and id_status=1", [username]);
                 console.log(getInfo);
                 if (Array.isArray(getInfo) || getInfo == null) {
                     return res.status(500).json({ msj: "El usuario no fue encontrado" });
@@ -110,7 +110,7 @@ class UsersService {
                 }
                 const hash = yield bcrypt_1.default.hash(String(userpassword), 10);
                 const oUsers = new users_1.users();
-                oUsers.status = 1;
+                oUsers.id_status = 1;
                 oUsers.username = username;
                 oUsers.userpassword = hash;
                 yield this.user.create(oUsers);
@@ -134,7 +134,7 @@ class UsersService {
             if ((0, ValidationParams_1.ValidarFuncionParams)(req, res, "id_users")) {
                 return;
             }
-            const { status, username, userpassword } = req.body;
+            const { id_status, username, userpassword } = req.body;
             if ((0, ValidationParams_1.ValidarFuncionReq)({ status, username, userpassword }, res)) {
                 return;
             }
@@ -150,7 +150,7 @@ class UsersService {
                         msj: "El nombre del usuario ya existe",
                     });
                 }
-                oUsers.status = status;
+                oUsers.id_status = id_status;
                 oUsers.username = username;
                 oUsers.userpassword = userpassword;
                 yield this.user.update(oUsers);
@@ -182,7 +182,7 @@ class UsersService {
                         msj: "No se encontró el usuario",
                     });
                 }
-                oUsers.status = 2;
+                oUsers.id_status = 2;
                 yield this.user.update(oUsers);
                 return res.status(200).json({
                     msj: "Usuario eliminado correctamente",

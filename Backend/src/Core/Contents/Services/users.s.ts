@@ -64,7 +64,7 @@ export class UsersService implements IusersService {
         return;
       }
       try {
-        const getInfo = await this.user.selectQuery("SELECT * FROM users WHERE username = ? and status=1",[username]);
+        const getInfo = await this.user.selectQuery("SELECT * FROM users WHERE username = ? and id_status=1",[username]);
         console.log(getInfo)
         if(Array.isArray(getInfo) || getInfo == null){
           return res.status(500).json({msj:"El usuario no fue encontrado"})
@@ -107,7 +107,7 @@ export class UsersService implements IusersService {
       }
       const hash = await bcrypt.hash(String(userpassword), 10);
       const oUsers = new users();
-      oUsers.status = 1;
+      oUsers.id_status = 1;
       oUsers.username = username;
       oUsers.userpassword = hash;
       await this.user.create(oUsers);
@@ -130,7 +130,7 @@ export class UsersService implements IusersService {
     if (ValidarFuncionParams(req, res, "id_users")) {
       return;
     }
-    const { status, username, userpassword }: users = req.body;
+    const { id_status, username, userpassword }: users = req.body;
     if (ValidarFuncionReq({ status, username, userpassword }, res)) {
       return;
     }
@@ -147,7 +147,7 @@ export class UsersService implements IusersService {
           msj: "El nombre del usuario ya existe",
         });
       }
-      oUsers.status = status;
+      oUsers.id_status = id_status;
       oUsers.username = username;
       oUsers.userpassword = userpassword;
       await this.user.update(oUsers);
@@ -178,7 +178,7 @@ export class UsersService implements IusersService {
           msj: "No se encontró el usuario",
         });
       }
-      oUsers.status = 2;
+      oUsers.id_status = 2;
 
       await this.user.update(oUsers);
       return res.status(200).json({

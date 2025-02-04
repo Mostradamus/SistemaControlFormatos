@@ -96,7 +96,7 @@ class FormatsServices {
                         return res.status(500).json({ msj: 'No se permite registra los datos por repeticion de algunos datos' });
                     }
                     const oFormats = new formats_1.formats();
-                    oFormats.status = 1;
+                    oFormats.id_status = 1;
                     oFormats.id_area = id_area;
                     oFormats.registration_date = new Date();
                     oFormats.starting_order = starting_order;
@@ -116,7 +116,7 @@ class FormatsServices {
                         let newString = conString + index;
                         const OformatsD = new formatsDetails_1.formatsDetails();
                         OformatsD.id_formats = registF.id_formats;
-                        OformatsD.status = 1;
+                        OformatsD.id_status = 1;
                         OformatsD.formats_models = newString;
                         yield this.formatDetails.create(OformatsD);
                     }
@@ -161,7 +161,7 @@ class FormatsServices {
                         msj: "No se encontró el formato",
                     });
                 }
-                oFormasts.status = 2;
+                oFormasts.id_status = 2;
                 yield this.format.update(oFormasts);
                 return res.status(200).json({
                     msj: "formato eliminado correctamente",
@@ -186,7 +186,7 @@ class FormatsServices {
                         msj: "No se encontró el formato",
                     });
                 }
-                updateFD.status = 2;
+                updateFD.id_status = 2;
                 yield this.formatDetails.update(updateFD);
             }
             catch (error) {

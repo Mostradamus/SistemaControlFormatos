@@ -36,15 +36,15 @@
                         <tr>
                          
                             <td [ngClass]="{
-                              'text-orange-500': data.status === 1, 
-                              'text-green-400': data.status === 2
+                              'text-orange-500': data.id_status === 1, 
+                              'text-green-400': data.id_status === 2
                             }">{{ data.formats_models }}</td>
                             <td><i  [ngClass]="{
                               'pi': true,
-                              'pi-hourglass': data.status == 1 || data.status != 2, 
-                              'pi-check': data.status == 2,
-                              'text-orange-500': data.status === 1,
-                              'text-green-400': data.status === 2
+                              'pi-hourglass': data.id_status == 1 || data.id_status != 2, 
+                              'pi-check': data.id_status == 2,
+                              'text-orange-500': data.id_status === 1,
+                              'text-green-400': data.id_status === 2
                             }"
                              (click)="actualizarEstado(data.id_formats_details)"></i></td>
                         </tr>

@@ -4,6 +4,6 @@ export class formatsDetails{
     @PrimaryKey()
     id_formats_details?: number;
     id_formats?: number;
-    status?: number;
+    id_status?: number;
     formats_models?: string;
 }

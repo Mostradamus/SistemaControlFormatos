@@ -1,8 +1,7 @@
 import { PrimaryKey, Table } from "../../Global/Decorators/models.dc";
-@Table("turn")
-export class turn{
+@Table("status_register")
+export class statusRegister{
     @PrimaryKey()
-    id_turn?: number;
     id_status?: number;
-    name?: string;
+    description?: string;
 }

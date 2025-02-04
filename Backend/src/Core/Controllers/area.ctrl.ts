@@ -20,7 +20,7 @@ export class AreaControllers{
     async getAreasRevision(req:Request, res:Response){
         return this.areaServices.getAreasRevision(res);
     }
-    @Get("/areas/detalles/:id_area/estado/:status")
+    @Get("/areas/detalles/:id_area/estado/:id_status")
     async getAreasRevisionDetalle(req:Request, res:Response){
         return this.areaServices.getAreasRevisionDetalle(req,res);
     }

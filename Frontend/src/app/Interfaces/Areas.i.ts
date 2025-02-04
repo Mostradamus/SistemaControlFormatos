@@ -1,5 +1,5 @@
 export interface Areas{
     id_areas?: number;
-    status?: number;
+    id_status?: number;
     name?: string;
 }

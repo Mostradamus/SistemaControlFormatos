@@ -1,6 +1,6 @@
 export interface Formats {
   id_formats?: number;
-  status?: number;
+  id_status?: number;
   id_area?: number;
   starting_order?: string;
   total?: number;

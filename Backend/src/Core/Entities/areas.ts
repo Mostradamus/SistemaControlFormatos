@@ -3,6 +3,6 @@ import { PrimaryKey, Table } from "../../Global/Decorators/models.dc";
 export class areas{
     @PrimaryKey()
     id_areas?: number;
-    status?: number;
+    id_status?: number;
     name?: string;
 }

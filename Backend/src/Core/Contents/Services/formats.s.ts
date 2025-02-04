@@ -99,7 +99,7 @@ export class FormatsServices implements IformatsService {
         }
        
         const oFormats = new formats();
-        oFormats.status = 1;
+        oFormats.id_status = 1;
         oFormats.id_area = id_area;
         oFormats.registration_date = new Date();
         oFormats.starting_order = starting_order;
@@ -126,7 +126,7 @@ export class FormatsServices implements IformatsService {
 
           const OformatsD = new formatsDetails();
           OformatsD.id_formats = registF.id_formats;
-          OformatsD.status = 1;
+          OformatsD.id_status = 1;
           OformatsD.formats_models = newString;
           await this.formatDetails.create(OformatsD);
         }
@@ -168,7 +168,7 @@ export class FormatsServices implements IformatsService {
           msj: "No se encontró el formato",
         });
       }
-      oFormasts.status = 2;
+      oFormasts.id_status = 2;
 
       await this.format.update(oFormasts);
       return res.status(200).json({
@@ -192,7 +192,7 @@ export class FormatsServices implements IformatsService {
           msj: "No se encontró el formato",
         });
       }
-      updateFD.status = 2;
+      updateFD.id_status = 2;
 
       await this.formatDetails.update(updateFD);
     } catch (error) {
