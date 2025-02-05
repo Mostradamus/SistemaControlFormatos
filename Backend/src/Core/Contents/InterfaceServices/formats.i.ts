@@ -1,9 +1,4 @@
 import { Request, Response } from "express";
-
-/**
- * Interfaz que define los métodos para el servicio de formatos
- * Define las operaciones CRUD y sus parámetros requeridos
- */
 export interface IformatsService {
   getAllFormats(res: Response): void;
   insertFormats(req: Request, res: Response): void;

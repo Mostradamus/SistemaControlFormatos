@@ -12,7 +12,6 @@ import {
   ValidarFuncionParams,
   ValidarFuncionReq,
 } from "../../Helpers/ValidationParams";
-import { json } from "stream/consumers";
 
 export class UsersService implements IusersService {
   public user;

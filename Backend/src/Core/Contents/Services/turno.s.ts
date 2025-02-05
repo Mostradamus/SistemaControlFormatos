@@ -1,6 +1,5 @@
 import { Response, Request } from "express";
 import { QueryGlobal } from "../../../Global/Config/Query";
-import { IAreaService} from "../InterfaceServices/area.i";
 import { turn } from "../../Entities/turn";
 import { ITurnoService } from "../InterfaceServices/turno.i";
 
