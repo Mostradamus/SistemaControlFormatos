@@ -40,6 +40,12 @@ class FormatsControllers {
             return this.FormatsServices.insertFormats(req, res);
         });
     }
+    comprobar(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            console.log(11);
+            return this.FormatsServices.comprobarFormatos(req, res);
+        });
+    }
     deleteF(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             return this.FormatsServices.deleteFormatsById(req, res);
@@ -70,6 +76,12 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], FormatsControllers.prototype, "insertF", null);
+__decorate([
+    (0, routes_dc_1.Post)("/formatos/comprobar/formatos"),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], FormatsControllers.prototype, "comprobar", null);
 __decorate([
     (0, routes_dc_1.Delete)("/formatos/eliminar"),
     __metadata("design:type", Function),

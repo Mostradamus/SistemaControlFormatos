@@ -24,3 +24,6 @@ export class GetFormatDetailsByAreaAndDate{
     id_formats_details : number= 0;
     status: number = 0;
 }
+export class verificar_formats_model{
+    formats_model: string = '';
+}

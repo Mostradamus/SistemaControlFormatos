@@ -9,7 +9,7 @@ import {
   ValidarFuncionReq,
 } from "../../Helpers/ValidationParams";
 import { StoreProcedure } from "../../../Global/Config/StoreProcedure";
-import { sp_mostrar_formats, sp_verificar_registro } from "../../Entities/Procedures/sp_mostrar_formats";
+import { sp_mostrar_formats, sp_verificar_registro, verificar_formats_model } from "../../Entities/Procedures/sp_mostrar_formats";
 
 export class FormatsServices implements IformatsService {
   public format;
@@ -135,6 +135,33 @@ export class FormatsServices implements IformatsService {
     } catch (error) {
       return res.status(500).json({ msj: "Error al obtener la lista por id" });
     }
+  }
+  async comprobarFormatos(req: Request, res:Response){
+    const { formatsModel } = req.body; // Extraemos la lista de formats_model desde el cuerpo de la solicitud
+    console.log(1)
+    try {
+      if (!formatsModel || !Array.isArray(formatsModel)) {
+        return res.status(400).json({ error: 'La lista de formats_model es requerida y debe ser un array.' });
+      }
+      const listaFormatsModel = formatsModel.join(','); 
+      const query = `CALL verificar_formats_modelos(?);`; // Usamos '?' como marcador de posición
+      console.log(listaFormatsModel)
+// Llamada a executeQuery con la cadena formateada como único parámetro
+    const resultado = await this.sp.executeQuery(query, 1, listaFormatsModel);
+      // const query = `CALL verificar_formats_modelos(${listaFormatsModel});`;
+      // const resultado = this.sp.executeQuery(query,1);
+
+      // const resultado = await this.sp.executeStoredProcedureForList<verificar_formats_model>(
+      //   'verificar_formats_model', // Nombre del procedimiento almacenado
+      //   0,                          // Tipo de resultado esperado (1 indica que tomamos el primer resultado)
+      //   formatsModel        // Lista de formats_model convertida a cadena
+      // );
+      return res.status(200).json(resultado)
+      
+    } catch (error) {
+      return res.status(500).json({ msj: "Error al obtener la lista por id" });
+    }
+
   }
   async getAllFormatSp(res: Response) {
     try {

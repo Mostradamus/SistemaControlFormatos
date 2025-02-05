@@ -35,4 +35,12 @@ export class FormatsService {
     return this.http.put(`${this.myAppUrl}${this.myApiUrl}/actualizarEstado/${id}`, {
     });
   }
+  comprobar(formatData:any):Observable<any>{
+    const payload = { formatsModel: formatData };
+    console.log(formatData)
+     return this.http.post(
+      `${this.myAppUrl}${this.myApiUrl}/comprobar/formatos`,
+      payload
+    );
+  }
 }
