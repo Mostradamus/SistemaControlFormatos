@@ -54,7 +54,7 @@ export default class ReportesComponent implements OnInit {
         });
       });
 
-      console.log(this.excelData);  // Muestra los datos procesados
+      console.log(this.excelData.length);  // Muestra los datos procesados
       this._f.comprobar(this.excelData).subscribe(
         (response) => {
           console.log('Respuesta del backend:', response);

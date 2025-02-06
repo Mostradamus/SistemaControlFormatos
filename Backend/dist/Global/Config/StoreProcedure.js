@@ -118,7 +118,7 @@ class StoreProcedure {
                     return resT;
                 }
                 else {
-                    console.log(22);
+                    console.log(23);
                     const f = result; // `result` ya es un arreglo
                     // console.log(f);
                     return f;
