@@ -4,7 +4,7 @@ import { MessageService } from 'primeng/api';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
-import { sp_mostrar_formats } from '../../../../Interfaces/sp_mostrar_formats';
+import { sp_mostrar_formats } from '../../../../Interfaces/sp';
 import { FormatsService } from '../../../../Services/Formats.service';
 import { Router } from '@angular/router';
 

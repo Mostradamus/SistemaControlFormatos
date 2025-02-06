@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 import { Areas } from '../../../../Interfaces/Areas.i';
 import { AreasService } from '../../../../Services/Areas.service';
 import { CommonModule } from '@angular/common';
-import { GetFormatDetailsByAreaAndDate, GetGroupedFormatsByDate } from '../../../../Interfaces/sp_mostrar_formats';
+import { GetFormatDetailsByAreaAndDate, GetGroupedFormatsByDate } from '../../../../Interfaces/sp';
 import { FormatsService } from '../../../../Services/Formats.service';
 @Component({
   selector: 'app-revision',
