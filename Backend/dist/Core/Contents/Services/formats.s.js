@@ -62,6 +62,18 @@ class FormatsServices {
             }
         });
     }
+    getTotalByArea(res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const result = yield this.sp.executeStoredProcedureForList("getTotalByArea", 0);
+                console.log(result);
+                return res.status(200).json(result);
+            }
+            catch (error) {
+                return res.status(500).json({ msj: "Error en el servidor" });
+            }
+        });
+    }
     /**
      * Inserta un nuevo formato y genera sus detalles
      * @param req - Request con datos del formato (starting_order, total, turn, description)

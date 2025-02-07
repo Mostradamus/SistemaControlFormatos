@@ -9,12 +9,11 @@ import {
   ValidarFuncionReq,
 } from "../../Helpers/ValidationParams";
 import { StoreProcedure } from "../../../Global/Config/StoreProcedure";
-import { sp_mostrar_formats, sp_verificar_registro, verificar_formats_model } from "../../Entities/Procedures/sp_mostrar_formats";
+import { getTotalByArea, sp_mostrar_formats, sp_verificar_registro, verificar_formats_model } from "../../Entities/Procedures/sp_mostrar_formats";
 
 export class FormatsServices implements IformatsService {
   public format;
   public formatDetails;
-
   private sp;
 
   constructor() {
@@ -59,6 +58,19 @@ export class FormatsServices implements IformatsService {
       return res.status(200).json(allById);
     } catch (error) {
       return res.status(500).json({ msj: "Error al obtener la lista por id" });
+    }
+  }
+
+  async getTotalByArea( res: Response){
+    try {
+      const result =
+        await this.sp.executeStoredProcedureForList<getTotalByArea>(
+          "getTotalByArea",0
+        );
+        console.log(result)
+      return res.status(200).json(result);
+    } catch (error) {
+      return res.status(500).json({ msj: "Error en el servidor" });
     }
   }
 

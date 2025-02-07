@@ -27,3 +27,8 @@ export class GetFormatDetailsByAreaAndDate{
 export class verificar_formats_model{
     formats_model: string = '';
 }
+
+export class getTotalByArea{
+    name : string = '';
+    totales : number = 0;
+}

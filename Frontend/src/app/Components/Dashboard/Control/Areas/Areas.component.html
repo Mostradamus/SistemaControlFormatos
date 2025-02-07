@@ -1,12 +1,46 @@
 <div class="card p-6">
-  <div class="grid justify-content-center  gap-8">
-      <div class="col-12">
-          <p-card>
-              <div class="flex justify-content-between ">
-                  <p class="m-0 font-bold">AREAS ESPECIALIZADAS</p>  <p-button label="Regresar" icon="pi pi-arrow-circle-left" severity="secondary" (onClick)="Regresar()" />
+  <div class="grid justify-content-center gap-2">
+    <div class="col-12">
+      <p-card>
+        <div class="flex justify-content-between">
+          <p class="m-0 font-bold">TOTALES POR AREA</p>
+          <p-button
+            label="Regresar"
+            icon="pi pi-arrow-circle-left"
+            severity="secondary"
+            (onClick)="Regresar()"
+          />
+        </div>
+      </p-card>
+    </div>
+    <div class="grid" style="  overflow-y: scroll; height: 570px;">
 
+        @for (item of _total; track $index) {
+            <div class="col-12">
+                <div
+          class="surface-card border-2 p-3 mb-1 border-round flex flex-column md:flex-row align-items-start md:align-items-center md:justify-content-between cursor-pointer border-primary"
+        >
+          <div class="flex align-items-start mr-0 md:mr-8">
+           <i class="pi pi-slack"></i>
+            <div>
+              <div class="font-medium mb-2 text-primary-600">{{item.name}}</div>
+              <div class="flex flex-grow gap-2">
+                <span class="p-1 border-round surface-100 text-primary-600">Día</span>
+                <span class="p-1 border-round surface-100 text-primary-600">Tarde</span>
               </div>
-          </p-card>
-      </div>
+            </div>
+          </div>
+          <div
+            class="ml-0 md:ml-8 mt-2 md:mt-0 border-1 p-1 px-2 border-round flex align-items-center font-medium bg-primary-reverse"
+          >
+            <i class="pi pi-users mr-2"></i><span>{{item.totales}}</span>
+          </div>
+        </div>
+        
+            </div>
+        }
+        
+    </div>
   </div>
 </div>
+

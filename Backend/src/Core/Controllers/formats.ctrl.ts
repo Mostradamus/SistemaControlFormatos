@@ -17,6 +17,11 @@ export class FormatsControllers{
     async getListaF(_req:Request, res:Response){
         return this.FormatsServices.getAllFormatSp(res);
     }
+    @Get("/formatos/total/Area")
+        async getTotal(_req:Request, res:Response){
+            return this.FormatsServices.getTotalByArea(res);
+    }
+
     @Post("/formatos/crear")
     async insertF(req:Request, res:Response){
         return this.FormatsServices.insertFormats(req, res);

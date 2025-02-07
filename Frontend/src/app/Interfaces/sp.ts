@@ -20,3 +20,7 @@ export interface GetFormatDetailsByAreaAndDate{
     id_formats_details: number;
     id_status : number;
 }
+export interface getTotalArea{
+    name: string;
+    totales: number;
+}

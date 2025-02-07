@@ -43,4 +43,7 @@ export class FormatsService {
       payload
     );
   }
+  getTotalAreaSp(): Observable<any>{
+    return this.http.get(`${this.myAppUrl}${this.myApiUrl}/total/Area`);
+  }
 }
