@@ -126,8 +126,11 @@ class FormatsServices {
                             conString = "0" + conString;
                         }
                         let newString = conString + index;
+                        const fecha = new Date();
+                        const anioDigitos = fecha.getFullYear().toString().slice(-2);
                         const OformatsD = new formatsDetails_1.formatsDetails();
                         OformatsD.id_formats = registF.id_formats;
+                        OformatsD.anio = anioDigitos;
                         OformatsD.id_status = 1;
                         OformatsD.formats_models = newString;
                         yield this.formatDetails.create(OformatsD);
@@ -142,16 +145,16 @@ class FormatsServices {
     }
     comprobarFormatos(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { formatsModel } = req.body; // Extraemos la lista de formats_model desde el cuerpo de la solicitud
+            const { formatsModel, nrMin, nrMax } = req.body; // Extraemos la lista de formats_model desde el cuerpo de la solicitud
             try {
                 if (!formatsModel || !Array.isArray(formatsModel)) {
                     return res.status(400).json({ error: 'La lista de formats_model es requerida y debe ser un array.' });
                 }
                 const listaFormatsModel = formatsModel.join(',');
-                const query = `CALL verificar_formats_modelos(?);`; // Usamos '?' como marcador de posición
+                const query = `CALL verificar_formats_modelos_rango2(?,?,?);`; // Usamos '?' como marcador de posición
                 console.log(listaFormatsModel);
                 // Llamada a executeQuery con la cadena formateada como único parámetro
-                const resultado = yield this.sp.executeQuery(query, 1, listaFormatsModel);
+                const resultado = yield this.sp.executeQuery(query, 1, [listaFormatsModel, nrMin, nrMax]);
                 let contador = resultado.length;
                 // const query = `CALL verificar_formats_modelos(${listaFormatsModel});`;
                 // const resultado = this.sp.executeQuery(query,1);

@@ -151,16 +151,16 @@ export class FormatsServices implements IformatsService {
     }
   }
   async comprobarFormatos(req: Request, res:Response){
-    const { formatsModel } = req.body; // Extraemos la lista de formats_model desde el cuerpo de la solicitud
+    const { formatsModel, nrMin, nrMax } = req.body; // Extraemos la lista de formats_model desde el cuerpo de la solicitud
     try {
       if (!formatsModel || !Array.isArray(formatsModel)) {
         return res.status(400).json({ error: 'La lista de formats_model es requerida y debe ser un array.' });
       }
       const listaFormatsModel = formatsModel.join(','); 
-      const query = `CALL verificar_formats_modelos(?);`; // Usamos '?' como marcador de posición
+      const query = `CALL verificar_formats_modelos_rango2(?,?,?);`; // Usamos '?' como marcador de posición
       console.log(listaFormatsModel)
   // Llamada a executeQuery con la cadena formateada como único parámetro
-    const resultado = await this.sp.executeQuery(query, 1, listaFormatsModel);
+    const resultado = await this.sp.executeQuery(query, 1, [listaFormatsModel, nrMin, nrMax]);
     let contador = resultado.length;
       // const query = `CALL verificar_formats_modelos(${listaFormatsModel});`;
       // const resultado = this.sp.executeQuery(query,1);

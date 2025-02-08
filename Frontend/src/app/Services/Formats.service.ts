@@ -35,8 +35,8 @@ export class FormatsService {
     return this.http.put(`${this.myAppUrl}${this.myApiUrl}/actualizarEstado/${id}`, {
     });
   }
-  comprobar(formatData:any):Observable<any>{
-    const payload = { formatsModel: formatData };
+  comprobar(formatData:any, nrMin:any, nrMax:any):Observable<any>{
+    const payload = { formatsModel: formatData, nrMin, nrMax };
     console.log(formatData)
      return this.http.post(
       `${this.myAppUrl}${this.myApiUrl}/comprobar/formatos`,
