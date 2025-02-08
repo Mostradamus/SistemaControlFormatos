@@ -135,9 +135,11 @@ export class FormatsServices implements IformatsService {
             conString = "0" + conString;
           }
           let newString = conString + index;
-
+          const fecha = new Date();
+          const anioDigitos = fecha.getFullYear().toString().slice(-2);
           const OformatsD = new formatsDetails();
           OformatsD.id_formats = registF.id_formats;
+          OformatsD.anio = anioDigitos;
           OformatsD.id_status = 1;
           OformatsD.formats_models = newString;
           await this.formatDetails.create(OformatsD);
