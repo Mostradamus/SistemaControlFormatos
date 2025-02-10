@@ -13,6 +13,7 @@ exports.FormatsServices = void 0;
 const Query_1 = require("../../../Global/Config/Query");
 const formats_1 = require("../../Entities/formats");
 const formatsDetails_1 = require("../../Entities/formatsDetails");
+const env_1 = require("../../../Global/Environment/env");
 const ValidationParams_1 = require("../../Helpers/ValidationParams");
 const StoreProcedure_1 = require("../../../Global/Config/StoreProcedure");
 class FormatsServices {
@@ -131,6 +132,7 @@ class FormatsServices {
                         const OformatsD = new formatsDetails_1.formatsDetails();
                         OformatsD.id_formats = registF.id_formats;
                         OformatsD.anio = anioDigitos;
+                        OformatsD.nro_serie = env_1.env.SERIE;
                         OformatsD.id_status = 1;
                         OformatsD.formats_models = newString;
                         yield this.formatDetails.create(OformatsD);
@@ -147,10 +149,11 @@ class FormatsServices {
         return __awaiter(this, void 0, void 0, function* () {
             const { formatsModel, nrMin, nrMax } = req.body; // Extraemos la lista de formats_model desde el cuerpo de la solicitud
             try {
-                if (!formatsModel || !Array.isArray(formatsModel)) {
-                    return res.status(400).json({ error: 'La lista de formats_model es requerida y debe ser un array.' });
-                }
-                const listaFormatsModel = formatsModel.join(',');
+                console.log(typeof formatsModel);
+                // if (!formatsModel || !Array.isArray(formatsModel)) {
+                //   return res.status(400).json({ error: 'La lista de formats_model es requerida y debe ser un array.' });
+                // }
+                const listaFormatsModel = formatsModel;
                 const query = `CALL verificar_formats_modelos_rango2(?,?,?);`; // Usamos '?' como marcador de posición
                 console.log(listaFormatsModel);
                 // Llamada a executeQuery con la cadena formateada como único parámetro

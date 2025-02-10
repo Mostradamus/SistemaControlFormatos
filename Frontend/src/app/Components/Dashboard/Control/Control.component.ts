@@ -17,13 +17,9 @@ export default class ControlComponent implements OnInit {
   redireccionar(cmando:number){
     let ruta = "";
     switch(cmando){
-        case 1:
-            ruta = "Revision";
-            break;
-        case 2:
-            ruta = "Areas";
-
-            break;
+        case 1: ruta = "Revision";break;
+        case 2: ruta = "Areas";   break;
+        case 3: ruta = "CompararFormatos"; break;
     }
     this._R.navigate(["/Dashboard/Control/"+ruta])
 

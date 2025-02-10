@@ -24,3 +24,9 @@ export interface getTotalArea{
     name: string;
     totales: number;
 }
+export interface verificar_formats_modelos_rango2{
+    formats_models: string;
+    anio: string;
+    modelo_completo: string;
+    area: string ;
+}

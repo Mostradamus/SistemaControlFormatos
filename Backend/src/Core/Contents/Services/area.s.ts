@@ -25,7 +25,7 @@ export class AreaServices implements IAreaService{
   }
   async getAreasRevision(res: Response){
     try {
-      const all = await this.sp.executeStoredProcedureForList<GetGroupedFormatsByDate>("GetGroupedFormatsByDate", 0,[new Date()]);
+      const all = await this.sp.executeStoredProcedureForList<GetGroupedFormatsByDate>("GetGroupedFormatsByDate", 0);
       return res.status(200).json(all);
     } catch (error) {
       return res
@@ -42,7 +42,7 @@ export class AreaServices implements IAreaService{
     try {
       
       console.log(id_area)
-      const all = await this.sp.executeStoredProcedureForList<GetFormatDetailsByAreaAndDate>("GetFormatDetailsByAreaAndDate",1, [id_area,new Date(), id_status]);
+      const all = await this.sp.executeStoredProcedureForList<GetFormatDetailsByAreaAndDate>("GetFormatDetailsByAreaAndDate",1, [id_area, id_status]);
       console.log(all)
       return res.status(200).json(all);
     } catch (error) {
