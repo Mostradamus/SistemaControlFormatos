@@ -60,9 +60,10 @@ public f = inject(FormatsService)
       this.visualizacion = {};
       this.activeArea = item;
       this.visualizacion[item] = true;
-
+      console.log(item)
       // Cargar nueva data
       this.area.GetInfoAreasRevisionDetalle(item,estado).subscribe((data: GetFormatDetailsByAreaAndDate[]) => {
+        console.log(data)
         this.data = data;
       });
     }

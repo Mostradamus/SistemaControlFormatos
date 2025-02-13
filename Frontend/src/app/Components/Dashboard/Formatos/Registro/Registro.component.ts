@@ -48,7 +48,7 @@ export default class RegistroComponent implements OnInit {
     })
 
     this.formulario = new FormGroup({
-          nroFormato: new FormControl('', Validators.required),
+          nroFormato: new FormControl('', [Validators.required, Validators.maxLength(8)]),
           cantidad: new FormControl('', Validators.required),
           turno: new FormControl('', Validators.required),
           area: new FormControl('', Validators.required),

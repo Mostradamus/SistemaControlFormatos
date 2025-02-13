@@ -17,7 +17,8 @@ html{
 app-registro, app-home,
 app-detalle, app-lista, 
 app-formatos, app-control,
-app-areas, app-revision{
+app-areas, app-revision,
+app-compararformatos{
 
     width: -webkit-fill-available;
 }
