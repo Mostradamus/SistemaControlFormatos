@@ -13,10 +13,11 @@
         </div>
       </p-card>
     </div>
-    <div class="grid" style="  overflow-y: scroll; height: 570px;">
+    <div class="grid w-full" style="overflow-y: scroll; height:650px;">
+      <div class="col-12">
 
         @for (item of _total; track $index) {
-            <div class="col-12">
+            <!-- <div class="col-12">
                 <div
           class="surface-card border-2 p-3 mb-1 border-round flex flex-column md:flex-row align-items-start md:align-items-center md:justify-content-between cursor-pointer border-primary"
         >
@@ -37,8 +38,10 @@
           </div>
         </div>
         
-            </div>
+            </div> -->
+            <p-button [label]="item.name.toUpperCase()" [text]="true"  badgeSeverity="contrast" variant="outlined" [raised]="true" severity="info" styleClass="w-full flex py-3 my-4 justify-content-between" [badge]="item.totales.toString()" badgeSeverity="danger" />
         }
+      </div>
         
     </div>
   </div>
