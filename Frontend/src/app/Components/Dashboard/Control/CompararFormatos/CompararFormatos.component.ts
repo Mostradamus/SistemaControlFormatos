@@ -6,23 +6,29 @@ import { BadgeModule } from 'primeng/badge';
 import * as XLSX from 'xlsx'; 
 import { FormatsService } from '../../../../Services/Formats.service';
 import { verificar_formats_modelos_rango2 } from '../../../../Interfaces/sp';
+import { ScrollingModule } from '@angular/cdk/scrolling';
+
+import { CommonModule } from '@angular/common';
+import { RippleModule } from 'primeng/ripple';
 @Component({
   selector: 'app-compararformatos',
   templateUrl: './CompararFormatos.component.html',
   styleUrls: ['./CompararFormatos.component.css'],
   providers: [FormatsService],
-  imports: [CardModule,ButtonModule,FileUploadModule, BadgeModule]
+  imports: [CardModule,ButtonModule,FileUploadModule, BadgeModule, CommonModule, RippleModule,ScrollingModule ]
 })
 export default class CompararFormatosComponent implements OnInit {
 
   constructor() { }
-  
+  mostrarResultados: boolean = false; 
   public uniqueAreas: { area: string, count: number }[] = [];
+  selectedArea: string | null = null; 
   ngOnInit() {
   }
   private _f = inject(FormatsService)
   excelData: any[] = [];  // Array donde almacenaremos los datos del Excel
   listaDetalles : verificar_formats_modelos_rango2[] = []
+  listaDetallesArea : verificar_formats_modelos_rango2[] = []
   totalResultado = 0;
 
   choose(event: any, callback: any) {
@@ -122,11 +128,7 @@ export default class CompararFormatosComponent implements OnInit {
         (response) => {
           this.totalResultado= response.count;
           this.processResponse(response);
-          // this.uniqueAreas =this.getUniqueAreas(response.lista);
-          // const uniqueAreas: verificar_formats_modelos_rango2[] = response.lista;
-
-          // uniqueAreas.map(item => item.area) // Obtiene solo el campo 'area'
-          // .filter((value, index, self) => self.indexOf(value) === index);
+          this.mostrarResultados = false;
           console.log(this.uniqueAreas)
           this.listaDetalles = response.lista
           // console.log(`✅ Respuesta del backend (año ${selectedYear}):`, response);
@@ -148,6 +150,7 @@ export default class CompararFormatosComponent implements OnInit {
       console.log(this.uniqueAreas); // Muestra las áreas con el conteo
     }
   }
+ 
   getUniqueAreas(data: any[]): { area: string, count: number }[] {
     // Obtener todas las áreas
     const areas = data.map(item => item.area);
@@ -163,6 +166,13 @@ export default class CompararFormatosComponent implements OnInit {
   }
   uploadEvent(callback:any) {
     callback();
+  }
+  mostarDetallesPenientes(area:any){
+    this.listaDetallesArea = this.listaDetalles.filter(r => r.area == area);
+    console.log(this.listaDetallesArea)
+    this.mostrarResultados = true;
+    this.selectedArea = area;
+
   }
 
 }
