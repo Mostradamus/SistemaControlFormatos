@@ -165,7 +165,7 @@ export class UsersService implements IusersService {
    * - Usuario activo
    */
 
-  async deleteUsersById(req: Request, res: Response) {
+  async deleteUsersById(req: Request, res: Response){
     const { id_users }: users = req.params;
     if (ValidarFuncionParams(req, res, "id_users")) {
       return;

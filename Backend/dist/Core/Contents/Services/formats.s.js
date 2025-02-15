@@ -150,22 +150,12 @@ class FormatsServices {
             const { formatsModel, nrMin, nrMax } = req.body; // Extraemos la lista de formats_model desde el cuerpo de la solicitud
             try {
                 console.log(typeof formatsModel);
-                // if (!formatsModel || !Array.isArray(formatsModel)) {
-                //   return res.status(400).json({ error: 'La lista de formats_model es requerida y debe ser un array.' });
-                // }
                 const listaFormatsModel = formatsModel;
                 const query = `CALL verificar_formats_modelos_rango2(?,?,?);`; // Usamos '?' como marcador de posición
                 console.log(listaFormatsModel);
                 // Llamada a executeQuery con la cadena formateada como único parámetro
                 const resultado = yield this.sp.executeQuery(query, 1, [listaFormatsModel, nrMin, nrMax]);
                 let contador = resultado.length;
-                // const query = `CALL verificar_formats_modelos(${listaFormatsModel});`;
-                // const resultado = this.sp.executeQuery(query,1);
-                // const resultado = await this.sp.executeStoredProcedureForList<verificar_formats_model>(
-                //   'verificar_formats_model', // Nombre del procedimiento almacenado
-                //   0,                          // Tipo de resultado esperado (1 indica que tomamos el primer resultado)
-                //   formatsModel        // Lista de formats_model convertida a cadena
-                // );
                 return res.status(200).json({ lista: resultado, count: contador });
             }
             catch (error) {

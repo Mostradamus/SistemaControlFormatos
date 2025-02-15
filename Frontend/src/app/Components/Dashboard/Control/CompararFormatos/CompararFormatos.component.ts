@@ -10,6 +10,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 
 import { CommonModule } from '@angular/common';
 import { RippleModule } from 'primeng/ripple';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-compararformatos',
   templateUrl: './CompararFormatos.component.html',
@@ -26,6 +27,7 @@ export default class CompararFormatosComponent implements OnInit {
   ngOnInit() {
   }
   private _f = inject(FormatsService)
+  public _router = inject(Router);
   excelData: any[] = [];  // Array donde almacenaremos los datos del Excel
   listaDetalles : verificar_formats_modelos_rango2[] = []
   listaDetallesArea : verificar_formats_modelos_rango2[] = []
@@ -174,5 +176,7 @@ export default class CompararFormatosComponent implements OnInit {
     this.selectedArea = area;
 
   }
-
+  Regresar() {
+    this._router.navigate(['/Dashboard/Control']);
+  }
 }
