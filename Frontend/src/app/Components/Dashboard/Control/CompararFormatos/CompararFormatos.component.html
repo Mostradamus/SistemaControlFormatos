@@ -1,7 +1,16 @@
 <div class="p-6">
   <div class="grid justify-content-center  gap-2">
     <div class="col-12">
-        <p-card header="CONTROL DE FORMATOS">
+        <p-card >
+          <div class="flex justify-content-between">
+            <p class="m-0 font-bold">CONTROL DE FORMATOS</p>
+            <p-button
+              label="Regresar"
+              icon="pi pi-arrow-circle-left"
+              severity="secondary"
+              (onClick)="Regresar()"
+            />
+          </div>
         </p-card>
     </div>
 <p-fileupload name="myfile[]"  [multiple]="false" accept=".xlsx, .xls" maxFileSize="1000000" (onSelect)="onFileChange($event)" class="col-12">

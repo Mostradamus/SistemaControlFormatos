@@ -18,6 +18,8 @@ export interface GetFormatDetailsByAreaAndDate{
     formats_models: string;
     id_area: number;
     id_formats_details: number;
+    formatos: string
+    estado: string;
     id_status : number;
 }
 export interface getTotalArea{

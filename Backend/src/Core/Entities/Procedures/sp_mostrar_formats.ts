@@ -20,6 +20,8 @@ export class GetGroupedFormatsByDate{
 }
 export class GetFormatDetailsByAreaAndDate{
     formats_models	: string ='';
+    formatos: string = '';
+    estado: string = '';
     id_area : number = 0;
     id_formats_details : number= 0;
     status: number = 0;
