@@ -107,7 +107,6 @@ export class StoreProcedure {
       }else{
 
       }
-      // console.log(params)
       const [result]: any[] = await conn.query(query, params);
       console.log(result)
       console.log(55)
@@ -120,51 +119,13 @@ export class StoreProcedure {
         console.log(23)
 
         const f = result;  // `result` ya es un arreglo
-        // console.log(f);
         return f as RowDataPacket[]; 
       }
-      // console.log(f)
-
-      // console.log(1)
-      // return resT as RowDataPacket[];
     } finally {
       // Libera la conexión al finalizar.
       conn.release();
     }
   }
-
-  // public async executeQuery(
-  //   query: string, 
-  //   tipo: number = 0, 
-  //   ...params: any[]
-  // ): Promise<RowDataPacket[]> {
-  //   // Obtiene una conexión del pool.
-  //   const conn = await pool.getConnection();
-  //   try {
-  //     console.log("Ejecutando la consulta:", query);
-  //     console.log("Con parámetros:", params);
-  
-  //     // Ejecuta la consulta con los parámetros.
-  //     if (tipo === 1) {
-  //       params = params[0]; // Si es tipo 1, ajustamos el parámetro
-  //     }
-  
-  //     const [result]: any[] = await conn.query(query, params);
-  //     console.log("Resultado de la consulta:", result);
-  
-  //     if (tipo === 1) {
-  //       const [resT]: any[] = result; // Suponiendo que el primer elemento de `result` es el objeto que necesitas.
-  //       return resT;
-  //     } else {
-  //       return result as RowDataPacket[];
-  //     }
-  //   } catch (error) {
-  //     console.error("Error en la ejecución de la consulta:", error); // Agregar más detalles de error
-  //     throw error;  // Re-lanzamos el error para ser manejado en el controlador
-  //   } finally {
-  //     conn.release();  // Aseguramos liberar la conexión al finalizar
-  //   }
-  // }
   
 
   /**

@@ -1,9 +1,5 @@
 import { Request, Response } from "express";
-import {Get,Post,Put,Delete} from "../../Global/Decorators/routes.dc"
-import { IformatsService } from "../Contents/InterfaceServices/formats.i";
-import { FormatsServices } from "../Contents/Services/formats.s";
-import { IAreaService } from "../Contents/InterfaceServices/area.i";
-import { AreaServices } from "../Contents/Services/area.s";
+import {Get} from "../../Global/Decorators/routes.dc"
 import { ITurnoService } from "../Contents/InterfaceServices/turno.i";
 import { TurnoServices } from "../Contents/Services/turno.s";
 

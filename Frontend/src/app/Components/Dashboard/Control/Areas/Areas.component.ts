@@ -9,20 +9,19 @@ import { getTotalArea } from '../../../../Interfaces/sp';
   selector: 'app-areas',
   templateUrl: './Areas.component.html',
   styleUrls: ['./Areas.component.css'],
-    imports:[CardModule, ButtonModule],
-    providers:[FormatsService]
+  imports: [CardModule, ButtonModule],
+  providers: [FormatsService],
 })
 export default class AreasComponent implements OnInit {
-  public _formats = inject(FormatsService)
-  public _total!: getTotalArea[]
- public _router = inject(Router);
+  public _formats = inject(FormatsService);
+  public _total!: getTotalArea[];
+  public _router = inject(Router);
   ngOnInit() {
-    this._formats.getTotalAreaSp().subscribe((data: getTotalArea[])=>{
-      this._total= data;
-    })
+    this._formats.getTotalAreaSp().subscribe((data: getTotalArea[]) => {
+      this._total = data;
+    });
   }
-  Regresar(){
-    this._router.navigate(["/Dashboard/Control"])
+  Regresar() {
+    this._router.navigate(['/Dashboard/Control']);
   }
-
 }

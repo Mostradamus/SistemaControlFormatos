@@ -46,10 +46,6 @@ public f = inject(FormatsService)
     console.log(area)
   }
   abriDetalle(item:any, estado:any){
-    // this.area.GetInfoAreasRevisionDetalle(item).subscribe((data: GetFormatDetailsByAreaAndDate[])=>{
-    //   this.data = data;
-    // })
-    // this.visualizacion[item]  = (this.visualizacion) ? !this.visualizacion[item] : !this.visualizacion[item];
     if (this.activeArea === item) {
       // Si ya está abierto, lo cerramos
       this.visualizacion[item] = false;

@@ -36,9 +36,6 @@ export class AreaServices implements IAreaService{
 
   async getAreasRevisionDetalle(req: Request, res: Response){
     const {id_area, id_status}: formats = req.params;
-    //  if (ValidarFuncionParams(req, res, "id_area")) {
-    //       return;
-    //     }
     try {
       
       console.log(id_area)

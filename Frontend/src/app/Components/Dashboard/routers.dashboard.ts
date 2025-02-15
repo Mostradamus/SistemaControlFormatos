@@ -17,21 +17,15 @@ export const DASHBOARD_ROUTES: Routes = [
     
     ,{
         path: 'Formatos/Lista',
-        // component: FormatsComponent,
         loadComponent: ()=> import('./Formatos/lista/lista.component'),
-        // loadChildren: ()=> import('./Formatos/formatos.routes').then(m => m.FORMATOS_ROUTES)
     }
     ,{
         path: 'Formatos/Registro',
-        // component: FormatsComponent,
         loadComponent: ()=> import('./Formatos/Registro/Registro.component'),
-        // loadChildren: ()=> import('./Formatos/formatos.routes').then(m => m.FORMATOS_ROUTES)
     }
     ,{
         path: 'Control',
-        // component: FormatsComponent,
         loadComponent: ()=> import('./Control/Control.component'),
-        // loadChildren: ()=> import('./Formatos/formatos.routes').then(m => m.FORMATOS_ROUTES)
     }
     ,{
         path: 'Control/Revision',
