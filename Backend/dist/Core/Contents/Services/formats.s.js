@@ -152,7 +152,6 @@ class FormatsServices {
                 console.log(typeof formatsModel);
                 const listaFormatsModel = formatsModel;
                 const query = `CALL verificar_formats_modelos_rango2(?,?,?);`; // Usamos '?' como marcador de posición
-                console.log(listaFormatsModel);
                 // Llamada a executeQuery con la cadena formateada como único parámetro
                 const resultado = yield this.sp.executeQuery(query, 1, [listaFormatsModel, nrMin, nrMax]);
                 let contador = resultado.length;
@@ -160,6 +159,17 @@ class FormatsServices {
             }
             catch (error) {
                 return res.status(500).json({ msj: "Error al obtener la lista por id" });
+            }
+        });
+    }
+    obtenerTotalFormatosDetalles(res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const estado = yield this.sp.executeStoredProcedureForGet("sp_ObtenerTotalFormatos");
+                return res.status(200).json(estado);
+            }
+            catch (error) {
+                return res.status(500).json({ msj: "Error en el servidor" });
             }
         });
     }

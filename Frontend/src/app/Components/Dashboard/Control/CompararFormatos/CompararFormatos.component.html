@@ -13,7 +13,7 @@
           </div>
         </p-card>
     </div>
-<p-fileupload name="myfile[]"  [multiple]="false" accept=".xlsx, .xls" maxFileSize="1000000" (onSelect)="onFileChange($event)" class="col-12">
+<p-fileupload name="myfile[]"  [multiple]="false" accept=".xlsx, .xls" maxFileSize="1000000" (onSelect)="onFileChange($event)" class="col-12  max-h-0 md:max-h-full" styleClass="max-h-0 md:max-h-full" >
     <ng-template #header let-files let-chooseCallback="chooseCallback" let-clearCallback="clearCallback" let-uploadCallback="uploadCallback">
         <div class="flex flex-wrap justify-between items-center flex-1 gap-4">
             <div class="flex gap-2">
@@ -22,9 +22,9 @@
             </div>
         </div>
     </ng-template>
-    <ng-template #content let-files let-uploadedFiles="uploadedFiles" let-removeFileCallback="removeFileCallback" let-removeUploadedFileCallback="removeUploadedFileCallback">
+    <!-- <ng-template #content class="flex  justify-content-center align-items-center" let-files let-uploadedFiles="uploadedFiles" let-removeFileCallback="removeFileCallback" let-removeUploadedFileCallback="removeUploadedFileCallback">
       
-    </ng-template>
+    </ng-template> -->
     <ng-template #file>
       <span>Resultado de pendientes: {{totalResultado}}</span>
       <div class="grid gap-4">
@@ -34,16 +34,19 @@
           }
         </div>
       
-        <div class="col-4 border-1 flex flex-column  justify-content-center align-items-center">
+        <div class="col-4 flex flex-column  justify-content-center align-items-center">
           @if(mostrarResultados){
-            <div class="resultado-list">
-              <div class="flex flex-column justify-content-center align-items-center" style="width: 100%;">
+            <p-scrollPanel [style]="{width: '150%', height: '500px'}">
+              <div class="flex flex-column justify-content-center align-items-center">
                 @for(i of listaDetallesArea; track i.formats_models) {
                   <p>Nro: {{ i.formats_models }} - Area: {{ i.area }} </p>
                 }
-
+  
               </div>
-            </div>
+
+            </p-scrollPanel>
+            <!-- <div class="resultado-list">
+            </div> -->
           }
           @else{
            <span>Sin resultados</span>
@@ -52,7 +55,7 @@
         </div>
       </div>
     </ng-template>
-    <ng-template #empty>
+    <ng-template #empty >
         <div class="flex items-center align-items-center justify-content-center justify-center flex-column">
             <i class="pi pi-cloud-upload !border-2 !rounded-full !p-8 !text-4xl !text-muted-color text-7xl"></i>
             <p class="mt-6 mb-0">No se encuentra resultados. Debe importar registro de comparacion </p>

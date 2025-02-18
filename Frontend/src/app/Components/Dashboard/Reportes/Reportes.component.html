@@ -1,0 +1,32 @@
+<div class=" card p-6">
+    <div class="grid justify-content-center  gap-8">
+      <div class="col-12">
+          <p-card header="">
+              <!-- <p class="m-0">En esta sección usted seleccionara las opciones disponibles aqui</p> -->
+          </p-card>
+      </div>
+      <div class="col-4">
+          <p-card  styleClass="hover:bg-blue-400 hover:text-200 cursor-pointer" (click)="redireccionar(2)">
+              <p class="m-0 h-9rem flex justify-content-center gap-2 align-items-center flex-column">
+                  <i class="pi pi-book text-6xl"></i>
+                  <span>
+                Total Historico
+                  </span>
+                  <p-badge [value]="total"  severity="warn" badgeSize="xlarge" />
+              </p>
+          </p-card>
+      </div>
+      <div class="col-4">
+        <p-card  styleClass="hover:bg-blue-400 hover:text-200 cursor-pointer" (click)="redireccionar(2)">
+            <p class="m-0 h-9rem flex justify-content-center gap-2 align-items-center flex-column">
+                <i class="pi pi-book text-6xl"></i>
+                <span>
+              Total Pendiente
+                </span>
+                <p-badge [value]="totalP"  severity="warn" badgeSize="xlarge" />
+            </p>
+        </p-card>
+    </div>
+  </div>
+  
+  </div>

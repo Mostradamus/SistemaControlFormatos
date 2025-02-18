@@ -31,10 +31,7 @@ export const DASHBOARD_ROUTES: Routes = [
         path: 'Control/Revision',
         loadComponent: ()=> import('./Control/Revision/Revision.component'),
     }
-    ,{
-        path: 'Control/Areas',
-        loadComponent: ()=> import('./Control/Areas/Areas.component'),
-    }
+    
     ,{
         path: 'Control/CompararFormatos',
         loadComponent: ()=> import('./Control/CompararFormatos/CompararFormatos.component'),
@@ -45,6 +42,10 @@ export const DASHBOARD_ROUTES: Routes = [
     }
     ,{
         path: 'Reportes',
+        loadComponent: ()=> import('./Reportes/Reportes.component')
+    }
+    ,{
+        path: 'Reportes/Areas',
         loadComponent: ()=> import('./Reportes/Reportes.component')
     }
 ]

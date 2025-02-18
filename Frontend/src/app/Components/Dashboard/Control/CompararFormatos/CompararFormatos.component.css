@@ -1,13 +1,9 @@
+::ng-host .p-scrollpanel-bar {
+  background-color: #6200ea; /* Color del scroll */
+  border-radius: 10px;
+  width: 6px; /* Grosor del scroll */
+}
 
-  .resultado-list {
-    height: 500px; /* Altura fija para el contenedor */
-    overflow-y: scroll;
-    width: -webkit-fill-available;
-  }
-  
-  .selected-card {
-    background-color: #3b82f6 !important; /* Azul */
-    color: white !important; /* Texto blanco */
-    border: 2px solid #1e40af !important; /* Borde azul oscuro */
-  }
-  
+::ng-host .p-scrollpanel-content {
+  padding-right: 10px;
+}

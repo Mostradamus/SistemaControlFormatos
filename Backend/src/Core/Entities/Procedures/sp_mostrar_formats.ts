@@ -34,3 +34,6 @@ export class getTotalByArea{
     name : string = '';
     totales : number = 0;
 }
+export class sp_ObtenerTotalFormatos{
+    total: number = 0;
+}

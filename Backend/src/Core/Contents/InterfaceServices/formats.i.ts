@@ -8,4 +8,5 @@ export interface IformatsService {
   updateFormatsDetails(req: Request, res: Response):void;
   comprobarFormatos(req:Request, res: Response): void;
   getTotalByArea(res: Response): void;
+  obtenerTotalFormatosDetalles(res:Response):void;
 }

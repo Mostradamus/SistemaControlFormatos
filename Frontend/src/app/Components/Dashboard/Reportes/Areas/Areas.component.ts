@@ -4,12 +4,13 @@ import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { FormatsService } from '../../../../Services/Formats.service';
 import { getTotalArea } from '../../../../Interfaces/sp';
+import { ScrollPanelModule } from 'primeng/scrollpanel';
 
 @Component({
   selector: 'app-areas',
   templateUrl: './Areas.component.html',
   styleUrls: ['./Areas.component.css'],
-  imports: [CardModule, ButtonModule],
+  imports: [CardModule, ButtonModule,ScrollPanelModule],
   providers: [FormatsService],
 })
 export default class AreasComponent implements OnInit {
