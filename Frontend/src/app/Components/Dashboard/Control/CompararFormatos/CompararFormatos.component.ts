@@ -7,6 +7,7 @@ import * as XLSX from 'xlsx';
 import { FormatsService } from '../../../../Services/Formats.service';
 import { verificar_formats_modelos_rango2 } from '../../../../Interfaces/sp';
 import { ScrollingModule } from '@angular/cdk/scrolling';
+import { ScrollPanelModule } from 'primeng/scrollpanel';
 
 import { CommonModule } from '@angular/common';
 import { RippleModule } from 'primeng/ripple';
@@ -16,7 +17,7 @@ import { Router } from '@angular/router';
   templateUrl: './CompararFormatos.component.html',
   styleUrls: ['./CompararFormatos.component.css'],
   providers: [FormatsService],
-  imports: [CardModule,ButtonModule,FileUploadModule, BadgeModule, CommonModule, RippleModule,ScrollingModule ]
+  imports: [CardModule,ButtonModule,FileUploadModule, BadgeModule, CommonModule,ScrollPanelModule, RippleModule,ScrollingModule ]
 })
 export default class CompararFormatosComponent implements OnInit {
 

@@ -19,7 +19,11 @@ export class FormatsControllers{
     }
     @Get("/formatos/total/Area")
         async getTotal(_req:Request, res:Response){
-            return this.FormatsServices.getTotalByArea(res);
+        return this.FormatsServices.getTotalByArea(res);
+    }
+    @Get("/formatos/total/formatos")
+        async getTotalFormatos(_req:Request, res:Response){
+        return this.FormatsServices.obtenerTotalFormatosDetalles(res);
     }
 
     @Post("/formatos/crear")

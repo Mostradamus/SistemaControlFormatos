@@ -12,6 +12,7 @@ import { FloatLabelModule } from 'primeng/floatlabel';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { InputTextModule } from 'primeng/inputtext';
+import { ScrollPanelModule } from 'primeng/scrollpanel';
 //
 import { DropdownModule } from 'primeng/dropdown'
 import { SliderModule } from 'primeng/slider'
@@ -25,7 +26,7 @@ import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angul
 
   imports:[CardModule, ButtonModule,AccordionModule,FormsModule,ReactiveFormsModule,IconFieldModule,
     InputIconModule,InputTextModule,
-    DropdownModule, CommonModule,FloatLabelModule, TableModule, DatePickerModule, SliderModule],
+    DropdownModule, CommonModule,FloatLabelModule, TableModule,ScrollPanelModule, DatePickerModule, SliderModule],
   providers:[AreasService, FormatsService]
 })
 export default class RevisionComponent implements OnInit {

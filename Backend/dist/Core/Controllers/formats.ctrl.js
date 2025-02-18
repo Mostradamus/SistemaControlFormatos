@@ -40,6 +40,11 @@ class FormatsControllers {
             return this.FormatsServices.getTotalByArea(res);
         });
     }
+    getTotalFormatos(_req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.FormatsServices.obtenerTotalFormatosDetalles(res);
+        });
+    }
     insertF(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             return this.FormatsServices.insertFormats(req, res);
@@ -81,6 +86,12 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], FormatsControllers.prototype, "getTotal", null);
+__decorate([
+    (0, routes_dc_1.Get)("/formatos/total/formatos"),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], FormatsControllers.prototype, "getTotalFormatos", null);
 __decorate([
     (0, routes_dc_1.Post)("/formatos/crear"),
     __metadata("design:type", Function),
