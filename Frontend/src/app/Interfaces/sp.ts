@@ -31,4 +31,5 @@ export interface verificar_formats_modelos_rango2{
     anio: string;
     modelo_completo: string;
     area: string ;
+    fecha: string;
 }

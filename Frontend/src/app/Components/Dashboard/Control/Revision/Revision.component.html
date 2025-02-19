@@ -15,12 +15,12 @@
                 <p class="m-0 font-bold">FILTRO POR FECHAS</p>  
                 <div class="flex gap-3 ">
                   <p-floatlabel variant="in">
-                    <p-datepicker [(ngModel)]="fechaInicio" formControlName="date" dateFormat="dd/mm/yy"   size="small"/>
+                    <p-datepicker [(ngModel)]="fechaInicio" formControlName="date"  (onSelect)="onDateChange()"   size="small"/>
                     <label for="over_label">FECHA INICIO</label>
                   </p-floatlabel>
                   <p-floatlabel variant="in">
                     
-                    <p-datepicker [(ngModel)]="fechaFin" formControlName="date2" />
+                    <p-datepicker [(ngModel)]="fechaFin" formControlName="date2" (onSelect)="onDateChange()" />
                     <label for="over_label">FECHA FIN</label>
                   </p-floatlabel>
                 </div>

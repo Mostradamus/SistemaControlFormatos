@@ -13,6 +13,8 @@
           </div>
         </p-card>
     </div>
+    
+
 <p-fileupload name="myfile[]"  [multiple]="false" accept=".xlsx, .xls" maxFileSize="1000000" (onSelect)="onFileChange($event)" class="col-12  max-h-0 md:max-h-full" styleClass="max-h-0 md:max-h-full" >
     <ng-template #header let-files let-chooseCallback="chooseCallback" let-clearCallback="clearCallback" let-uploadCallback="uploadCallback">
         <div class="flex flex-wrap justify-between items-center flex-1 gap-4">
@@ -29,11 +31,13 @@
       <span>Resultado de pendientes: {{totalResultado}}</span>
       <div class="grid gap-4">
         <div class="col-7">
+          @if(totalResultado > 0){
+            <button  pButton (click)="exportToExcel()">📤 Exportar a Excel</button>
+          }
           @for ( itm of uniqueAreas; track itm) {
             <p-button [label]="itm.area.toUpperCase()" variant="text" [raised]="true" severity="warn" styleClass="w-full flex py-3 my-4 justify-content-between" [badge]="itm.count.toString()" badgeSeverity="danger" (onClick)="mostarDetallesPenientes(itm.area)"/>
           }
         </div>
-      
         <div class="col-4 flex flex-column  justify-content-center align-items-center">
           @if(mostrarResultados){
             <p-scrollPanel [style]="{width: '150%', height: '500px'}">
