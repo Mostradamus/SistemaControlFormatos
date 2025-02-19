@@ -36,10 +36,11 @@ export class AreaServices implements IAreaService{
 
   async getAreasRevisionDetalle(req: Request, res: Response){
     const {id_area, id_status}: formats = req.params;
+    const { fechaInicio, fechaFin } = req.query;
     try {
       
       console.log(id_area)
-      const all = await this.sp.executeStoredProcedureForList<GetFormatDetailsByAreaAndDate>("GetFormatDetailsByAreaAndDate",1, [id_area, id_status]);
+      const all = await this.sp.executeStoredProcedureForList<GetFormatDetailsByAreaAndDate>("GetFormatDetailsByAreaAndDate",1, [id_area, id_status ,fechaInicio, fechaFin]);
       console.log(all)
       return res.status(200).json(all);
     } catch (error) {

@@ -4,6 +4,7 @@ import { ButtonModule } from 'primeng/button';
 import { FileUploadModule } from 'primeng/fileupload';
 import { BadgeModule } from 'primeng/badge';
 import * as XLSX from 'xlsx'; 
+import { saveAs } from 'file-saver';
 import { FormatsService } from '../../../../Services/Formats.service';
 import { verificar_formats_modelos_rango2 } from '../../../../Interfaces/sp';
 import { ScrollingModule } from '@angular/cdk/scrolling';
@@ -47,6 +48,40 @@ export default class CompararFormatosComponent implements OnInit {
       this.readExcel(file);  // Llama a la función para leer el archivo
     }// Ejecuta la callback después de procesar el archivo
   }
+  exportToExcel() {
+    // Datos de ejemplo (debes reemplazarlo con los datos reales)
+    
+    const datosOrdenados = this.listaDetalles.map(({ area, modelo_completo , fecha}) => ({
+      modelo_completo,area, fecha
+    }));
+  
+    // Crear hoja de cálculo con el nuevo orden
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(datosOrdenados);
+  
+    // Agregar cabeceras en la primera fila
+    const header = [['FORMATO','AREA', 'FECHA']];
+    XLSX.utils.sheet_add_aoa(ws, header, { origin: 'A1' });
+  
+    // Ajustar ancho de columnas
+    ws['!cols'] = [
+      { wch: 20 }, // Cargo
+      { wch: 20 }, // Edad
+    ];
+  
+    // Crear el libro de trabajo y agregar la hoja
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Reporte');
+  
+    // Escribir el archivo Excel
+    const excelBuffer: any = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+    const data: Blob = new Blob([excelBuffer], {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8'
+    });
+  
+    // Descargar el archivo
+    saveAs(data, 'ReporteComparacion.xlsx');
+  }
+  
   
   readExcel(file: File) {
     const reader = new FileReader();

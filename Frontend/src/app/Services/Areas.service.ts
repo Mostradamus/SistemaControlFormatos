@@ -17,7 +17,9 @@ export class AreasService {
   GetInfoAreasRevision(): Observable<any> {
     return this.http.get(`${this.myAppUrl}${this.myApiUrl}/revision`);
   }
-  GetInfoAreasRevisionDetalle(id:number, estado: number): Observable<any> {
-    return this.http.get(`${this.myAppUrl}${this.myApiUrl}/detalles/${id}/estado/${estado}`);
+  GetInfoAreasRevisionDetalle(id:number, estado: number,fechaInicio: string, fechaFin: string): Observable<any> {
+    return this.http.get(`${this.myAppUrl}${this.myApiUrl}/detalles/${id}/estado/${estado}`, {
+      params: { fechaInicio, fechaFin }
+  });
   }
 }

@@ -54,18 +54,7 @@ export default class RevisionComponent implements OnInit {
 });
    this.fechaFin = new Date(); // Fecha actual
     this.fechaInicio = new Date();
-    this.fechaInicio.setDate(this.fechaFin.getDate() - 7); 
-  //  this.es = {
-  //   firstDayOfWeek: 1,
-  //   dayNames: ["domingo", "lunes", "martes", "miércoles", "jueves", "viernes", "sábado"],
-  //   dayNamesShort: ["dom", "lun", "mar", "mié", "jue", "vie", "sáb"],
-  //   dayNamesMin: ["D", "L", "M", "O", "J", "V", "S"],
-  //   monthNames: ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"],
-  //   monthNamesShort: ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"],
-  //   today: "Hoy",
-  //   clear: "Borrar"
-  // };
-    // this.area.GetInfoAreasRevisionDetalle()
+    this.fechaInicio.setDate(this.fechaFin.getDate() - 10); 
   }
   getDta(){
     this.area.GetInfoAreasRevision().subscribe((data:GetGroupedFormatsByDate[])=>{
@@ -79,24 +68,40 @@ export default class RevisionComponent implements OnInit {
   abrir(area: Number){
     console.log(area)
   }
+  formatDate(date: Date): string {
+    if (!date) return ''; // Manejar caso de fecha vacía
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Asegurar 2 dígitos
+    const day = String(date.getDate()).padStart(2, '0'); // Asegurar 2 dígitos
+    return `${year}-${month}-${day}`;
+}
+onDateChange() {
+  this.activeArea = null;
+  this.visualizacion = {};
+  this.data = [];
+}
   abriDetalle(item:any, estado:any){
     if (this.activeArea === item) {
       // Si ya está abierto, lo cerramos
       this.visualizacion[item] = false;
       this.activeArea = null;
-      this.data = []; // Limpiar datos
+      this.data = [];
     } else {
       // Cerrar todas las vistas
+      const fechaInicioFormatted = this.fechaInicio ? this.formatDate(this.fechaInicio) : '';
+      const fechaFinFormatted = this.fechaFin ? this.formatDate(this.fechaFin) : '';
+
       this.visualizacion = {};
       this.activeArea = item;
       this.visualizacion[item] = true;
-      console.log(item)
-      // Cargar nueva data
-      this.area.GetInfoAreasRevisionDetalle(item,estado).subscribe((data: GetFormatDetailsByAreaAndDate[]) => {
-        console.log(data)
-        this.data = data;
-      });
+      this.getInfoAreasRevision(item,estado, fechaInicioFormatted, fechaFinFormatted);
+    
     }
+  }
+  getInfoAreasRevision(item:any,estado:any, fechaInicioFormatted:any, fechaFinFormatted:any){
+    this.area.GetInfoAreasRevisionDetalle(item,estado, fechaInicioFormatted, fechaFinFormatted).subscribe((data: GetFormatDetailsByAreaAndDate[]) => {
+      this.data = data;
+    });
   }
   applyFilter(value: string) {
     // Llama al método de filtrado de tu tabla aquí
