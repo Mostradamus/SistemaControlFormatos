@@ -207,12 +207,16 @@ export default class CompararFormatosComponent implements OnInit {
   }
   mostarDetallesPenientes(area:any){
     this.listaDetallesArea = this.listaDetalles.filter(r => r.area == area);
-    console.log(this.listaDetallesArea)
     this.mostrarResultados = true;
     this.selectedArea = area;
 
   }
   Regresar() {
     this._router.navigate(['/Dashboard/Control']);
+  }
+  irAgregar(area:string){
+    console.log(area)
+    const lista = this.listaDetalles;
+    
   }
 }

@@ -11,22 +11,25 @@ import {
 } from "../../Helpers/ValidationParams";
 import { StoreProcedure } from "../../../Global/Config/StoreProcedure";
 import { getTotalByArea, sp_mostrar_formats, sp_verificar_registro, verificar_formats_model ,sp_ObtenerTotalFormatos} from "../../Entities/Procedures/sp_mostrar_formats";
+import { ComparisonResult } from "../../Entities/comparisonResult";
+import { ResultBody } from "../../Entities/exporttar";
+import { ComparisonResultDetails } from "../../Entities/comparisonResultDetails";
 
 export class FormatsServices implements IformatsService {
   public format;
   public formatDetails;
+  public comparisonResult;
+  public comparisonResultDetail;
   private sp;
 
   constructor() {
     this.format = new QueryGlobal(formats);
     this.formatDetails = new QueryGlobal(formatsDetails);
     this.sp = new StoreProcedure();
+    this.comparisonResult = new QueryGlobal(ComparisonResult)
+    this.comparisonResultDetail = new QueryGlobal(ComparisonResultDetails)
   }
 
-  /**
-   * Obtiene todos los formatos registrados
-   * @param res - Objeto Response para la respuesta HTTP
-   */
   async getAllFormats(res: Response) {
     try {
       const all = await this.format.getAll();
@@ -38,12 +41,6 @@ export class FormatsServices implements IformatsService {
     }
   }
 
-  /**
-   * Busca un formato por su ID
-   * @param req - Request con el ID del formato
-   * @param res - Response para la respuesta HTTP
-   * Incluye validación de parámetros
-   */
   async findFormatsById(req: Request, res: Response) {
     const { id_formats }: formats = req.params;
 
@@ -75,19 +72,7 @@ export class FormatsServices implements IformatsService {
     }
   }
 
-  /**
-   * Inserta un nuevo formato y genera sus detalles
-   * @param req - Request con datos del formato (starting_order, total, turn, description)
-   * @param res - Response para la respuesta HTTP
-   * Validaciones:
-   * - Campos requeridos completos
-   * - No duplicidad de starting_order
-   * - No existencia en formatos_details
-   * Proceso:
-   * 1. Valida duplicidad
-   * 2. Crea el formato principal
-   * 3. Genera detalles con formato numérico padded con ceros
-   */
+
   async insertFormats(req: Request, res: Response) {
     const { id_area, starting_order, total, id_turn, description }: formats = req.body;
     if (ValidarFuncionReq({ id_area, starting_order, total, id_turn, description }, res)) {
@@ -124,11 +109,7 @@ export class FormatsServices implements IformatsService {
 
         let pInit = 8;
         let pInitSOrder = Number(starting_order);
-        for (
-          let index = pInitSOrder;
-          index < Number(total) + pInitSOrder;
-          index++
-        ) {
+        for (  let index = pInitSOrder;index < Number(total) + pInitSOrder;index++) {
           let currentLength = index.toString().length;
           let vlInit = pInit - currentLength;
           let conString = "";
@@ -189,14 +170,7 @@ export class FormatsServices implements IformatsService {
       return res.status(500).json({ msj: "Error en el servidor" });
     }
   }
-  /**
-   * Eliminación lógica de un formato (cambio de status a 2)
-   * @param req - Request con el ID del formato
-   * @param res - Response para la respuesta HTTP
-   * Validaciones:
-   * - ID existente
-   * - Formato activo
-   */
+  
   async deleteFormatsById(req: Request, res: Response) {
     const { id_formats }: formats = req.params;
     if (ValidarFuncionParams(req, res, "id_formats")) {
@@ -240,5 +214,30 @@ export class FormatsServices implements IformatsService {
       return res.status(500).json({ msj: "Error en el servidor" });
     }
 
+  }
+  async insertComparisonResult(req: Request, res: Response){
+    const { cabecera, detalles }: ResultBody = req.body;
+    try {
+      if (!cabecera || !Array.isArray(detalles) || detalles.length === 0) {
+        return res.status(400).json({ mensaje: 'Estructura de datos inválida' });
+      }
+      const _cmparison = new ComparisonResult();
+      _cmparison.name_area_comparison = cabecera.name_area_comparison;
+      _cmparison.total_quantity = cabecera.total_quantity;
+      _cmparison.registration_date_comparison= new Date();
+      const idComparacion = await this.comparisonResult.create(_cmparison);
+      
+      detalles.forEach(element => {
+        const dtComparisonDetails = new ComparisonResultDetails();
+        dtComparisonDetails.area_comparison = element.area_comparison;
+        dtComparisonDetails.id_comparison = idComparacion.id_comparison;
+        dtComparisonDetails.model_format = element.model_format;
+        dtComparisonDetails.registration_date_comparison_details = new Date();
+        this.comparisonResultDetail.create(dtComparisonDetails);
+      });
+      return res.status(200).json({ msj: "Formato Registrado exitosamente" });
+    } catch (error) {
+      return res.status(500).json({ msj: "Error al obtener la lista por id" });
+    }
   }
 }

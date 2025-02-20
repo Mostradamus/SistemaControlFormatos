@@ -40,6 +40,7 @@
         </div>
         <div class="col-4 flex flex-column  justify-content-center align-items-center">
           @if(mostrarResultados){
+            <button pButton label="Ingresar pendiente" (click)="irAgregar(selectedArea!)"></button>
             <p-scrollPanel [style]="{width: '150%', height: '500px'}">
               <div class="flex flex-column justify-content-center align-items-center">
                 @for(i of listaDetallesArea; track i.formats_models) {

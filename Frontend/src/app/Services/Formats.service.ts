@@ -7,10 +7,12 @@ import { Observable } from 'rxjs/internal/Observable';
 export class FormatsService {
   private myAppUrl: string;
   public myApiUrl: string;
+
   constructor(private http: HttpClient) {
     this.myAppUrl = environment.api;
     this.myApiUrl = 'api/v1/formatos';
   }
+
   getAllFormats(): Observable<any> {
     return this.http.get(`${this.myAppUrl}${this.myApiUrl}`);
   }
@@ -31,22 +33,24 @@ export class FormatsService {
   getAllFormatsSp(): Observable<any> {
     return this.http.get(`${this.myAppUrl}${this.myApiUrl}/Lista`);
   }
+
   updateFormatsDetails(id: any): Observable<any>{
-    return this.http.put(`${this.myAppUrl}${this.myApiUrl}/actualizarEstado/${id}`, {
-    });
+    return this.http.put(`${this.myAppUrl}${this.myApiUrl}/actualizarEstado/${id}`, {});
   }
+
   comprobar(formatData:any, nrMin:any, nrMax:any):Observable<any>{
     const payload = { formatsModel: formatData, nrMin, nrMax };
-    console.log(formatData)
-     return this.http.post(
-      `${this.myAppUrl}${this.myApiUrl}/comprobar/formatos`,
-      payload
-    );
+     return this.http.post(`${this.myAppUrl}${this.myApiUrl}/comprobar/formatos`,payload);
   }
+
   getTotalAreaSp(): Observable<any>{
     return this.http.get(`${this.myAppUrl}${this.myApiUrl}/total/Area`);
   }
+
   getTotalFormatosDetallesSp(): Observable<any>{
     return this.http.get(`${this.myAppUrl}${this.myApiUrl}/total/formatos`);
+  }
+  insertComparison(data: any): Observable<any> {
+    return this.http.post(`${this.myAppUrl}${this.myApiUrl}/registrar/comparacion`, data);
   }
 }
