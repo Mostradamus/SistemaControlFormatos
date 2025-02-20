@@ -44,4 +44,10 @@ export class FormatsControllers{
     async ActualizarRevision(req:Request, res:Response){
         return this.FormatsServices.updateFormatsDetails(req, res);
     }
+
+    @Post("/formatos/registrar/comparacion")
+    async registerComparison(req:Request, res:Response){
+        console.log(11)
+        return this.FormatsServices.insertComparisonResult(req, res);
+    }
 }

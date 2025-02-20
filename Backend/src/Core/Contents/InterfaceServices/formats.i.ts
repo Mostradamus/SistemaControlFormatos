@@ -9,4 +9,5 @@ export interface IformatsService {
   comprobarFormatos(req:Request, res: Response): void;
   getTotalByArea(res: Response): void;
   obtenerTotalFormatosDetalles(res:Response):void;
+  insertComparisonResult(req: Request,res:Response ): void;
 }

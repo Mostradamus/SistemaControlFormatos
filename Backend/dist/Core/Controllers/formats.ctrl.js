@@ -66,6 +66,12 @@ class FormatsControllers {
             return this.FormatsServices.updateFormatsDetails(req, res);
         });
     }
+    registerComparison(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            console.log(11);
+            return this.FormatsServices.insertComparisonResult(req, res);
+        });
+    }
 }
 exports.FormatsControllers = FormatsControllers;
 __decorate([
@@ -116,3 +122,9 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], FormatsControllers.prototype, "ActualizarRevision", null);
+__decorate([
+    (0, routes_dc_1.Post)("/formatos/registrar/comparacion"),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], FormatsControllers.prototype, "registerComparison", null);
