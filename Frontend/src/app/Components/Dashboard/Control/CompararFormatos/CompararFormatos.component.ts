@@ -13,6 +13,10 @@ import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { CommonModule } from '@angular/common';
 import { RippleModule } from 'primeng/ripple';
 import { Router } from '@angular/router';
+import { ComparisonResultDetails } from '../../../../Interfaces/ComparisonResultDetails';
+import { ComparisonResult } from '../../../../Interfaces/ComparisonResult';
+import { HttpErrorResponse } from '@angular/common/http';
+import { ChangeDetectorRef } from '@angular/core';
 @Component({
   selector: 'app-compararformatos',
   templateUrl: './CompararFormatos.component.html',
@@ -25,15 +29,17 @@ export default class CompararFormatosComponent implements OnInit {
   constructor() { }
   mostrarResultados: boolean = false; 
   public uniqueAreas: { area: string, count: number }[] = [];
-  selectedArea: string | null = null; 
-  ngOnInit() {
-  }
-  private _f = inject(FormatsService)
-  public _router = inject(Router);
   excelData: any[] = [];  // Array donde almacenaremos los datos del Excel
   listaDetalles : verificar_formats_modelos_rango2[] = []
   listaDetallesArea : verificar_formats_modelos_rango2[] = []
   totalResultado = 0;
+  selectedArea: string | null = null; 
+
+  private _ch = inject(ChangeDetectorRef);
+  private _f = inject(FormatsService)
+  public _router = inject(Router);
+  ngOnInit() {
+  }
 
   choose(event: any, callback: any) {
     // Obtén el archivo seleccionado
@@ -216,7 +222,41 @@ export default class CompararFormatosComponent implements OnInit {
   }
   irAgregar(area:string){
     console.log(area)
-    const lista = this.listaDetalles;
+    var listadetalle: ComparisonResultDetails[]= []; 
+   
+    const lista = this.listaDetalles.filter(r => r.area == area);
+    lista.forEach(element => {
+      const detalle: ComparisonResultDetails = {
+        model_format: element.modelo_completo,
+        area_comparison: element.area
+      };
+      listadetalle.push(detalle);
+    });
+    var cabecera : ComparisonResult  = {name_area_comparison: area, total_quantity: lista.length};
+    var body = {
+      cabecera,
+      detalles: listadetalle
+    }
+    this._f.insertComparison(body).subscribe({
+      next: (d)=>{
+        console.log(d)
+        this.actualizarAreas(area)
+
+        
+      },
+      error: (e: HttpErrorResponse)=>{
+
+      }
+    })
     
   }
+  actualizarAreas(area:any){
+    console.log(area)
+    this.uniqueAreas  = this.uniqueAreas.filter(a => a.area !== area);
+    this.listaDetalles  = this.listaDetalles.filter(a => a.area !== area);
+    this.mostrarResultados = false;
+    this.totalResultado =this.listaDetalles.length
+    this._ch.detectChanges()
+  }
+ 
 }
