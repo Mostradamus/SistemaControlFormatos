@@ -227,14 +227,16 @@ export class FormatsServices implements IformatsService {
       _cmparison.registration_date_comparison= new Date();
       const idComparacion = await this.comparisonResult.create(_cmparison);
       
-      detalles.forEach(element => {
+      for (const element of detalles) {
         const dtComparisonDetails = new ComparisonResultDetails();
         dtComparisonDetails.area_comparison = element.area_comparison;
         dtComparisonDetails.id_comparison = idComparacion.id_comparison;
         dtComparisonDetails.model_format = element.model_format;
         dtComparisonDetails.registration_date_comparison_details = new Date();
-        this.comparisonResultDetail.create(dtComparisonDetails);
-      });
+        
+        await this.comparisonResultDetail.create(dtComparisonDetails);
+      }
+      
       return res.status(200).json({ msj: "Formato Registrado exitosamente" });
     } catch (error) {
       return res.status(500).json({ msj: "Error al obtener la lista por id" });

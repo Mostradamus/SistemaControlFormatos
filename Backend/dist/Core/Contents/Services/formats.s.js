@@ -224,14 +224,14 @@ class FormatsServices {
                 _cmparison.total_quantity = cabecera.total_quantity;
                 _cmparison.registration_date_comparison = new Date();
                 const idComparacion = yield this.comparisonResult.create(_cmparison);
-                detalles.forEach(element => {
+                for (const element of detalles) {
                     const dtComparisonDetails = new comparisonResultDetails_1.ComparisonResultDetails();
                     dtComparisonDetails.area_comparison = element.area_comparison;
                     dtComparisonDetails.id_comparison = idComparacion.id_comparison;
                     dtComparisonDetails.model_format = element.model_format;
                     dtComparisonDetails.registration_date_comparison_details = new Date();
-                    this.comparisonResultDetail.create(dtComparisonDetails);
-                });
+                    yield this.comparisonResultDetail.create(dtComparisonDetails);
+                }
                 return res.status(200).json({ msj: "Formato Registrado exitosamente" });
             }
             catch (error) {

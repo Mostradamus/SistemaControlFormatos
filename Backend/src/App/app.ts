@@ -3,6 +3,7 @@ import 'reflect-metadata';
 import { RegisterRoutes } from '../Global/Config/register.c';
 import { env } from '../Global/Environment/env';
 import cors from 'cors'
+import bodyParser from 'body-parser';
 import morgan from 'morgan'
 import { Controllers } from '../Global/Config/base';
  
@@ -16,11 +17,11 @@ import { Controllers } from '../Global/Config/base';
         }
         
         private config() {
-            
-
-            this.app.use(express.json());
+        
             this.app.use(cors())
             this.app.use(morgan('dev'))
+            this.app.use(bodyParser.json({ limit: '50mb' }));
+            this.app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
         } 
        
         private routes() {
