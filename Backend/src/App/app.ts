@@ -30,7 +30,8 @@ import { Controllers } from '../Global/Config/base';
                 Controllers.UsersControllers,
                 Controllers.FormatsControllers,
                 Controllers.TurnoControllers,
-                Controllers.AreaControllers
+                Controllers.AreaControllers,
+                Controllers.ReportsControllers
             ];
             RegisterRoutes(this.app, controllersApi);
         }

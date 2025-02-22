@@ -228,6 +228,11 @@ export class FormatsServices implements IformatsService {
       const idComparacion = await this.comparisonResult.create(_cmparison);
       
       for (const element of detalles) {
+        //obtener el valor para acctualizar
+        let nroFormat = element.model_format;
+        let nro = nroFormat?.split('-')[1]
+        // Llamada a executeQuery con la cadena formateada como único parámetro
+        await this.sp.executeQuery("CALL 	sp_updateStatusDetailsFormat(?)", 0, nro);
         const dtComparisonDetails = new ComparisonResultDetails();
         dtComparisonDetails.area_comparison = element.area_comparison;
         dtComparisonDetails.id_comparison = idComparacion.id_comparison;
