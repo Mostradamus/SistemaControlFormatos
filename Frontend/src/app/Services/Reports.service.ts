@@ -17,5 +17,7 @@ private myAppUrl: string;
   GetReports(): Observable<any> {
     return this.http.get(`${this.myAppUrl}${this.myApiUrl}`);
   }
-
+  GetReportsID(id: any): Observable<any> {
+    return this.http.get(`${this.myAppUrl}${this.myApiUrl}/Archivo/${id}`);
+  }
 }

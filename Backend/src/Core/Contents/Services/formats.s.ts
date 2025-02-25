@@ -216,7 +216,7 @@ export class FormatsServices implements IformatsService {
 
   }
   async insertComparisonResult(req: Request, res: Response){
-    const { cabecera, detalles }: ResultBody = req.body;
+    const { cabecera, detalles, detallesLista}: ResultBody = req.body;
     try {
       if (!cabecera || !Array.isArray(detalles) || detalles.length === 0) {
         return res.status(400).json({ mensaje: 'Estructura de datos inválida' });
@@ -226,24 +226,33 @@ export class FormatsServices implements IformatsService {
       _cmparison.total_quantity = cabecera.total_quantity;
       _cmparison.registration_date_comparison= new Date();
       const idComparacion = await this.comparisonResult.create(_cmparison);
-      
-      for (const element of detalles) {
-        //obtener el valor para acctualizar
-        let nroFormat = element.model_format;
-        let nro = nroFormat?.split('-')[1]
-        // Llamada a executeQuery con la cadena formateada como único parámetro
-        await this.sp.executeQuery("CALL 	sp_updateStatusDetailsFormat(?)", 0, nro);
-        const dtComparisonDetails = new ComparisonResultDetails();
-        dtComparisonDetails.area_comparison = element.area_comparison;
-        dtComparisonDetails.id_comparison = idComparacion.id_comparison;
-        dtComparisonDetails.model_format = element.model_format;
-        dtComparisonDetails.registration_date_comparison_details = new Date();
+      console.log(detallesLista.join(',') )
+      await this.sp.executeQuery("CALL 	sp_updateStatusDetailsFormat(?)", 0, [detallesLista.join(',') ]);
+      const detallesStr = detalles
+        .map(item => `${item.area_comparison}|${item.model_format}`)
+        .join(',');
+        console.log(detallesStr)
+        var id = idComparacion.id_comparison
+        await  this.sp.executeQuery('CALL InsertComparisonDetails(?, ?)',2,[id, detallesStr]
+        )
+
+      // for (const element of detalles) {
+      //   //obtener el valor para acctualizar
+      //   let nroFormat = element.model_format;
+      //   let nro = nroFormat?.split('-')[1]
+      //   // Llamada a executeQuery con la cadena formateada como único parámetro
+      //   const dtComparisonDetails = new ComparisonResultDetails();
+      //   dtComparisonDetails.area_comparison = element.area_comparison;
+      //   dtComparisonDetails.id_comparison = idComparacion.id_comparison;
+      //   dtComparisonDetails.model_format = element.model_format;
+      //   dtComparisonDetails.registration_date_comparison_details = new Date();
         
-        await this.comparisonResultDetail.create(dtComparisonDetails);
-      }
+      //   await this.comparisonResultDetail.create(dtComparisonDetails);
+      // }
       
       return res.status(200).json({ msj: "Formato Registrado exitosamente" });
     } catch (error) {
+      console.log(error)
       return res.status(500).json({ msj: "Error al obtener la lista por id" });
     }
   }
