@@ -29,7 +29,8 @@ class App {
             base_1.Controllers.UsersControllers,
             base_1.Controllers.FormatsControllers,
             base_1.Controllers.TurnoControllers,
-            base_1.Controllers.AreaControllers
+            base_1.Controllers.AreaControllers,
+            base_1.Controllers.ReportsControllers
         ];
         (0, register_c_1.RegisterRoutes)(this.app, controllersApi);
     }

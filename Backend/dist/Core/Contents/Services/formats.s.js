@@ -225,6 +225,11 @@ class FormatsServices {
                 _cmparison.registration_date_comparison = new Date();
                 const idComparacion = yield this.comparisonResult.create(_cmparison);
                 for (const element of detalles) {
+                    //obtener el valor para acctualizar
+                    let nroFormat = element.model_format;
+                    let nro = nroFormat === null || nroFormat === void 0 ? void 0 : nroFormat.split('-')[1];
+                    // Llamada a executeQuery con la cadena formateada como único parámetro
+                    yield this.sp.executeQuery("CALL 	sp_updateStatusDetailsFormat(?)", 0, nro);
                     const dtComparisonDetails = new comparisonResultDetails_1.ComparisonResultDetails();
                     dtComparisonDetails.area_comparison = element.area_comparison;
                     dtComparisonDetails.id_comparison = idComparacion.id_comparison;
