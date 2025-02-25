@@ -99,27 +99,27 @@ export class StoreProcedure {
     // Obtiene una conexión del pool.
     const conn = await pool.getConnection();
     try {
-      console.log(query)
-      console.log(params)
       // Ejecuta la consulta con los parámetros.
-      if(tipo == 1){
+      if(tipo == 1 || tipo == 2){
         params = params[0]
       }else{
 
       }
+      console.log(query)
       const [result]: any[] = await conn.query(query, params);
-      console.log(result)
-      console.log(55)
+      // const result = Array.isArray(rows) ? rows[0] : rows;
       if(tipo == 1){
+        console.log(result)
         const [resT]:any[] = result;  // Suponiendo que el primer elemento de `result` es el objeto que necesitas.
-        console.log(resT);
-        console.log(22);
+    
         return resT; 
-      }else{
+      }else if(tipo == 0){
         console.log(23)
 
         const f = result;  // `result` ya es un arreglo
         return f as RowDataPacket[]; 
+      }else{
+        return result;
       }
     } finally {
       // Libera la conexión al finalizar.

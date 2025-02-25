@@ -34,6 +34,7 @@ export default class CompararFormatosComponent implements OnInit {
   listaDetallesArea : verificar_formats_modelos_rango2[] = []
   totalResultado = 0;
   selectedArea: string | null = null; 
+  
 
   private _ch = inject(ChangeDetectorRef);
   private _f = inject(FormatsService)
@@ -147,8 +148,6 @@ export default class CompararFormatosComponent implements OnInit {
         selectedYear = Math.min(...years);
       }
   
-      console.log(`🔹 Año seleccionado: ${selectedYear}`);
-  
       // Verificar si hay datos para el año seleccionado
       if (!groupedData[selectedYear] || groupedData[selectedYear].length === 0) {
         console.log(`⚠ No hay registros para el año ${selectedYear}.`);
@@ -163,10 +162,10 @@ export default class CompararFormatosComponent implements OnInit {
       const minNumber = Math.min(...numericNumbers); // Obtener el valor mínimo
       const maxNumber = Math.max(...numericNumbers);
       const formatsWithYear = numbers.map(num => `${selectedYear}-${num}`);
-  
+      const formatsSinYear = numbers.map(num => `${num}`);
       console.log(`📤 Enviando datos del año ${selectedYear}:`, formatsWithYear);
       console.log(`🔹 Rango: ${minNumber} - ${maxNumber}`);
-  
+      
       // Llamada al backend SOLO con los datos del año seleccionado
       this._f.comprobar(formatsWithYear.join(','), minNumber, maxNumber).subscribe(
         (response) => {
@@ -221,7 +220,6 @@ export default class CompararFormatosComponent implements OnInit {
     this._router.navigate(['/Dashboard/Control']);
   }
   irAgregar(area:string){
-    console.log(area)
     var listadetalle: ComparisonResultDetails[]= []; 
    
     const lista = this.listaDetalles.filter(r => r.area == area);
@@ -233,16 +231,16 @@ export default class CompararFormatosComponent implements OnInit {
       listadetalle.push(detalle);
     });
     var cabecera : ComparisonResult  = {name_area_comparison: area, total_quantity: lista.length};
+    const modelParts = listadetalle.map(item => item.model_format?.split('-')[1]);
     var body = {
       cabecera,
-      detalles: listadetalle
+      detalles: listadetalle,
+      detallesLista: modelParts
     }
+    console.log(modelParts)
     this._f.insertComparison(body).subscribe({
       next: (d)=>{
-        console.log(d)
         this.actualizarAreas(area)
-
-        
       },
       error: (e: HttpErrorResponse)=>{
 

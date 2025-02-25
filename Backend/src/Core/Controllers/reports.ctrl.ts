@@ -12,7 +12,11 @@ export class ReportsControllers{
     }
 
     @Get("/reportes")
-    async getAllAreas(req:Request, res:Response){
+    async getAllReport(req:Request, res:Response){
         return this.reportService.getReports(res);
+    }
+    @Get("/reportes/archivo/:id_comparison")
+    async getAllReportID(req:Request, res:Response){
+        return this.reportService.getReportID(req,res);
     }
 }
