@@ -52,8 +52,8 @@ export default class CompararFormatosComponent implements OnInit {
     console.log(event)
     const file = event.files[0];  // Obtén el archivo que el usuario selecciona
     if (file) {
-      this.readExcel(file);  // Llama a la función para leer el archivo
-    }// Ejecuta la callback después de procesar el archivo
+      this.readExcel(file); // Llama a la función para leer el archivo
+    }// Ejecuta la callback de spués de procesar el archivo
   }
   exportToExcel() {
     // Datos de ejemplo (debes reemplazarlo con los datos reales)

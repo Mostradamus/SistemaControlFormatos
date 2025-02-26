@@ -19,4 +19,9 @@ export class ReportsControllers{
     async getAllReportID(req:Request, res:Response){
         return this.reportService.getReportID(req,res);
     }
+    @Get("/reportes/totales/:id_status")
+    async getTotalStatusAreaCount(req:Request, res:Response){
+        console.log("entro")
+        return this.reportService.getTotalStatusAreaCount(req,res);
+    }
 }

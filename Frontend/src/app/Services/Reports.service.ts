@@ -18,6 +18,10 @@ private myAppUrl: string;
     return this.http.get(`${this.myAppUrl}${this.myApiUrl}`);
   }
   GetReportsID(id: any): Observable<any> {
-    return this.http.get(`${this.myAppUrl}${this.myApiUrl}/Archivo/${id}`);
+    return this.http.get(`${this.myAppUrl}${this.myApiUrl}/archivo/${id}`);
+  }
+  GetReportsTotalCountArea(id: any): Observable<any> {
+    console.log(id)
+    return this.http.get(`${this.myAppUrl}${this.myApiUrl}/totales/${id}`);
   }
 }

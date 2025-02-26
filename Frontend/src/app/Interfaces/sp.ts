@@ -33,3 +33,7 @@ export interface verificar_formats_modelos_rango2{
     area: string ;
     fecha: string;
 }
+export interface GetAreaCountByStatus{
+    nombre: string 
+    contador: number
+}

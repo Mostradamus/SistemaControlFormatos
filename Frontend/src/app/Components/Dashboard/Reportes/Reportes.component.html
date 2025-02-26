@@ -5,8 +5,8 @@
               <!-- <p class="m-0">En esta sección usted seleccionara las opciones disponibles aqui</p> -->
           </p-card>
       </div>
-      <div class="col-4">
-          <p-card  styleClass="hover:bg-blue-400 hover:text-200 cursor-pointer">
+      <div class="col-4" (click)="abrirmodal(0)">
+          <p-card  styleClass="hover:bg-blue-400 hover:text-200 cursor-pointer" >
               <p class="m-0 h-9rem flex justify-content-center gap-2 align-items-center flex-column">
                   <i class="pi pi-book text-6xl"></i>
                   <span>
@@ -16,7 +16,7 @@
               </p>
           </p-card>
       </div>
-      <div class="col-4">
+      <div class="col-4" (click)="abrirmodal(2)">
         <p-card  styleClass="hover:bg-blue-400 hover:text-200 cursor-pointer">
             <p class="m-0 h-9rem flex justify-content-center gap-2 align-items-center flex-column">
                 <i class="pi pi-book text-6xl"></i>
@@ -57,4 +57,38 @@
         </div>
     }
   </div>
+  </div>
+  <div class="flex justify-center">
+
+    <p-dialog [header]="nameTitle" [modal]="true" [(visible)]="visible" closeOnEscape="true" dismissableMask="true" [style]="{ width: '50rem' }" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
+        
+        <p-scrollpanel [style]="{ width: '100%', height: '430px' }">
+            <div class="grid">
+                <div class="col-12 p-3">
+                    <div style="border-bottom: 2px solid navajowhite;">
+                        <div class="flex align-items-center justify-content-between">
+                            <div>
+                                <span class="text-xl text-900 font-bold">AREA</span>
+                            </div>
+                            <div><span class="text-xl font-bold">TOTALES</span></div>
+                        </div>
+                    </div>
+                </div>
+                @for (item of reportAreaContador; track $index) {
+
+                    <div class="col-12 p-3">
+                        <div class="shadow-2 surface-card p-2" style="border-radius: 12px;">
+                            <div class="flex align-items-center justify-content-between">
+                                <div>
+                                    <span class="text-xl text-900 font-bold">{{item.nombre}}</span>
+                                </div>
+                                <div><span class="text-3xl font-bold">{{item.contador}}</span></div>
+                            </div>
+                        </div>
+                    </div>
+                }
+                
+            </div>
+        </p-scrollpanel>
+    </p-dialog>
   </div>

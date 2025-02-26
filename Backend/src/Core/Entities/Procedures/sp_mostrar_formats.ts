@@ -37,3 +37,7 @@ export class getTotalByArea{
 export class sp_ObtenerTotalFormatos{
     total: number = 0;
 }
+export class GetAreaCountByStatus{
+    nombre: string =''
+    contador: number = 0
+}

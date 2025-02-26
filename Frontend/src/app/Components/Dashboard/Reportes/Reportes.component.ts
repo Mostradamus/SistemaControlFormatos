@@ -6,18 +6,21 @@ import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
 import { SelectModule } from 'primeng/select';
 import { BadgeModule } from 'primeng/badge';
+import { DialogModule } from 'primeng/dialog';
+import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { saveAs } from 'file-saver';
 import { Router } from '@angular/router';
 import { ReportsService } from '../../../Services/Reports.service';
 import { ComparisonResult } from '../../../Interfaces/ComparisonResult';
 import { ComparisonResultDetails } from '../../../Interfaces/ComparisonResultDetails';
+import { GetAreaCountByStatus } from '../../../Interfaces/sp';
 
 @Component({
   selector: 'app-reportes',
   templateUrl: './Reportes.component.html',
   styleUrls: ['./Reportes.component.css'],
   imports: 
-  [CommonModule, CardModule, BadgeModule, ButtonModule, SelectModule],
+  [CommonModule, CardModule, BadgeModule, ButtonModule, SelectModule, DialogModule, ScrollPanelModule],
   providers: [FormatsService]
 })
 export default class ReportesComponent implements OnInit {
@@ -27,7 +30,10 @@ export default class ReportesComponent implements OnInit {
  public _reports = inject(ReportsService)
  total = 0;
  totalP = 0;
+ nameTitle= '';
+ visible: boolean = false;
  public report: ComparisonResult[]=[]
+ public reportAreaContador: GetAreaCountByStatus[]=[]
  public reportDetails: ComparisonResultDetails[]=[]
   ngOnInit() {
     this._f.getTotalFormatosDetallesSp().subscribe((d:any)=>{
@@ -40,6 +46,7 @@ export default class ReportesComponent implements OnInit {
         this.report = d
       }
     })
+    
   }
   cargarExcel(id:any){
     console.log(id)
@@ -79,6 +86,16 @@ export default class ReportesComponent implements OnInit {
       }
     })
      
+  }
+  abrirmodal(tipo:number){
+    this.visible = true;
+    const name = tipo == 2 ? "TOTAL REGISTROS PENDIENTES" : "TOTAL GENERAL REGISTRADOS"
+    this.nameTitle = name;
+    this._reports.GetReportsTotalCountArea(tipo).subscribe({
+      next: (d: GetAreaCountByStatus[])=>{
+        this.reportAreaContador = d
+      }
+    })
   }
   
 
