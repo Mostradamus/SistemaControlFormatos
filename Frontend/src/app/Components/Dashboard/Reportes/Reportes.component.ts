@@ -30,6 +30,7 @@ export default class ReportesComponent implements OnInit {
  public _reports = inject(ReportsService)
  total = 0;
  totalP = 0;
+ totalExcel = 0;
  nameTitle= '';
  visible: boolean = false;
  public report: ComparisonResult[]=[]
@@ -40,6 +41,7 @@ export default class ReportesComponent implements OnInit {
       console.log(d)
       this.total = d.totalHistorico;
       this.totalP = d.totalPendiente
+      this.totalExcel = d.totalExcel
     })
     this._reports.GetReports().subscribe({
       next: (d: ComparisonResult[])=>{
@@ -48,15 +50,35 @@ export default class ReportesComponent implements OnInit {
     })
     
   }
-  cargarExcel(id:any){
+  getFormattedName(it: any): string {
+    const date = new Date(it.registration_date_comparison);
+    const formattedDate = `${date.getFullYear()}${(date.getMonth() + 1).toString().padStart(2, '0')}${date.getDate().toString().padStart(2, '0')}_${date.getHours().toString().padStart(2, '0')}${date.getMinutes().toString().padStart(2, '0')}`;
+
+    return `${it.name_area_comparison} - ${formattedDate}`;
+}
+
+  cargarExcel(id:any, file:string){
     console.log(id)
     this._reports.GetReportsID(id).subscribe({
       next: (l:any[])=>{
         console.log(l)
         this.reportDetails = l
-        const datosOrdenados = this.reportDetails.map(({ model_format,registration_date_comparison_details}) => ({
-          model_format, registration_date_comparison_details
-        }));
+        // const datosOrdenados = this.reportDetails.map(({ model_format,registration_date_comparison_details}) => ({
+        //   model_format, registration_date_comparison_details
+        // }));
+        const datosOrdenados = this.reportDetails.map(({ model_format, registration_date_comparison_details }) => {
+          const date = new Date(registration_date_comparison_details!);
+      
+          // Formato: dd/mm/yyyy hh:mm:ss
+          const formattedDate = `${date.getDate().toString().padStart(2, '0')}/` +
+                                `${(date.getMonth() + 1).toString().padStart(2, '0')}/` +
+                                `${date.getFullYear()} ` +
+                                `${date.getHours().toString().padStart(2, '0')}:` +
+                                `${date.getMinutes().toString().padStart(2, '0')}:` +
+                                `${date.getSeconds().toString().padStart(2, '0')}`;
+      
+          return { model_format, registration_date_comparison_details: formattedDate };
+      });
       
         // Crear hoja de cálculo con el nuevo orden
         const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(datosOrdenados);
@@ -82,7 +104,7 @@ export default class ReportesComponent implements OnInit {
         });
       
         // Descargar el archivo
-        saveAs(data, 'Reporte11.xlsx');
+        saveAs(data, file+'.xlsx');
       }
     })
      
