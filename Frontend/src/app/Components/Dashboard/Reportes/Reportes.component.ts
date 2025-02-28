@@ -66,19 +66,45 @@ export default class ReportesComponent implements OnInit {
         // const datosOrdenados = this.reportDetails.map(({ model_format,registration_date_comparison_details}) => ({
         //   model_format, registration_date_comparison_details
         // }));
-        const datosOrdenados = this.reportDetails.map(({ model_format, registration_date_comparison_details }) => {
-          const date = new Date(registration_date_comparison_details!);
+      //   const datosOrdenados = this.reportDetails.map(({ model_format, registration_date_comparison_details }) => {
+      //     const date = new Date(registration_date_comparison_details!);
       
-          // Formato: dd/mm/yyyy hh:mm:ss
+      //     // Formato: dd/mm/yyyy hh:mm:ss
+      //     const formattedDate = `${date.getDate().toString().padStart(2, '0')}/` +
+      //                           `${(date.getMonth() + 1).toString().padStart(2, '0')}/` +
+      //                           `${date.getFullYear()} ` +
+      //                           `${date.getHours().toString().padStart(2, '0')}:` +
+      //                           `${date.getMinutes().toString().padStart(2, '0')}:` +
+      //                           `${date.getSeconds().toString().padStart(2, '0')}`;
+      
+      //     return { model_format, registration_date_comparison_details: formattedDate };
+      // });
+      let datosOrdenados: any[] = [];
+      if (Array.isArray(this.reportDetails)) {
+        // Si es un array, usa .map()
+        datosOrdenados = this.reportDetails.map(({ model_format, registration_date_comparison_details }) => {
+          const date = new Date(registration_date_comparison_details!);
           const formattedDate = `${date.getDate().toString().padStart(2, '0')}/` +
                                 `${(date.getMonth() + 1).toString().padStart(2, '0')}/` +
                                 `${date.getFullYear()} ` +
                                 `${date.getHours().toString().padStart(2, '0')}:` +
                                 `${date.getMinutes().toString().padStart(2, '0')}:` +
                                 `${date.getSeconds().toString().padStart(2, '0')}`;
-      
           return { model_format, registration_date_comparison_details: formattedDate };
-      });
+        });
+      } else if (typeof this.reportDetails === 'object' && this.reportDetails !== null) {
+        // Si es un objeto único, conviértelo en un array
+        const { model_format, registration_date_comparison_details } = this.reportDetails;
+        const date = new Date(registration_date_comparison_details!);
+        const formattedDate = `${date.getDate().toString().padStart(2, '0')}/` +
+                              `${(date.getMonth() + 1).toString().padStart(2, '0')}/` +
+                              `${date.getFullYear()} ` +
+                              `${date.getHours().toString().padStart(2, '0')}:` +
+                              `${date.getMinutes().toString().padStart(2, '0')}:` +
+                              `${date.getSeconds().toString().padStart(2, '0')}`;
+        datosOrdenados = [{ model_format, registration_date_comparison_details: formattedDate }];
+      }
+     
       
         // Crear hoja de cálculo con el nuevo orden
         const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(datosOrdenados);

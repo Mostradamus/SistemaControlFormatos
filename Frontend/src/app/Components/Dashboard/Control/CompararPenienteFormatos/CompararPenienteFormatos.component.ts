@@ -17,14 +17,16 @@ import { ComparisonResultDetails } from '../../../../Interfaces/ComparisonResult
 import { ComparisonResult } from '../../../../Interfaces/ComparisonResult';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ChangeDetectorRef } from '@angular/core';
+
 @Component({
-  selector: 'app-compararformatos',
-  templateUrl: './CompararFormatos.component.html',
-  styleUrls: ['./CompararFormatos.component.css'],
+  selector: 'app-compararPenienteFormatos',
+  templateUrl: './CompararPenienteFormatos.component.html',
+  styleUrls: ['./CompararPenienteFormatos.component.css'],
   providers: [FormatsService],
   imports: [CardModule,ButtonModule,FileUploadModule, BadgeModule, CommonModule,ScrollPanelModule, RippleModule,ScrollingModule ]
 })
-export default class CompararFormatosComponent implements OnInit {
+export default class CompararPenienteFormatosComponent implements OnInit {
+
 
   constructor() { }
   mostrarResultados: boolean = false; 
@@ -167,7 +169,7 @@ export default class CompararFormatosComponent implements OnInit {
       console.log(`🔹 Rango: ${minNumber} - ${maxNumber}`);
       
       // Llamada al backend SOLO con los datos del año seleccionado
-      this._f.comprobar(formatsWithYear.join(','), minNumber, maxNumber, 1).subscribe(
+      this._f.comprobar(formatsWithYear.join(','), minNumber, maxNumber, 2).subscribe(
         (response) => {
           this.totalResultado= response.count;
           this.processResponse(response);
@@ -236,7 +238,7 @@ export default class CompararFormatosComponent implements OnInit {
       cabecera,
       detalles: listadetalle,
       detallesLista: modelParts,
-      status: 2
+      status: 1
     }
     console.log(modelParts)
     this._f.insertComparison(body).subscribe({
@@ -257,5 +259,4 @@ export default class CompararFormatosComponent implements OnInit {
     this.totalResultado =this.listaDetalles.length
     this._ch.detectChanges()
   }
- 
 }

@@ -128,13 +128,15 @@ class FormatsServices {
     }
     comprobarFormatos(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { formatsModel, nrMin, nrMax } = req.body; // Extraemos la lista de formats_model desde el cuerpo de la solicitud
+            const { formatsModel, nrMin, nrMax, status } = req.body; // Extraemos la lista de formats_model desde el cuerpo de la solicitud
             try {
-                console.log(typeof formatsModel);
                 const listaFormatsModel = formatsModel;
-                const query = `CALL verificar_formats_modelos_rango2(?,?,?);`; // Usamos '?' como marcador de posición
+                const query = status == 1 ? `CALL verificar_formats_modelos_rango2(?,?,?,?);` : 'CALL verificar_formats_pendiente_modelos_rango2(?,?)';
                 // Llamada a executeQuery con la cadena formateada como único parámetro
-                const resultado = yield this.sp.executeQuery(query, 1, [listaFormatsModel, nrMin, nrMax]);
+                const params = status == 1
+                    ? [listaFormatsModel, nrMin, nrMax, status]
+                    : [listaFormatsModel, status];
+                const resultado = yield this.sp.executeQuery(query, 1, params);
                 let contador = resultado.length;
                 return res.status(200).json({ lista: resultado, count: contador });
             }
@@ -214,7 +216,7 @@ class FormatsServices {
     }
     insertComparisonResult(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { cabecera, detalles, detallesLista } = req.body;
+            const { cabecera, detalles, detallesLista, status } = req.body;
             try {
                 if (!cabecera || !Array.isArray(detalles) || detalles.length === 0) {
                     return res.status(400).json({ mensaje: 'Estructura de datos inválida' });
@@ -224,8 +226,9 @@ class FormatsServices {
                 _cmparison.total_quantity = cabecera.total_quantity;
                 _cmparison.registration_date_comparison = new Date();
                 const idComparacion = yield this.comparisonResult.create(_cmparison);
+                var l = detallesLista.join(',');
                 console.log(detallesLista.join(','));
-                yield this.sp.executeQuery("CALL 	sp_updateStatusDetailsFormat(?)", 0, [detallesLista.join(',')]);
+                yield this.sp.executeQuery("CALL sp_updateStatusDetailsFormat(?,?)", 2, [l, status]);
                 const detallesStr = detalles
                     .map(item => `${item.area_comparison}|${item.model_format}`)
                     .join(',');

@@ -134,14 +134,18 @@ export class FormatsServices implements IformatsService {
     }
   }
   async comprobarFormatos(req: Request, res:Response){
-    const { formatsModel, nrMin, nrMax } = req.body; // Extraemos la lista de formats_model desde el cuerpo de la solicitud
+    const { formatsModel, nrMin, nrMax, status } = req.body; // Extraemos la lista de formats_model desde el cuerpo de la solicitud
     try {
       
-      console.log(typeof formatsModel)
       const listaFormatsModel = formatsModel; 
-      const query = `CALL verificar_formats_modelos_rango2(?,?,?);`; // Usamos '?' como marcador de posición
+      const query = status == 1 ?`CALL verificar_formats_modelos_rango2(?,?,?,?);`: 'CALL verificar_formats_pendiente_modelos_rango2(?,?)'; 
       // Llamada a executeQuery con la cadena formateada como único parámetro
-      const resultado = await this.sp.executeQuery(query, 1, [listaFormatsModel, nrMin, nrMax]);
+     
+      const params = status == 1 
+        ? [listaFormatsModel, nrMin, nrMax, status] 
+        : [listaFormatsModel, status];
+      
+      const resultado = await this.sp.executeQuery(query, 1, params);
       let contador = resultado.length;  
       return res.status(200).json({ lista:resultado, count: contador})
       
@@ -216,7 +220,7 @@ export class FormatsServices implements IformatsService {
 
   }
   async insertComparisonResult(req: Request, res: Response){
-    const { cabecera, detalles, detallesLista}: ResultBody = req.body;
+    const { cabecera, detalles, detallesLista, status}: ResultBody = req.body;
     try {
       if (!cabecera || !Array.isArray(detalles) || detalles.length === 0) {
         return res.status(400).json({ mensaje: 'Estructura de datos inválida' });
@@ -226,8 +230,9 @@ export class FormatsServices implements IformatsService {
       _cmparison.total_quantity = cabecera.total_quantity;
       _cmparison.registration_date_comparison= new Date();
       const idComparacion = await this.comparisonResult.create(_cmparison);
+      var l = detallesLista.join(',')
       console.log(detallesLista.join(',') )
-      await this.sp.executeQuery("CALL 	sp_updateStatusDetailsFormat(?)", 0, [detallesLista.join(',') ]);
+      await this.sp.executeQuery("CALL sp_updateStatusDetailsFormat(?,?)", 2, [l, status]);
       const detallesStr = detalles
         .map(item => `${item.area_comparison}|${item.model_format}`)
         .join(',');
