@@ -8,4 +8,5 @@ export class formatsDetails{
     anio?: string;
     id_status?: number;
     formats_models?: string;
+    orden?: number
 }

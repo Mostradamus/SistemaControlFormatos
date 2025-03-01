@@ -122,7 +122,8 @@ export class FormatsServices implements IformatsService {
           const OformatsD = new formatsDetails();
           OformatsD.id_formats = registF.id_formats;
           OformatsD.anio = anioDigitos;
-          OformatsD.nro_serie= env.SERIE
+          OformatsD.nro_serie= env.SERIE;
+          OformatsD.orden = index
           OformatsD.id_status = 1;
           OformatsD.formats_models = newString;
           await this.formatDetails.create(OformatsD);
@@ -138,14 +139,17 @@ export class FormatsServices implements IformatsService {
     try {
       
       const listaFormatsModel = formatsModel; 
-      const query = status == 1 ?`CALL verificar_formats_modelos_rango2(?,?,?,?);`: 'CALL verificar_formats_pendiente_modelos_rango2(?,?)'; 
+      const query = status == 1 ?`CALL verificar_formats_modelos_rango2(?,?,?);`: 'CALL verificar_formats_pendiente_modelos_rango2(?,?)'; 
       // Llamada a executeQuery con la cadena formateada como único parámetro
-     
+     console.log(nrMin)
+     console.log(nrMax)
+     console.log(listaFormatsModel)
       const params = status == 1 
-        ? [listaFormatsModel, nrMin, nrMax, status] 
-        : [listaFormatsModel, status];
+        ? [listaFormatsModel, nrMin, nrMax] 
+        : [];
       
       const resultado = await this.sp.executeQuery(query, 1, params);
+      // console.log(resultado)
       let contador = resultado.length;  
       return res.status(200).json({ lista:resultado, count: contador})
       

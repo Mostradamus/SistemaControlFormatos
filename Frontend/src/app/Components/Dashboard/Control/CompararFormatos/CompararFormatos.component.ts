@@ -48,6 +48,7 @@ export default class CompararFormatosComponent implements OnInit {
     
   }
 
+
   onFileChange(event: any) {
     console.log(event)
     const file = event.files[0];  // Obtén el archivo que el usuario selecciona
@@ -169,6 +170,7 @@ export default class CompararFormatosComponent implements OnInit {
       // Llamada al backend SOLO con los datos del año seleccionado
       this._f.comprobar(formatsWithYear.join(','), minNumber, maxNumber, 1).subscribe(
         (response) => {
+          console.log(response)
           this.totalResultado= response.count;
           this.processResponse(response);
           this.mostrarResultados = false;
