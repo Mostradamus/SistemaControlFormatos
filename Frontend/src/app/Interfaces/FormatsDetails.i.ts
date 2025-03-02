@@ -5,4 +5,5 @@ export interface FormatsDetails {
   nro_serie?: string;
   anio?: string;
   formats_models?: string;
+  orden: number
 }
