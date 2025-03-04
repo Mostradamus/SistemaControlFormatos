@@ -108,7 +108,7 @@ export default class CompararFormatosComponent implements OnInit {
         return;
       }
   
-      this.excelData = json.slice(startRow).map((row) => {
+      this.excelData = json.map((row) => {
         if (!Array.isArray(row)) return []; // Si la fila no es un array, ignorarla
   
         return row.map((cell) => {
@@ -186,6 +186,90 @@ export default class CompararFormatosComponent implements OnInit {
   
     reader.readAsBinaryString(file);
   }
+  // readExcel(file: File) {
+  //   const reader = new FileReader();
+  //   reader.onload = (e: any) => {
+  //     const binaryStr = e.target.result;
+  //     const wb = XLSX.read(binaryStr, { type: 'binary' });
+  //     const ws = wb.Sheets[wb.SheetNames[0]];
+  //     const json: any[][] = XLSX.utils.sheet_to_json(ws, { header: 1 });
+  
+  //     const startRow = 1;
+  //     let groupedData: { [year: string]: string[] } = {}; // Agrupar por año
+  
+  //     // Verificar si hay datos suficientes
+  //     if (!json || json.length <= startRow) {
+  //       console.error("❌ El archivo Excel no tiene suficientes datos.");
+  //       return;
+  //     }
+  //     const et = json.map(row => row);
+  //     console.log(et)
+  //     this.excelData.forEach(cell => {
+  //       console.log(cell)
+  //       if (typeof cell === 'string' && cell.includes('-')) {
+  //         const parts = cell.split('-');
+  //         if (parts.length === 3) {
+  //           const yearPart = parts[1].trim(); // Año (Ej: "25")
+  //           const lastPart = parts[2].trim(); // Número correlativo (Ej: "00000050")
+      
+  //           if (!groupedData[yearPart]) {
+  //             groupedData[yearPart] = [];
+  //           }
+  //           groupedData[yearPart].push(lastPart);
+  //         }
+  //       }
+  //     });
+  
+  //     // Obtener los años únicos
+  //     const years = Object.keys(groupedData).map(Number);
+  //     if (years.length === 0) {
+  //       console.log("❌ No se encontraron años válidos.");
+  //       return;
+  //     }
+  
+  //     let selectedYear: number;
+  //     if (years.length === 1) {
+  //       selectedYear = years[0]; // Si solo hay un año, usar ese
+  //     } else {
+  //       selectedYear = Math.min(...years); // Si hay varios, tomar el menor
+  //     }
+  
+  //     // Verificar si hay datos para el año seleccionado
+  //     if (!groupedData[selectedYear] || groupedData[selectedYear].length === 0) {
+  //       console.log(`⚠ No hay registros para el año ${selectedYear}.`);
+  //       return;
+  //     }
+  
+  //     // Obtener el rango de números del año seleccionado
+  //     const numbers = groupedData[selectedYear];
+  //     console.log(numbers)
+  //     const numericNumbers = numbers.map(num => Number(num)).filter(n => !isNaN(n)); // Convertir a número
+  
+  //     const minNumber = Math.min(...numericNumbers);
+  //     const maxNumber = Math.max(...numericNumbers);
+  //     const formatsWithYear = numbers.map(num => `${selectedYear}-${num}`);
+  
+  //     console.log(`📤 Enviando datos del año ${selectedYear}:`, formatsWithYear);
+  //     console.log(`🔹 Rango: ${minNumber} - ${maxNumber}`);
+  
+  //     // Enviar datos del año seleccionado al backend
+  //     this._f.comprobar(formatsWithYear.join(','), minNumber, maxNumber, 1).subscribe(
+  //       (response) => {
+  //         console.log(response);
+  //         this.totalResultado = response.count;
+  //         this.processResponse(response);
+  //         this.mostrarResultados = false;
+  //         this.listaDetalles = response.lista;
+  //       },
+  //       (error) => {
+  //         console.error(`❌ Error al enviar los datos del año ${selectedYear}:`, error);
+  //       }
+  //     );
+  //   };
+  
+  //   reader.readAsBinaryString(file);
+  // }
+  
   processResponse(response: any): void {
     // Asumimos que response.lista contiene los datos
     if (response && response.lista) {

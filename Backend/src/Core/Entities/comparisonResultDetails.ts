@@ -7,4 +7,5 @@ export class ComparisonResultDetails {
   registration_date_comparison_details?: Date;
   model_format?: string;
   area_comparison?: string;
+  id_status?: number
 }

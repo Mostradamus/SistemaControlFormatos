@@ -29,7 +29,7 @@ export class ReportsServices implements IfReportsService{
     const {id_comparison}: ComparisonResultDetails = req.params;
     try {
       // const all = await this.comparisonDetail.getByField('id_comparison', id_comparison);
-      const getall = await this.comparisonDetail.selectQuery("SELECT * FROM comparison_result_details WHERE id_comparison = ? ",[id_comparison]);
+      const getall = await this.comparisonDetail.selectQuery("SELECT * FROM comparison_result_details WHERE id_comparison = ? and id_status =2 ",[id_comparison]);
       return res.status(200).json(getall);
     } catch (error) {
       return res
