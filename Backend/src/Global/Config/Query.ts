@@ -126,19 +126,34 @@ export class QueryGlobal<T extends object> {
 
     return rows as T[];
   }
-  async selectQuery(query : string , ...params: any[]): Promise<T[] | T | null>{
-    const getByfiel = `${query}`;
-    const conn = await pool.getConnection();
-    const [rows]: any = await  conn.query(getByfiel, params);
-    if (!rows || rows.length === 0) {
-      return null;
-    }
-    if (rows.length === 1) {
-      return rows[0] as T;
-    }
+  // async selectQuery(query : string , ...params: any[]): Promise<T[] | T | null>{
+  //   const getByfiel = `${query}`;
+  //   const conn = await pool.getConnection();
+  //   const [rows]: any = await  conn.query(getByfiel, params);
+  //   if (!rows || rows.length === 0) {
+  //     return null;
+  //   }
+  //   if (rows.length === 1) {
+  //     return rows[0] as T;
+  //   }
 
-    return rows as T[];
+  //   return rows as T[];
+  // }
+  async selectQuery(query: string, ...params: any[]): Promise<T[] | T | null> {
+    const conn = await pool.getConnection(); // Obtiene una conexión
+    try {
+      const [rows]: any = await conn.query(query, params);
+      if (!rows || rows.length === 0) return null;
+      return rows.length === 1 ? rows[0] as T : rows as T[];
+    } catch (error) {
+      console.error("Error en selectQuery:", error);
+      return null;
+    } finally {
+      conn.release(); // Libera la conexión para que el pool no se sature
+    }
   }
+  
+
   /**
    * Ejecuta una consulta SQL con parámetros
    * @param query - Consulta SQL

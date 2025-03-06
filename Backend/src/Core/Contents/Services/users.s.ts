@@ -56,34 +56,81 @@ export class UsersService implements IusersService {
     }
   }
  
-
-  async loginValid(req: Request, res: Response){
-      const {username, userpassword}: users = req.body;
-      if (ValidarFuncionReq({username, userpassword}, res)) {
-        return;
+  async loginValid(req: Request, res: Response) {
+    const { username, userpassword }: users = req.body;
+    if (ValidarFuncionReq({ username, userpassword }, res)) {
+      return;
+    }
+  
+    try {
+      const getInfo = await this.user.selectQuery(
+        "SELECT * FROM users WHERE username = ? and id_status=1",
+        [username]
+      );
+  
+      // Verificar si getInfo es nulo o si es un array vacío
+      if (!getInfo || (Array.isArray(getInfo) && getInfo.length === 0)) {
+        console.log(1);
+        return res.status(500).json({ msj: "El usuario no fue encontrado" });
       }
-      try {
-        const getInfo = await this.user.selectQuery("SELECT * FROM users WHERE username = ? and id_status=1",[username]);
-        console.log(getInfo)
-        if(Array.isArray(getInfo) || getInfo == null){
-          return res.status(500).json({msj:"El usuario no fue encontrado"})
-        }else{
-          
-          const match = await bcrypt.compare(String(userpassword), String(getInfo.userpassword));
-          if(!match) return res.status(404).json({msj: 'Contraseña incorrecta'});
-          let usersW = await this.user.getByField('id_users',getInfo.id_users)
-          if(Array.isArray(usersW) || usersW == null)return
-            let nameW = usersW.username;
-            let id = usersW.id_users;
-            const token = jsw.sign({nameW}, '112oaasvsasasyw', {expiresIn: '1h'})
-            return res.status(200).json({token,id})
-          
-        }
-      } catch (error) {
-        return res.status(500).json({ msj: "Error al obtener la lista por id" });
+  
+      // Asegurarse de que getInfo siempre sea un objeto, no un array
+      const user = Array.isArray(getInfo) ? getInfo[0] : getInfo;
+  
+      // Verificar la contraseña
+      const match = await bcrypt.compare(String(userpassword), String(user.userpassword));
+      if (!match) return res.status(404).json({ msj: "Contraseña incorrecta" });
+  
+      // Obtener el usuario por ID
+      let usersW = await this.user.getByField("id_users", user.id_users);
+  
+      if (!usersW || (Array.isArray(usersW) && usersW.length === 0)) {
+        return res.status(500).json({ msj: "Error al obtener el usuario" });
       }
-
+  
+      const userData = Array.isArray(usersW) ? usersW[0] : usersW;
+      let nameW = userData.username;
+      let id = userData.id_users;
+  
+      const token = jsw.sign({ nameW }, "112oaasvsasasyw", { expiresIn: "1h" });
+  
+      return res.status(200).json({ token, id });
+    } catch (error) {
+      console.error("Error en loginValid:", error);
+      return res.status(500).json({ msj: "Error en el servidor" });
+    }
   }
+  
+  // async loginValid(req: Request, res: Response){
+  //     const {username, userpassword}: users = req.body;
+  //     if (ValidarFuncionReq({username, userpassword}, res)) {
+  //       return;
+  //     }
+  //     console.log(username)
+  //     try {
+  //       const getInfo = await this.user.selectQuery("SELECT * FROM users WHERE username = ? and id_status=1",[username]);
+  //       console.log(getInfo)
+  //       if(!Array.isArray(getInfo) || getInfo.length === 0 || getInfo == null){
+  //         console.log(1)
+  //         return res.status(500).json({msj:"El usuario no fue encontrado"})
+  //       }else{
+  //         console.log(typeof getInfo)
+  //         const user = getInfo[0];
+  //         const match = await bcrypt.compare(String(userpassword), String(user.userpassword));
+  //         if(!match) return res.status(404).json({msj: 'Contraseña incorrecta'});
+  //         let usersW = await this.user.getByField('id_users',user.id_users)
+  //         if(Array.isArray(usersW) || usersW == null)return
+  //           let nameW = usersW.username;
+  //           let id = usersW.id_users;
+  //           const token = jsw.sign({nameW}, '112oaasvsasasyw', {expiresIn: '1h'})
+  //           return res.status(200).json({token,id})
+          
+  //       }
+  //     } catch (error) {
+  //       return res.status(500).json({ msj: "Error al obtener la lista por id" });
+  //     }
+
+  // }
 
   /**
    * Crea un nuevo usuario

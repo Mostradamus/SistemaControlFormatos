@@ -14,11 +14,11 @@
             <div class="flex flex-column  gap-2 align-items-start">
                 <p class="m-0 font-bold">FILTRO POR FECHAS</p>  
                 <div class="flex gap-3 ">
-                  <p-floatlabel variant="in">
-                    <p-datepicker [(ngModel)]="fechaInicio" formControlName="date"  (onSelect)="onDateChange()"   size="small"/>
+                  <p-floatlabel variant="on">
+                    <p-datepicker [(ngModel)]="fechaInicio" formControlName="date" (onSelect)="onDateChange()"   size="small"/>
                     <label for="over_label">FECHA INICIO</label>
                   </p-floatlabel>
-                  <p-floatlabel variant="in">
+                  <p-floatlabel variant="on">
                     
                     <p-datepicker [(ngModel)]="fechaFin" formControlName="date2" (onSelect)="onDateChange()" />
                     <label for="over_label">FECHA FIN</label>
@@ -29,123 +29,122 @@
         </p-card>
     </div>
       <div class="col-12 gap-1">
-
-        @for (taba of lista; track taba.id_areas) {
-          <p-card class="m-2">
-            <div class="flex justify-content-between ">
-                <p class="m-0 font-bold">{{taba.name}}</p>  
-                <div class="flex gap-2">
-
-                  <p-button icon="pi pi-angle-down" severity="secondary" (onClick)="abriDetalle(taba.id_areas, 1)"/>
+          @for (taba of lista; track taba.id_areas) {
+            <p-card class="m-2">
+              <div class="flex justify-content-between ">
+                  <p class="m-0 font-bold">{{taba.name}}</p>  
+                  <div class="flex gap-2">
+  
+                    <p-button icon="pi pi-angle-down" severity="secondary" (onClick)="abriDetalle(taba.id_areas, 1)"/>
+                  </div>
+                  
                 </div>
-                
-              </div>
-              <div class="grid justify-content-start">
-                @if(visualizacion[taba.id_areas!]) {
-                  <div class="card">
-
-                    <p-table
-                        #dt
-                        [value]="data"
-                        
-                        dataKey="id"
-                        [rowHover]="true"
-                        [rows]="10"
-                        [showCurrentPageReport]="true"
-                        [rowsPerPageOptions]="[10, 25, 50]"
-                        [paginator]="true"
-                        currentPageReportTemplate="Mostrando resultados de {first} a {last} de {totalRecords} encontrados"
-                        [filterDelay]="0"
-                        [scrollable]="true" 
-                        scrollHeight="500px"
-                        [globalFilterFields]="['formatos', 'estado', 'orden']"
-                    >
-                        <ng-template #caption>
-                            <div class="flex justify-between">
-                              <p-iconField iconPosition="left">
-                                <p-inputIcon>
-                                    <i class="pi pi-search"></i>
-                                    
-                                  </p-inputIcon>
-                                  <input pInputText #filterInput  type="text" (input)="applyFilter(filterInput.value)" placeholder="Buscar.." />
-                            </p-iconField>
-                            </div>
-                        </ng-template>
-                        <ng-template #header>
-                            <tr>
-                              <th pSortableColumn="orden" style="min-width: 1rem">
-                                <div class="flex justify-between items-center">
-                                    ORDEN
-                                </div>
-                            </th>
-                                <th pSortableColumn="formatos" style="min-width: 14rem">
-                                    <div class="flex justify-between items-center">
-                                        NOMBRE
-                                        
-                                    </div>
-                                </th>
-                                <th pSortableColumn="estado" style="min-width: 14rem">
+                <div class="grid justify-content-start">
+                  @if(visualizacion[taba.id_areas!]) {
+                    <div class="card">
+  
+                      <p-table
+                          #dt
+                          [value]="data"
+                          
+                          dataKey="id"
+                          [rowHover]="true"
+                          [rows]="10"
+                          [showCurrentPageReport]="true"
+                          [rowsPerPageOptions]="[10, 25, 50]"
+                          [paginator]="true"
+                          currentPageReportTemplate="Mostrando resultados de {first} a {last} de {totalRecords} encontrados"
+                          [filterDelay]="0"
+                          [scrollable]="true" 
+                          scrollHeight="500px"
+                          [globalFilterFields]="['formatos', 'estado', 'orden']"
+                      >
+                          <ng-template #caption>
+                              <div class="flex justify-between">
+                                <p-iconField iconPosition="left">
+                                  <p-inputIcon>
+                                      <i class="pi pi-search"></i>
+                                      
+                                    </p-inputIcon>
+                                    <input pInputText #filterInput pSize="small" type="text" (input)="applyFilter(filterInput.value)" placeholder="Buscar.." />
+                              </p-iconField>
+                              </div>
+                          </ng-template>
+                          <ng-template #header>
+                              <tr>
+                                <th pSortableColumn="orden" style="min-width: 1rem">
                                   <div class="flex justify-between items-center">
-                                      ESTADO
-                                     
+                                      ORDEN
                                   </div>
                               </th>
-                            </tr>
-                        </ng-template>
-                        <ng-template #body let-data let-i="rowIndex">
-                            <tr class="p-selectable-row">
-                                  <td>{{ i + 1 }}</td> 
-                                <td>{{data.formatos}}</td>
-                                <td>{{data.estado}}</td>
-                               
-                            </tr>
-                        </ng-template>
-                        <ng-template #emptymessage>
-                            <tr  >
-                                <td colspan="3" style="text-align: center;">No se encontro registros</td>
-                            </tr>
-                        </ng-template>
-                    </p-table>
+                                  <th pSortableColumn="formatos" style="min-width: 14rem">
+                                      <div class="flex justify-between items-center">
+                                          NOMBRE
+                                          
+                                      </div>
+                                  </th>
+                                  <th pSortableColumn="estado" style="min-width: 14rem">
+                                    <div class="flex justify-between items-center">
+                                        ESTADO
+                                       
+                                    </div>
+                                </th>
+                              </tr>
+                          </ng-template>
+                          <ng-template #body let-data let-i="rowIndex">
+                              <tr class="p-selectable-row">
+                                    <td>{{ i + 1 }}</td> 
+                                  <td>{{data.formatos}}</td>
+                                  <td>{{data.estado}}</td>
+                                 
+                              </tr>
+                          </ng-template>
+                          <ng-template #emptymessage>
+                              <tr  >
+                                  <td colspan="3" style="text-align: center;">No se encontro registros</td>
+                              </tr>
+                          </ng-template>
+                      </p-table>
+                  </div>
+  
+  
+  
+                    <!-- <p-table *ngIf="data && data.length > 0" [value]="data" class="col-6" 
+                      [tableStyle]="{ 'min-width': '28rem' }" [scrollable]="true" scrollHeight="400px">
+                
+                      <ng-template pTemplate="header">
+                        <tr>
+                          <th>#</th>
+                          <th>NRO FORMATO</th>
+                          <th>REVISION</th>
+                        </tr>
+                      </ng-template>
+                
+                      <ng-template pTemplate="body" let-data let-i="rowIndex">
+                        <tr>
+                          <td>{{ i + 1 }}</td> 
+                          <td [ngClass]="{
+                            'text-orange-500': data.id_status === 2, 
+                            'text-green-400': data.id_status === 1
+                          }">{{ data.formatos }}</td>
+                          <td [ngClass]="{
+                            'text-orange-500': data.id_status === 2,
+                            'text-green-400': data.id_status === 1
+                          }" >{{data.estado}}
+                          </td>
+                        </tr>
+                      </ng-template>
+                      
+                    </p-table> -->
+                
+                    <!-- <p *ngIf="!data || data.length === 0" class="text-center text-muted">
+                      No hay datos disponibles.
+                    </p> -->
+                  }
                 </div>
-
-
-
-                  <!-- <p-table *ngIf="data && data.length > 0" [value]="data" class="col-6" 
-                    [tableStyle]="{ 'min-width': '28rem' }" [scrollable]="true" scrollHeight="400px">
-              
-                    <ng-template pTemplate="header">
-                      <tr>
-                        <th>#</th>
-                        <th>NRO FORMATO</th>
-                        <th>REVISION</th>
-                      </tr>
-                    </ng-template>
-              
-                    <ng-template pTemplate="body" let-data let-i="rowIndex">
-                      <tr>
-                        <td>{{ i + 1 }}</td> 
-                        <td [ngClass]="{
-                          'text-orange-500': data.id_status === 2, 
-                          'text-green-400': data.id_status === 1
-                        }">{{ data.formatos }}</td>
-                        <td [ngClass]="{
-                          'text-orange-500': data.id_status === 2,
-                          'text-green-400': data.id_status === 1
-                        }" >{{data.estado}}
-                        </td>
-                      </tr>
-                    </ng-template>
-                    
-                  </p-table> -->
-              
-                  <!-- <p *ngIf="!data || data.length === 0" class="text-center text-muted">
-                    No hay datos disponibles.
-                  </p> -->
-                }
-              </div>
-            </p-card>
-
-        }
+              </p-card>
+  
+          }
     </div>
   </div>
 </div>

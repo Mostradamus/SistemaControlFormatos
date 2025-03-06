@@ -131,18 +131,34 @@ class QueryGlobal {
             return rows;
         });
     }
+    // async selectQuery(query : string , ...params: any[]): Promise<T[] | T | null>{
+    //   const getByfiel = `${query}`;
+    //   const conn = await pool.getConnection();
+    //   const [rows]: any = await  conn.query(getByfiel, params);
+    //   if (!rows || rows.length === 0) {
+    //     return null;
+    //   }
+    //   if (rows.length === 1) {
+    //     return rows[0] as T;
+    //   }
+    //   return rows as T[];
+    // }
     selectQuery(query, ...params) {
         return __awaiter(this, void 0, void 0, function* () {
-            const getByfiel = `${query}`;
-            const conn = yield db_cn_1.default.getConnection();
-            const [rows] = yield conn.query(getByfiel, params);
-            if (!rows || rows.length === 0) {
+            const conn = yield db_cn_1.default.getConnection(); // Obtiene una conexión
+            try {
+                const [rows] = yield conn.query(query, params);
+                if (!rows || rows.length === 0)
+                    return null;
+                return rows.length === 1 ? rows[0] : rows;
+            }
+            catch (error) {
+                console.error("Error en selectQuery:", error);
                 return null;
             }
-            if (rows.length === 1) {
-                return rows[0];
+            finally {
+                conn.release(); // Libera la conexión para que el pool no se sature
             }
-            return rows;
         });
     }
     /**

@@ -1,0 +1,5 @@
+.router-container {
+    flex-grow: 1; /* Ocupará todo el espacio disponible */
+    height: 100vh; /* Altura completa de la pantalla */
+    overflow-y: auto; /* Permite el scroll solo en esta sección */
+  }

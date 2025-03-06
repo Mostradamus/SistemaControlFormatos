@@ -8,12 +8,14 @@ import { InputTextModule } from 'primeng/inputtext';
 import { UsersService } from '../../Services/Users.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import {ToastModule} from 'primeng/toast'
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-Login',
   templateUrl: './Login.component.html',
   styleUrls: ['./Login.component.css'],
-  providers:[UsersService],
+  providers:[UsersService, MessageService],
   imports: [
     ButtonModule,
     ListboxModule,
@@ -21,11 +23,13 @@ import { CommonModule } from '@angular/common';
     ReactiveFormsModule,
     CheckboxModule,
     CommonModule,
+    ToastModule,
     InputTextModule,
   ]
 })
 export class LoginComponent implements OnInit {
   form!: FormGroup;
+  private _toast = inject(MessageService)
   ngOnInit() {
     this.form = new FormGroup({
       username: new FormControl('', Validators.required),
@@ -50,6 +54,7 @@ export class LoginComponent implements OnInit {
         },
         error: (e: HttpErrorResponse)=>{
           console.log("error")
+          this._toast.add({severity: 'contrast', summary: 'Credenciales', detail: e.error.msj})
         }
 
         
