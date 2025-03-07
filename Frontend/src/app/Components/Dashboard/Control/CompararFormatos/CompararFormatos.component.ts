@@ -17,12 +17,14 @@ import { ComparisonResultDetails } from '../../../../Interfaces/ComparisonResult
 import { ComparisonResult } from '../../../../Interfaces/ComparisonResult';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ChangeDetectorRef } from '@angular/core';
+import {ToastModule} from 'primeng/toast'
+import { MessageService } from 'primeng/api';
 @Component({
   selector: 'app-compararformatos',
   templateUrl: './CompararFormatos.component.html',
   styleUrls: ['./CompararFormatos.component.css'],
-  providers: [FormatsService],
-  imports: [CardModule,ButtonModule,FileUploadModule, BadgeModule, CommonModule,ScrollPanelModule, RippleModule,ScrollingModule ]
+  providers: [FormatsService, MessageService],
+  imports: [CardModule,ButtonModule,FileUploadModule, BadgeModule, CommonModule,ScrollPanelModule, RippleModule,ScrollingModule, ToastModule ]
 })
 export default class CompararFormatosComponent implements OnInit {
 
@@ -35,7 +37,7 @@ export default class CompararFormatosComponent implements OnInit {
   totalResultado = 0;
   selectedArea: string | null = null; 
   
-
+  private _toast = inject(MessageService)
   private _ch = inject(ChangeDetectorRef);
   private _f = inject(FormatsService)
   public _router = inject(Router);
@@ -269,7 +271,9 @@ export default class CompararFormatosComponent implements OnInit {
   
   //   reader.readAsBinaryString(file);
   // }
-  
+  limpia(){
+    this._toast.add({severity: 'info', summary: 'Registro', detail:'Retirar Archivo'})
+  }
   processResponse(response: any): void {
     // Asumimos que response.lista contiene los datos
     if (response && response.lista) {

@@ -1,7 +1,7 @@
 <div class=" card p-6">
     <div class="grid justify-content-center  gap-8">
       <div class="col-12">
-          <p-card header="ESTADISTICAS GENERALES Y ARCHIVOS">
+          <p-card header="ESTADISTICAS GENERALES Y ARCHIVOS" >
               <!-- <p class="m-0">En esta sección usted seleccionara las opciones disponibles aqui</p> -->
           </p-card>
     </div>
@@ -21,7 +21,7 @@
             <p class="m-0 h-6rem flex justify-content-center gap-2 align-items-start flex-column">
                 <i class="pi pi-thumbtack text-4xl"></i>
                 <span>
-                Total Registro Pendiente
+                Total Formatos Pendientes
                 </span>
                 <p-badge [value]="totalP"  severity="warn" badgeSize="xlarge" />
             </p>
@@ -32,7 +32,7 @@
             <p class="m-0 h-6rem flex justify-content-center gap-2 align-items-start flex-column">
                 <i class="pi pi-file-export text-4xl"></i>
                 <span>
-              Total Excel Generado
+              Total Excel Generados
                 </span>
                 <p-badge [value]="totalExcel" size="large" severity="warn" badgeSize="xlarge" />
             </p>
@@ -100,30 +100,42 @@
         
         <p-scrollpanel [style]="{ width: '100%', height: '430px' }">
             <div class="grid">
-                <div class="col-12 p-3">
-                    <div style="border-bottom: 2px solid navajowhite;">
-                        <div class="flex align-items-center justify-content-between">
-                            <div>
-                                <span class="text-xl text-900 font-bold">AREA</span>
-                            </div>
-                            <div><span class="text-xl font-bold">TOTALES</span></div>
-                        </div>
-                    </div>
-                </div>
-                @for (item of reportAreaContador; track $index) {
-
+                @if(reportAreaContador.length > 0){
                     <div class="col-12 p-3">
-                        <div class="shadow-2 surface-card p-2" style="border-radius: 12px;">
+                        <div style="border-bottom: 2px solid navajowhite;">
                             <div class="flex align-items-center justify-content-between">
                                 <div>
-                                    <span class="text-xl text-900 font-bold">{{item.nombre}}</span>
+                                    <span class="text-xl text-900 font-bold">AREA</span>
                                 </div>
-                                <div><span class="text-3xl font-bold">{{item.contador}}</span></div>
+                                <div><span class="text-xl font-bold">TOTALES</span></div>
                             </div>
                         </div>
                     </div>
+                    @for (item of reportAreaContador; track $index) {
+    
+                        <div class="col-12 p-3">
+                            <div class="shadow-2 surface-card p-2" style="border-radius: 12px;">
+                                <div class="flex align-items-center justify-content-between">
+                                    <div>
+                                        <span class="text-xl text-900 font-bold">{{item.nombre}}</span>
+                                    </div>
+                                    <div><span class="text-3xl font-bold">{{item.contador}}</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
                 }
-                
+                @else {
+                    <div class="col-12 ">
+                        <div class="flex flex-column justify-content-center justify-content-center align-items-center h-15rem">
+                            <i class="pi pi-receipt text-7xl"></i>
+                            <span class="col-4">No se encuentran Registros</span>
+
+                        </div>
+
+                    </div>
+                }
             </div>
         </p-scrollpanel>
     </p-dialog>

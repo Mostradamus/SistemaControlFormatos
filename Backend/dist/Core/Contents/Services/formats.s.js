@@ -141,9 +141,11 @@ class FormatsServices {
                     ? [listaFormatsModel, nrMin, nrMax]
                     : [];
                 const resultado = yield this.sp.executeQuery(query, 1, params);
+                const queryMessage = "CALL sp_message_comparison(?, ?, ?)";
+                const rsMnsaje = yield this.sp.executeQuery(queryMessage, 1, params);
                 // console.log(resultado)
                 let contador = resultado.length;
-                return res.status(200).json({ lista: resultado, count: contador });
+                return res.status(200).json({ lista: resultado, count: contador, mensaje: rsMnsaje });
             }
             catch (error) {
                 return res.status(500).json({ msj: "Error al obtener la lista por id" });

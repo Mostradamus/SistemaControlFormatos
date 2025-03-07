@@ -21,7 +21,7 @@
             <div class="flex gap-2">
                 
                 <p-button (onClick)="choose($event, chooseCallback)" icon="pi pi-cloud-upload" [rounded]="true" label="Importar"  [outlined]="true" />
-                <p-button (onClick)="clearCallback()" icon="pi pi-times" [rounded]="true" [outlined]="true" label="Limpiar"  severity="danger" [disabled]="!files || files.length === 0" />
+                <p-button (onClick)="clearCallback();limpia();" icon="pi pi-times" [rounded]="true" [outlined]="true" label="Limpiar"  severity="danger" [disabled]="!files || files.length === 0" />
             </div>
         </div>
     </ng-template>
@@ -77,3 +77,4 @@
 
     </div>
 </div>
+<p-toast></p-toast>

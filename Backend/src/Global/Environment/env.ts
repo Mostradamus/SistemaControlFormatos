@@ -6,7 +6,7 @@ import 'dotenv/config'
 const HOST_DB = process.env.HOST_DB || "localhost";    // Host de la base de datos
 const USER_DB = process.env.USER_DB || "root";        // Usuario de la base de datos
 const PS_DB = process.env.PS_DB || "";                // Contraseña de la base de datos
-const DB = process.env.DB || "db_centroamerica";      // Nombre de la base de datos
+const DB = process.env.DB || "dbcentroamerica1";      // Nombre de la base de datos
 const PORT = process.env.PORT || 7000;               // Puerto del servidor
 const SERIE = process.env.SERIE || '00000000';
 

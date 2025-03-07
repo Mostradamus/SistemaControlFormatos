@@ -41,3 +41,8 @@ export class GetAreaCountByStatus{
     nombre: string =''
     contador: number = 0
 }
+export class sp_message_comparison{
+    mensaje: string = '';
+    total: number = 0;
+    tipo: string = '';
+}
