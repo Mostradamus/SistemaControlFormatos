@@ -6,7 +6,7 @@ import { BadgeModule } from 'primeng/badge';
 import * as XLSX from 'xlsx'; 
 import { saveAs } from 'file-saver';
 import { FormatsService } from '../../../../Services/Formats.service';
-import { verificar_formats_modelos_rango2 } from '../../../../Interfaces/sp';
+import { mensaje, verificar_formats_modelos_rango2 } from '../../../../Interfaces/sp';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
 
@@ -36,6 +36,7 @@ export default class CompararFormatosComponent implements OnInit {
   listaDetallesArea : verificar_formats_modelos_rango2[] = []
   totalResultado = 0;
   selectedArea: string | null = null; 
+  mensaje: mensaje[] = []
   
   private _toast = inject(MessageService)
   private _ch = inject(ChangeDetectorRef);
@@ -174,6 +175,7 @@ export default class CompararFormatosComponent implements OnInit {
         (response) => {
           console.log(response)
           this.totalResultado= response.count;
+          this.mensaje = response.mensaje;
           this.processResponse(response);
           this.mostrarResultados = false;
           console.log(this.uniqueAreas)
@@ -279,7 +281,41 @@ export default class CompararFormatosComponent implements OnInit {
     if (response && response.lista) {
       // Calcular las áreas únicas y sus conteos
       this.uniqueAreas = this.getUniqueAreas(response.lista);
-
+      console.log(this.mensaje)
+      console.log(1111)
+      var msA = "";
+      var msP = "";
+      var msCountA = 0;
+      var msCountP = 0;
+      this.mensaje.forEach(({mensaje, total, tipo})=>{
+     
+        if(tipo === 'A' && total > 0 ){
+          console.log(1)
+          msA= mensaje;
+          msCountA = total
+        }else if(tipo === "P"){
+          msP= mensaje;
+          msCountP = total
+         
+        }
+      })
+      const mensajesToast = [];
+      if (msCountA >0) { 
+        mensajesToast.push({ 
+          severity: 'warn', 
+          life: 6000, 
+          summary: 'Registro', 
+          detail: msA 
+        });
+      }
+      mensajesToast.push({ 
+        severity: 'info', 
+        life: 3000, 
+        summary: 'Registro', 
+        detail: msP 
+      });
+      this._toast.addAll(mensajesToast)
+      // this._toast.add({severity: 'info',key: 'confirm2',life: 3000, summary: 'Registro', detail:msP})
       console.log(this.uniqueAreas); // Muestra las áreas con el conteo
     }
   }

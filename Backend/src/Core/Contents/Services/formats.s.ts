@@ -148,9 +148,9 @@ export class FormatsServices implements IformatsService {
         ? [listaFormatsModel, nrMin, nrMax] 
         : [];
       
+        const queryMessage= "CALL sp_message_comparison(?, ?, ?)"
+        const rsMnsaje = await this.sp.executeQuery(queryMessage, 1, params)
       const resultado = await this.sp.executeQuery(query, 1, params);
-      const queryMessage= "CALL sp_message_comparison(?, ?, ?)"
-      const rsMnsaje = await this.sp.executeQuery(queryMessage, 1, params)
       // console.log(resultado)
       let contador = resultado.length;  
       return res.status(200).json({ lista:resultado, count: contador, mensaje: rsMnsaje})

@@ -37,3 +37,8 @@ export interface GetAreaCountByStatus{
     nombre: string 
     contador: number
 }
+export interface mensaje {
+    mensaje: string 
+    total: number
+    tipo: string
+}
