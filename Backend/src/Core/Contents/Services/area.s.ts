@@ -38,10 +38,13 @@ export class AreaServices implements IAreaService{
     const {id_area, id_status}: formats = req.params;
     const { fechaInicio, fechaFin } = req.query;
     try {
-      
-      console.log(id_area)
-      const all = await this.sp.executeStoredProcedureForList<GetFormatDetailsByAreaAndDate>("GetFormatDetailsByAreaAndDate",1, [id_area, id_status ,fechaInicio, fechaFin]);
-      console.log(all)
+      const queryMessage= "CALL GetFormatDetailsByAreaAndDate(?, ?, ?, ?);";
+      const paramss= [id_area, id_status ,fechaInicio, fechaFin]
+      const all = await this.sp.executeQuery(queryMessage,1, paramss);
+      res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
+      res.setHeader("Pragma", "no-cache");
+      res.setHeader("Expires", "0");
+      res.setHeader("Surrogate-Control", "no-store");
       return res.status(200).json(all);
     } catch (error) {
       return res

@@ -5,4 +5,4 @@ export class areas{
     id_areas?: number;
     id_status?: number;
     name?: string;
-}
+} 

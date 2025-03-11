@@ -105,8 +105,6 @@ class StoreProcedure {
                 }
                 else {
                 }
-                console.log(query);
-                console.log(params);
                 const [result] = yield conn.query(query, params);
                 console.log(result);
                 // const result = Array.isArray(rows) ? rows[0] : rows;

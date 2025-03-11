@@ -10,4 +10,4 @@ export class formats {
   registration_date?: Date;
   id_turn?: number;
   description?: string;
-}
+}  
