@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { ListboxModule } from 'primeng/listbox';
 import { CheckboxModule } from 'primeng/checkbox';
 import { InputTextModule } from 'primeng/inputtext';
+import { RendeHtmlComponent } from './Components/Dashboard/Home/rende-html/rende-html.component';
 @Component({
   selector: 'app-root',
   imports: [
@@ -13,7 +14,7 @@ import { InputTextModule } from 'primeng/inputtext';
     ListboxModule,
     FormsModule,
     CheckboxModule,
-    InputTextModule
+    InputTextModule,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',

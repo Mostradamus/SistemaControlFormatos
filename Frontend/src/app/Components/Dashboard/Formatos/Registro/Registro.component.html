@@ -11,15 +11,15 @@
       </div>
     </p-divider>
     <form [formGroup]="formulario" class="formgrid grid">
-      <div class="field col-12 md:col-3">
+      <div class="field col-3 lg:col-3 md:col-6 sm:col-3 ">
           <label for="zip">NRO DE FORMATO</label>
           <input pInputText  id="zip" type="text" formControlName="nroFormato"  class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
       </div>
-      <div class="field col-12 lg:col-2 md:col-6 sm: col-6">
-        <label for="city">CANTIDAD DE FORMATOS</label>
+      <div class="field col-3 lg:col-3 md:col-6 sm:col-3">
+        <label for="city">CANTIDAD</label>
         <input pInputText id="city" type="text"  formControlName="cantidad"  pSize="large" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
     </div>
-    <div class="field col-12 lg:col-4 md:col-12 sm:col-4">
+    <div class="field col-12 lg:col-3 md:col-12 sm:col-4">
       <label for="state">TURNO</label>
       
       <p-select [options]="turnos" optionLabel="name" optionValue="id_turn" formControlName="turno" [style]="{'padding': '6px !import'}" placeholder="SELECCIONE TURNO" class="w-full md:w-56" />
