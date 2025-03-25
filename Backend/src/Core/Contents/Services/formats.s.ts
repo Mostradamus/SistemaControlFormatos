@@ -245,22 +245,7 @@ export class FormatsServices implements IformatsService {
         console.log(detallesStr)
         var id = idComparacion.id_comparison
         await  this.sp.executeQuery('CALL InsertComparisonDetails(?, ?)',2,[id, detallesStr]
-        )
-
-      // for (const element of detalles) {
-      //   //obtener el valor para acctualizar
-      //   let nroFormat = element.model_format;
-      //   let nro = nroFormat?.split('-')[1]
-      //   // Llamada a executeQuery con la cadena formateada como único parámetro
-      //   const dtComparisonDetails = new ComparisonResultDetails();
-      //   dtComparisonDetails.area_comparison = element.area_comparison;
-      //   dtComparisonDetails.id_comparison = idComparacion.id_comparison;
-      //   dtComparisonDetails.model_format = element.model_format;
-      //   dtComparisonDetails.registration_date_comparison_details = new Date();
-        
-      //   await this.comparisonResultDetail.create(dtComparisonDetails);
-      // }
-      
+        )  
       return res.status(200).json({ msj: "Formato Registrado exitosamente" });
     } catch (error) {
       console.log(error)
