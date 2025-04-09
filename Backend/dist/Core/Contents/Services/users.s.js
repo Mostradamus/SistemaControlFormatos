@@ -20,12 +20,8 @@ const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const ValidationParams_1 = require("../../Helpers/ValidationParams");
 class UsersService {
     constructor() {
-        // Inicializa el query global para usuarios
         this.user = new Query_1.QueryGlobal(users_1.users);
     }
-    /**
-     * Obtiene todos los usuarios del sistema
-     */
     getAllUsers(res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -71,7 +67,6 @@ class UsersService {
                 const getInfo = yield this.user.selectQuery("SELECT * FROM users WHERE username = ? and id_status=1", [username]);
                 // Verificar si getInfo es nulo o si es un array vacío
                 if (!getInfo || (Array.isArray(getInfo) && getInfo.length === 0)) {
-                    console.log(1);
                     return res.status(500).json({ msj: "El usuario no fue encontrado" });
                 }
                 // Asegurarse de que getInfo siempre sea un objeto, no un array
@@ -92,45 +87,10 @@ class UsersService {
                 return res.status(200).json({ token, id });
             }
             catch (error) {
-                console.error("Error en loginValid:", error);
                 return res.status(500).json({ msj: "Error en el servidor" });
             }
         });
     }
-    // async loginValid(req: Request, res: Response){
-    //     const {username, userpassword}: users = req.body;
-    //     if (ValidarFuncionReq({username, userpassword}, res)) {
-    //       return;
-    //     }
-    //     console.log(username)
-    //     try {
-    //       const getInfo = await this.user.selectQuery("SELECT * FROM users WHERE username = ? and id_status=1",[username]);
-    //       console.log(getInfo)
-    //       if(!Array.isArray(getInfo) || getInfo.length === 0 || getInfo == null){
-    //         console.log(1)
-    //         return res.status(500).json({msj:"El usuario no fue encontrado"})
-    //       }else{
-    //         console.log(typeof getInfo)
-    //         const user = getInfo[0];
-    //         const match = await bcrypt.compare(String(userpassword), String(user.userpassword));
-    //         if(!match) return res.status(404).json({msj: 'Contraseña incorrecta'});
-    //         let usersW = await this.user.getByField('id_users',user.id_users)
-    //         if(Array.isArray(usersW) || usersW == null)return
-    //           let nameW = usersW.username;
-    //           let id = usersW.id_users;
-    //           const token = jsw.sign({nameW}, '112oaasvsasasyw', {expiresIn: '1h'})
-    //           return res.status(200).json({token,id})
-    //       }
-    //     } catch (error) {
-    //       return res.status(500).json({ msj: "Error al obtener la lista por id" });
-    //     }
-    // }
-    /**
-     * Crea un nuevo usuario
-     * Incluye validaciones:
-     * - Campos requeridos
-     * - Usuario no existente
-     */
     insertUsers(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { username, userpassword } = req.body;
@@ -155,13 +115,6 @@ class UsersService {
             }
         });
     }
-    /**
-     * Actualiza la información de un usuario
-     * Validaciones:
-     * - ID existente
-     * - Campos requeridos
-     * - Nombre de usuario único
-     */
     updateUsers(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id_users } = req.params;
@@ -175,34 +128,22 @@ class UsersService {
             try {
                 const oUsers = yield this.user.getByField("id_users", id_users);
                 if (Array.isArray(oUsers) || oUsers == null) {
-                    return res.status(200).json({
-                        msj: "No se pudo encontrar al usuario",
-                    });
+                    return res.status(200).json({ msj: "No se pudo encontrar al usuario" });
                 }
                 if (oUsers.username == username && oUsers.id_users != id_users) {
-                    return res.status(200).json({
-                        msj: "El nombre del usuario ya existe",
-                    });
+                    return res.status(200).json({ msj: "El nombre del usuario ya existe" });
                 }
                 oUsers.id_status = id_status;
                 oUsers.username = username;
                 oUsers.userpassword = userpassword;
                 yield this.user.update(oUsers);
-                return res.json({
-                    msj: "Registro del usuario se actualizo exitosamente",
-                });
+                return res.json({ msj: "Registro del usuario se actualizo exitosamente" });
             }
             catch (error) {
                 return res.status(500).json({ msj: "Error en el servidor" });
             }
         });
     }
-    /**
-     * Eliminación lógica de usuario (cambio de status a 2)
-     * Validaciones:
-     * - ID existente
-     * - Usuario activo
-     */
     deleteUsersById(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id_users } = req.params;
@@ -212,18 +153,13 @@ class UsersService {
             try {
                 const oUsers = yield this.user.getByField("id_users", id_users);
                 if (oUsers == null || Array.isArray(oUsers)) {
-                    return res.status(404).json({
-                        msj: "No se encontró el usuario",
-                    });
+                    return res.status(404).json({ msj: "No se encontró el usuario" });
                 }
                 oUsers.id_status = 2;
                 yield this.user.update(oUsers);
-                return res.status(200).json({
-                    msj: "Usuario eliminado correctamente",
-                });
+                return res.status(200).json({ msj: "Usuario eliminado correctamente" });
             }
             catch (error) {
-                console.error(error);
                 return res.status(500).json({ msj: "Error en el servidor" });
             }
         });

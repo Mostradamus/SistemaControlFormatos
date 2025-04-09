@@ -1,11 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RegisterRoutes = RegisterRoutes;
-/**
- * Registra todas las rutas de los controladores en la aplicación Express
- * @param app - Instancia de la aplicación Express
- * @param controllers - Array de controladores a registrar
- */
 function RegisterRoutes(app, controllers) {
     // Itera sobre cada controlador
     controllers.forEach((controller) => {

@@ -61,7 +61,6 @@ class FormatsServices {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const result = yield this.sp.executeStoredProcedureForList("getTotalByArea", 0);
-                console.log(result);
                 return res.status(200).json(result);
             }
             catch (error) {
@@ -85,18 +84,14 @@ class FormatsServices {
                     return res.status(500).json({ msj: "El formato ya existe en los detalles" });
                 }
                 else {
-                    const estado = yield this.sp.executeStoredProcedureForGet("sp_verificar_registro", [id_area, new Date, id_turn]);
-                    if ((estado === null || estado === void 0 ? void 0 : estado.estado) == 1) {
-                        return res.status(500).json({ msj: 'No se permite registra los datos por repeticion de algunos datos' });
-                    }
                     const oFormats = new formats_1.formats();
-                    oFormats.id_status = 1;
-                    oFormats.id_area = id_area;
                     oFormats.registration_date = new Date();
                     oFormats.starting_order = starting_order;
-                    oFormats.total = total;
-                    oFormats.id_turn = id_turn;
                     oFormats.description = description;
+                    oFormats.id_area = id_area;
+                    oFormats.id_turn = id_turn;
+                    oFormats.id_status = 1;
+                    oFormats.total = total;
                     const registF = yield this.format.create(oFormats);
                     let pInit = 8;
                     let pInitSOrder = Number(starting_order);
@@ -133,10 +128,6 @@ class FormatsServices {
             try {
                 const listaFormatsModel = formatsModel;
                 const query = status == 1 ? `CALL verificar_formats_modelos_rango2(?,?,?);` : 'CALL verificar_formats_pendiente_modelos_rango2(?,?)';
-                // Llamada a executeQuery con la cadena formateada como único parámetro
-                console.log(nrMin);
-                console.log(nrMax);
-                console.log(listaFormatsModel);
                 const params = status == 1
                     ? [listaFormatsModel, nrMin, nrMax]
                     : [];
@@ -167,7 +158,6 @@ class FormatsServices {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const result = yield this.sp.executeStoredProcedureForList("sp_mostrar_formats", 0);
-                console.log(result);
                 return res.status(200).json(result);
             }
             catch (error) {
@@ -184,18 +174,13 @@ class FormatsServices {
             try {
                 const oFormasts = yield this.format.getByField("id_formats", id_formats);
                 if (oFormasts == null || Array.isArray(oFormasts)) {
-                    return res.status(404).json({
-                        msj: "No se encontró el formato",
-                    });
+                    return res.status(404).json({ msj: "No se encontró el formato" });
                 }
                 oFormasts.id_status = 2;
                 yield this.format.update(oFormasts);
-                return res.status(200).json({
-                    msj: "formato eliminado correctamente",
-                });
+                return res.status(200).json({ msj: "formato eliminado correctamente" });
             }
             catch (error) {
-                console.error(error);
                 return res.status(500).json({ msj: "Error en el servidor" });
             }
         });
@@ -209,9 +194,7 @@ class FormatsServices {
             try {
                 const updateFD = yield this.formatDetails.getByField("id_formats_details", id_formats_details);
                 if (updateFD == null || Array.isArray(updateFD)) {
-                    return res.status(404).json({
-                        msj: "No se encontró el formato",
-                    });
+                    return res.status(404).json({ msj: "No se encontró el formato" });
                 }
                 updateFD.id_status = 2;
                 yield this.formatDetails.update(updateFD);
@@ -234,30 +217,15 @@ class FormatsServices {
                 _cmparison.registration_date_comparison = new Date();
                 const idComparacion = yield this.comparisonResult.create(_cmparison);
                 var l = detallesLista.join(',');
-                console.log(detallesLista.join(','));
                 yield this.sp.executeQuery("CALL sp_updateStatusDetailsFormat(?,?)", 2, [l, status]);
                 const detallesStr = detalles
                     .map(item => `${item.area_comparison}|${item.model_format}`)
                     .join(',');
-                console.log(detallesStr);
                 var id = idComparacion.id_comparison;
                 yield this.sp.executeQuery('CALL InsertComparisonDetails(?, ?)', 2, [id, detallesStr]);
-                // for (const element of detalles) {
-                //   //obtener el valor para acctualizar
-                //   let nroFormat = element.model_format;
-                //   let nro = nroFormat?.split('-')[1]
-                //   // Llamada a executeQuery con la cadena formateada como único parámetro
-                //   const dtComparisonDetails = new ComparisonResultDetails();
-                //   dtComparisonDetails.area_comparison = element.area_comparison;
-                //   dtComparisonDetails.id_comparison = idComparacion.id_comparison;
-                //   dtComparisonDetails.model_format = element.model_format;
-                //   dtComparisonDetails.registration_date_comparison_details = new Date();
-                //   await this.comparisonResultDetail.create(dtComparisonDetails);
-                // }
                 return res.status(200).json({ msj: "Formato Registrado exitosamente" });
             }
             catch (error) {
-                console.log(error);
                 return res.status(500).json({ msj: "Error al obtener la lista por id" });
             }
         });

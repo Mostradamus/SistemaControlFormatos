@@ -13,26 +13,29 @@ export class UsersControllers{
     async getU(req:Request, res:Response){
         return this.UsersServices.getAllUsers(res);
     }
+
     @Get("/usuarios/:id_users")
     async getUserById(req:Request, res:Response){
         return this.UsersServices.findUsersById(req,res);
     }
+
     @Post("/usuarios/crear")
     async insertU(req:Request, res:Response){
-        return this.UsersServices.insertUsers(req, res);
-        
+        return this.UsersServices.insertUsers(req, res);  
     }
+
     @Put("/usuarios/actualizar/:id_users")
     async updateU(req: Request, res: Response){
         return this.UsersServices.updateUsers(req, res);
     }
+
     @Delete("/usuarios/eliminar/:id_users")
     async deleteU(req:Request, res:Response){
         return this.UsersServices.deleteUsersById(req, res);
     }
+
     @Post("/usuarios/validar")
     async loginV(req:Request, res:Response){
-        return this.UsersServices.loginValid(req, res);
-        
+        return this.UsersServices.loginValid(req, res);   
     }
 }

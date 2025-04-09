@@ -3,7 +3,7 @@ import { QueryGlobal } from "../../../Global/Config/Query";
 import {  IAreaService} from "../InterfaceServices/area.i";
 import { areas } from "../../Entities/areas";
 import { StoreProcedure } from "../../../Global/Config/StoreProcedure";
-import { GetFormatDetailsByAreaAndDate, GetGroupedFormatsByDate } from "../../Entities/Procedures/sp_mostrar_formats";
+import { GetGroupedFormatsByDate } from "../../Entities/Procedures/sp_mostrar_formats";
 import { formats } from "../../Entities/formats";
 
 export class AreaServices implements IAreaService{

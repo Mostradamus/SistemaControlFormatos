@@ -3,20 +3,13 @@ import express from "express";
 // Define los métodos HTTP permitidos
 type httpMethod = "get" | "post" | "put" | "delete";
 
-/**
- * Interface que define la estructura de una ruta
- */
+
 interface RouteDefinition {
   method: httpMethod; // Método HTTP de la ruta
   path: string; // Path de la ruta
   handler: (rec: express.Request, res: express.Response) => void; // Manejador de la ruta
 }
 
-/**
- * Registra todas las rutas de los controladores en la aplicación Express
- * @param app - Instancia de la aplicación Express
- * @param controllers - Array de controladores a registrar
- */
 export function RegisterRoutes(app: express.Express, controllers: any[]) {
   // Itera sobre cada controlador
   controllers.forEach((controller) => {

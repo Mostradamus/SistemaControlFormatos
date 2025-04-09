@@ -12,7 +12,6 @@ export const routes: Routes = [
   { path: 'Dashboard', 
     canActivate:[LogeoGuard],
     loadComponent: ()=> import('./Shared/navbar/navbar.component'),
-
     loadChildren: ()=> import('./Components/Dashboard/routers.dashboard').then(m => m.DASHBOARD_ROUTES)
   },
   {

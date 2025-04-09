@@ -18,19 +18,9 @@ exports.StoreProcedure = void 0;
 const db_cn_1 = __importDefault(require("../../Core/Connection/db.cn"));
 // Clase StoreProcedure que proporciona métodos para ejecutar procedimientos almacenados.
 class StoreProcedure {
-    /**
-     * Ejecuta un procedimiento almacenado que devuelve un único resultado (objeto).
-     *
-     * @template T - Tipo genérico para el objeto resultante.
-     * @param spName - Nombre del procedimiento almacenado.
-     * @param params - Parámetros para el procedimiento almacenado.
-     * @param entity - (Opcional) Clase para mapear el resultado a una entidad.
-     * @returns Un objeto del tipo T o null si no hay resultados.
-     */
     executeStoredProcedureForGet(spName_1) {
         return __awaiter(this, arguments, void 0, function* (spName, params = [], entity) {
             try {
-                console.log(params);
                 // Construcción dinámica de la consulta con placeholders para los parámetros.
                 const query = `CALL ${spName}(${params.map(() => "?").join(", ")})`;
                 const result = yield this.executeQuery(query, 1, params);
@@ -53,22 +43,10 @@ class StoreProcedure {
             }
         });
     }
-    /**
-     * Ejecuta un procedimiento almacenado que devuelve una lista de resultados.
-     *
-     * @template T - Tipo genérico para los objetos de la lista.
-     * @param spName - Nombre del procedimiento almacenado.
-     * @param params - Parámetros para el procedimiento almacenado.
-     * @param entity - (Opcional) Clase para mapear cada resultado a una entidad.
-     * @returns Una lista de objetos del tipo T.
-     */
     executeStoredProcedureForList(spName_1, tipo_1) {
         return __awaiter(this, arguments, void 0, function* (spName, tipo, params = [], entity) {
-            // Construcción dinámica de la consulta.
             const query = `CALL ${spName}(${params.map(() => "?").join(", ")})`;
-            console.log(query);
             const result = yield this.executeQuery(query, tipo, params);
-            // Si hay resultados, los mapea o los retorna directamente.
             if (Array.isArray(result) && result.length > 0) {
                 let ress;
                 if (tipo == 1) {
@@ -87,34 +65,19 @@ class StoreProcedure {
             return []; // Retorna una lista vacía si no hay resultados.
         });
     }
-    /**
-     * Método protegido para ejecutar consultas en la base de datos.
-     *
-     * @param query - Consulta SQL a ejecutar.
-     * @param params - Parámetros para la consulta.
-     * @returns Resultados de la consulta como un array de RowDataPacket.
-     */
     executeQuery(query_1) {
         return __awaiter(this, arguments, void 0, function* (query, tipo = 0, ...params) {
-            // Obtiene una conexión del pool.
             const conn = yield db_cn_1.default.getConnection();
             try {
-                // Ejecuta la consulta con los parámetros.
                 if (tipo == 1 || tipo == 2) {
                     params = params[0];
                 }
-                else {
-                }
                 const [result] = yield conn.query(query, params);
-                console.log(result);
-                // const result = Array.isArray(rows) ? rows[0] : rows;
                 if (tipo == 1) {
-                    console.log(result);
-                    const [resT] = result; // Suponiendo que el primer elemento de `result` es el objeto que necesitas.
+                    const [resT] = result;
                     return resT;
                 }
                 else if (tipo == 0) {
-                    console.log(23);
                     const f = result; // `result` ya es un arreglo
                     return f;
                 }
@@ -128,14 +91,6 @@ class StoreProcedure {
             }
         });
     }
-    /**
-     * Mapea un objeto de fila a una instancia de una entidad específica.
-     *
-     * @template T - Tipo genérico de la entidad.
-     * @param row - Objeto de la base de datos.
-     * @param entity - Clase para crear la instancia de la entidad.
-     * @returns Instancia de la entidad mapeada con los valores de la fila.
-     */
     mapToEntity(row, entity) {
         const entityInstance = new entity(); // Crea una nueva instancia de la entidad.
         for (const key in entityInstance) {

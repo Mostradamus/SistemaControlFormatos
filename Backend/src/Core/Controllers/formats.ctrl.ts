@@ -13,14 +13,17 @@ export class FormatsControllers{
     async getF(_req:Request, res:Response){
         return this.FormatsServices.getAllFormats(res);
     }
+
     @Get("/formatos/Lista")
     async getListaF(_req:Request, res:Response){
         return this.FormatsServices.getAllFormatSp(res);
     }
+    
     @Get("/formatos/total/Area")
         async getTotal(_req:Request, res:Response){
         return this.FormatsServices.getTotalByArea(res);
     }
+
     @Get("/formatos/total/formatos")
         async getTotalFormatos(_req:Request, res:Response){
         return this.FormatsServices.obtenerTotalFormatosDetalles(res);
@@ -30,6 +33,7 @@ export class FormatsControllers{
     async insertF(req:Request, res:Response){
         return this.FormatsServices.insertFormats(req, res);
     }
+    
     @Post("/formatos/comprobar/formatos")
     async comprobar(req:Request, res:Response){
         console.log(11)
@@ -40,6 +44,7 @@ export class FormatsControllers{
     async deleteF(req:Request, res:Response){ 
         return this.FormatsServices.deleteFormatsById(req, res);
     }
+
     @Put('/formatos/actualizarEstado/:id_formats_details')
     async ActualizarRevision(req:Request, res:Response){
         return this.FormatsServices.updateFormatsDetails(req, res);
