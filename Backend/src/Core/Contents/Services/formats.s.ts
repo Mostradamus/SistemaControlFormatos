@@ -215,6 +215,7 @@ export class FormatsServices implements IformatsService {
       .join(',');
       var id = idComparacion.id_comparison
       await  this.sp.executeQuery('CALL InsertComparisonDetails(?, ?)',2,[id, detallesStr])
+
       return res.status(200).json({ msj: "Formato Registrado exitosamente" });
     } catch (error) {
       return res.status(500).json({ msj: "Error al obtener la lista por id" });
